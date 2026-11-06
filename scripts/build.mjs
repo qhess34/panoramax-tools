@@ -591,6 +591,7 @@ write(
   JSON.stringify({ builtAt: site.builtAt, site: process.env.GITHUB_SHA || null, tools: Object.fromEntries(site.tools.map((t) => [t.repo, t.source.sha])) }, null, 2) + '\n',
 );
 write('.nojekyll', '');
+write('CNAME', new URL(site.siteUrl).hostname + '\n');
 
 // Fichiers statiques
 for (const f of fs.readdirSync(path.join(root, 'src/assets'))) {

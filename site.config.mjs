@@ -11,7 +11,7 @@ export default {
     "GeoSillage et Pan360 FixExif : deux outils libres pour préparer des relevés photo 360° (GoPro MAX), " +
     'corriger positions, caps et horizon, et publier sur Panoramax, le géocommun de la photo de terrain.',
   // URL publique du site (sans / final). En CI, remplacée par celle donnée par GitHub Pages.
-  siteUrl: process.env.SITE_URL || 'https://qhess34.github.io/panoramax-tools',
+  siteUrl: (process.env.SITE_URL || 'https://panoramax-tools.my-heb.eu').replace(/\/$/, ''),
   repo: 'https://github.com/qhess34/panoramax-tools',
 
   // Nombre de nouveautés sur l'accueil, et durée (jours) pendant laquelle une nouveauté porte le badge « Nouveau ».

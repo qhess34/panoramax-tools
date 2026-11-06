@@ -1,6 +1,6 @@
 # Outils Panoramax — site vitrine
 
-Site statique qui présente **[GeoSillage](https://github.com/qhess34/geosillage)** et
+Site statique, en ligne sur **https://panoramax-tools.my-heb.eu/**, qui présente **[GeoSillage](https://github.com/qhess34/geosillage)** et
 **[Pan360 FixExif](https://github.com/qhess34/pan360-fixexif)**, deux outils libres pour préparer, corriger et
 publier des photos 360° sur [Panoramax](https://panoramax.fr).
 
@@ -37,7 +37,9 @@ Le workflow [`.github/workflows/site.yml`](.github/workflows/site.yml) reconstru
 
 ### Mise en place (une seule fois)
 
-1. **Settings → Pages → Build and deployment → Source : GitHub Actions.**
+1. **Settings → Pages → Build and deployment → Source : GitHub Actions**, puis *Custom domain* :
+   `panoramax-tools.my-heb.eu` (enregistrement DNS `CNAME panoramax-tools.my-heb.eu → qhess34.github.io`),
+   et cocher *Enforce HTTPS*.
 2. Facultatif, pour une mise à jour immédiate plutôt que sous 3 h : dans chaque dépôt d'outil, copier
    `docs/notify-site.yml` dans `.github/workflows/`, et créer le secret `SITE_DISPATCH_TOKEN` (jeton
    *fine-grained* limité à `qhess34/panoramax-tools`, permission *Contents : Read and write*).

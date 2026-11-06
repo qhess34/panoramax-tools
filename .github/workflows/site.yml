@@ -48,9 +48,8 @@ jobs:
 
       - name: Un outil a-t-il changé ?
         id: detect
-        env:
-          BASE_URL: ${{ steps.pages.outputs.base_url }}
         run: |
+          BASE_URL=$(node --input-type=module -e "import c from './site.config.mjs'; console.log(c.siteUrl)")
           if [ "${{ github.event_name }}" != "schedule" ]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"; exit 0
           fi
@@ -67,10 +66,9 @@ jobs:
       - run: npm ci
         if: steps.detect.outputs.changed == 'true'
 
+      # L'adresse publique (domaine personnalisé) est celle de site.config.mjs.
       - name: Génération du site
         if: steps.detect.outputs.changed == 'true'
-        env:
-          SITE_URL: ${{ steps.pages.outputs.base_url }}
         run: npm run build
 
       - name: Vérification des liens

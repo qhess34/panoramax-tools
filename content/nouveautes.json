@@ -1,10 +1,45 @@
 {
   "_lisez-moi": "Nouveautés affichées sur le site. Rédigées à la main (ou par le skill /update-site) : uniquement des fonctionnalités utiles à l'utilisateur, jamais de modification technique. « reviewed » = dernier commit de chaque outil déjà passé en revue. « link » est relatif à la page de l'outil (ex. guide/#8-exporter).",
   "reviewed": {
-    "qhess34/geosillage": "c12ae5fe7fbe9d23c6e5f60d9db7826c9e8bc2ae",
+    "qhess34/geosillage": "c5dfe70a9ea7a1409631ef78db0ac4a61ae3c754",
     "qhess34/pan360-fixexif": "9010a84671804cce3d152a0d4997812392be76d1"
   },
   "entries": [
+    {
+      "date": "2026-11-06",
+      "tool": "geosillage",
+      "title": "Exporter et publier au même endroit",
+      "text": "L'onglet Export et envoi publie chaque séquence exportée depuis sa ligne, ou toutes les séquences non publiées d'un seul coup, avec une seule confirmation.",
+      "link": "guide/#9-publier-sur-panoramax"
+    },
+    {
+      "date": "2026-11-06",
+      "tool": "geosillage",
+      "title": "Fenêtre « À corriger » : chaque problème expliqué",
+      "text": "Un clic sur une étape orange liste les problèmes de la sortie, leur cause et la correction à faire ; chaque photo s'ouvre avec les boutons utiles pour la corriger.",
+      "link": "guide/#points-à-vérifier-avant-de-publier"
+    },
+    {
+      "date": "2026-11-06",
+      "tool": "geosillage",
+      "title": "Points à vérifier réglables par projet",
+      "text": "Réglez pour chaque projet ce qui compte comme un arrêt, un grand écart ou un cap douteux ; un cap saisi à la main peut être marqué comme correct pour ne plus être signalé.",
+      "link": "guide/#points-à-vérifier-avant-de-publier"
+    },
+    {
+      "date": "2026-11-06",
+      "tool": "geosillage",
+      "title": "Arrêts comparés dans la visionneuse 360°",
+      "text": "Les photos d'un arrêt s'ouvrent dans la visionneuse 360°, en gardant la direction regardée : comparez le même détail d'une photo à l'autre pour garder la meilleure.",
+      "link": "guide/#points-à-vérifier-avant-de-publier"
+    },
+    {
+      "date": "2026-11-06",
+      "tool": "geosillage",
+      "title": "Synchro GPS plus lisible",
+      "text": "L'onglet Synchro liste les lots de photos et le décalage appliqué à chacun, et l'aperçu ne montre que les photos qui seront réellement déplacées.",
+      "link": "guide/#5-corriger-le-retard-gps-onglet-synchro"
+    },
     {
       "date": "2026-11-05",
       "tool": "geosillage",
@@ -23,7 +58,7 @@
       "date": "2026-11-05",
       "tool": "geosillage",
       "title": "Points à vérifier avant de publier",
-      "text": "Arrêts, grands écarts entre photos, GPS peu précis et caps douteux sont signalés dans le Bilan et sur la timeline ; N et Maj+N passent d'un point au suivant.",
+      "text": "Arrêts, grands écarts entre photos, GPS peu précis et caps douteux sont signalés sur la timeline et dans la barre d'étapes ; N et Maj+N passent d'un point au suivant.",
       "link": "guide/#points-à-vérifier-avant-de-publier"
     },
     {
@@ -51,8 +86,8 @@
       "date": "2026-11-05",
       "tool": "geosillage",
       "title": "Publication directe sur Panoramax",
-      "text": "L'onglet Envoi publie chaque séquence sur l'instance de votre choix, avec le mode de déplacement et vos attributs ; un envoi interrompu reprend là où il s'était arrêté.",
-      "link": "guide/#depuis-lapplication-onglet-envoi"
+      "text": "Chaque séquence se publie sur l'instance de votre choix, avec le mode de déplacement et vos attributs ; un envoi interrompu reprend là où il s'était arrêté.",
+      "link": "guide/#9-publier-sur-panoramax"
     },
     {
       "date": "2026-11-05",

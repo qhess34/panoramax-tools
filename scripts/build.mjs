@@ -3,7 +3,7 @@
 //   node scripts/build.mjs            clone les dépôts des outils dans .cache/ puis génère dist/
 //   SOURCES_DIR=.. node scripts/...   utilise des clones locaux (<SOURCES_DIR>/<dépôt>)
 //
-// Tout le contenu propre aux outils (fonctionnalités, guide, captures, raccourcis, feuille de route)
+// Tout le contenu propre aux outils (fonctionnalités, guide, captures, raccourcis)
 // est extrait de leur documentation : une fonctionnalité documentée
 // apparaît au prochain build. Les nouveautés viennent de content/nouveautes.json (skill /update-site).
 
@@ -20,7 +20,6 @@ import {
   featuresFromSections,
   sectionHtml,
   shortcutsFrom,
-  statusFrom,
   stepsFrom,
   slugify,
 } from './markdown.mjs';
@@ -325,24 +324,6 @@ for (const tool of site.tools) {
 </section>`);
   }
 
-  // Feuille de route
-  if (tool.status) {
-    const st = statusFrom(tool.doc(tool.status.file), tool.status.section, opts);
-    if (st) {
-      sections.push(`<section class="band"><div class="wrap two-col" id="feuille-de-route">
-  <div>
-    <p class="eyebrow">Feuille de route</p>
-    <h2>Déjà disponible</h2>
-    <ul class="roadmap done">${st.done.map((s) => `<li>${icons.check}<div><span class="phase">${esc(s.phase)}</span> ${s.html}</div></li>`).join('')}</ul>
-  </div>
-  <div>
-    <h2 class="spacer">Prochainement</h2>
-    <ul class="roadmap next">${st.next.map((s) => `<li><span class="dot"></span><div><span class="phase">${esc(s.phase)} · ${esc(s.state)}</span> ${s.html}</div></li>`).join('') || '<li>Tout est livré !</li>'}</ul>
-  </div>
-</div></section>`);
-    }
-  }
-
   // Raccourcis
   const sc = shortcutsFrom(tool.doc(tool.shortcuts.file), tool.shortcuts.section);
   if (sc.length) {
@@ -406,7 +387,6 @@ for (const tool of site.tools) {
       ['parcours', 'Comment ça marche', steps.length],
       ['fonctionnalites', 'Fonctionnalités', 1],
       ['captures', 'Captures', gallery.length > 1],
-      ['feuille-de-route', 'Feuille de route', tool.status],
       ['raccourcis', 'Raccourcis', sc.length],
       ['demarrer', tool.live ? 'Démarrer' : 'Installation', 1],
       ['nouveautes', 'Nouveautés', 1],

@@ -54,7 +54,6 @@ export default {
       install: { file: 'doc/GUIDE_UTILISATEUR.md', section: /installer/i },
       shortcuts: { file: 'doc/GUIDE_UTILISATEUR.md', section: /raccourcis/i },
       faq: { file: 'doc/GUIDE_UTILISATEUR.md', section: /questions/i },
-      status: { file: 'README.md', section: /avancement/i },
       gallery: { file: 'doc/GUIDE_UTILISATEUR.md' },
     },
     {

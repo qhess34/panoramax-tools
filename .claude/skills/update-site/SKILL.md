@@ -5,8 +5,8 @@ description: Met à jour le site vitrine Outils Panoramax (panoramax-tools.my-he
 
 # /update-site — mettre à jour le site avec les nouveautés des outils
 
-Le site est généré depuis la documentation des outils (fonctionnalités, guide, captures, raccourcis, feuille de
-route : rien à faire pour ces parties). Ce skill s'occupe de ce qui demande du jugement : **les nouveautés**, et
+Le site est généré depuis la documentation des outils (fonctionnalités, guide, captures, raccourcis : rien à
+faire pour ces parties). Ce skill s'occupe de ce qui demande du jugement : **les nouveautés**, et
 l'accroche marketing quand une fonctionnalité majeure arrive.
 
 Arguments facultatifs : un nom d'outil (`geosillage`, `pan360-fixexif`) pour n'en traiter qu'un ; `--dry-run`

@@ -292,21 +292,6 @@ export function faqFrom(doc, re, opts) {
   return out;
 }
 
-/** Tableau d'avancement : { done: [...], next: [...] } à partir de la colonne « État ». */
-export function statusFrom(doc, re, opts) {
-  const sec = doc.section(re);
-  const table = sec?.tokens.find((t) => t.type === 'table');
-  if (!table) return null;
-  const done = [];
-  const next = [];
-  for (const r of table.rows) {
-    const state = plain(r[r.length - 1].text);
-    const item = { phase: plain(r[0].text), html: doc.renderInline(r[1].tokens, opts), state };
-    (/✅/.test(state) ? done : next).push(item);
-  }
-  return { done, next };
-}
-
 export function sectionHtml(doc, re, opts) {
   const sec = doc.section(re);
   return sec ? { title: sec.title, html: doc.render(sec.tokens, opts) } : null;

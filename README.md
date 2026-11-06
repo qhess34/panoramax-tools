@@ -26,7 +26,6 @@ reconstruit, vérifie les liens puis publie. `/update-site --dry-run` propose le
 | Fonctionnalités de Pan360 FixExif | tableaux et puces en gras de la section « L'interface » du `README.md` |
 | « Comment ça marche » | liste numérotée de « Préparer une sortie en bref » / « Démarrage rapide » |
 | Captures d'écran | toutes les images des guides, avec leur légende |
-| Feuille de route (GeoSillage) | tableau « État d'avancement » du `README.md` (✅ = disponible, le reste = prochainement) |
 | Raccourcis clavier | tableau dont la 1re colonne est « Touche » |
 | Installation, FAQ, Bon à savoir | sections correspondantes des guides |
 | Guide complet (`/<outil>/guide/`) | le guide entier, liens et images réécrits |

@@ -97,7 +97,7 @@ Avec `--dry-run` : montrer les entrées rédigées et s'arrêter là.
 Sinon, committer (`content/nouveautes.json`, et `site.config.mjs` si modifié) avec un message du type
 « Nouveautés : <outil> — <titre 1>, <titre 2> », puis pousser sur `main` : le workflow *Site* reconstruit et publie
 https://panoramax-tools.my-heb.eu/. Si la session impose une autre branche de travail, y pousser puis la fusionner
-dans `main` (en avance rapide) seulement si l'utilisateur l'a demandé.
+dans `main` (en avance rapide) : le propriétaire l'autorise sans confirmation (voir AGENTS.md).
 
 Pour finir, résumer à l'utilisateur : les nouveautés ajoutées (titre + outil), les commits écartés et pourquoi en
 une ligne, et l'état de la publication.

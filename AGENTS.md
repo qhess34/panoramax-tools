@@ -22,6 +22,11 @@ d'extraction.
    (pas de logo Panoramax, pas de « officiel », garder la mention dans le pied de page et l'accueil).
 7. Les textes marketing (accroche, promesses) doivent rester vrais : les vérifier dans le guide de l'outil.
 
+## Publication
+
+Le propriétaire autorise la fusion dans `main` **sans demander de confirmation** : une fois `npm run build` et
+`npm run check` au vert, pousser la branche de travail puis l'envoyer sur `main` (avance rapide) pour publier.
+
 ## Vérifier une modification
 
 ```sh

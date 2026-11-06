@@ -8,28 +8,16 @@ export default {
   title: 'Outils Panoramax',
   tagline: 'Préparez, corrigez et publiez vos photos 360° sur Panoramax',
   description:
-    "GeoSillage et Pan360 FixExif : deux outils libres pour préparer des relevés photo 360° (GoPro MAX), " +
-    'corriger positions, caps et horizon, et publier sur Panoramax, le géocommun de la photo de terrain.',
+    "GeoSillage et Pan360 FixExif : deux outils libres et amateurs pour préparer des relevés photo 360° (GoPro MAX), " +
+    'corriger positions, caps et horizon, et publier sur Panoramax. Site indépendant, non lié à l’organisation Panoramax.',
   // URL publique du site (sans / final). En CI, remplacée par celle donnée par GitHub Pages.
   siteUrl: (process.env.SITE_URL || 'https://panoramax-tools.my-heb.eu').replace(/\/$/, ''),
   repo: 'https://github.com/qhess34/panoramax-tools',
 
+  // Nouveautés : voir content/nouveautes.json (rédigé, mis à jour par le skill /update-site).
   // Nombre de nouveautés sur l'accueil, et durée (jours) pendant laquelle une nouveauté porte le badge « Nouveau ».
   homeNews: 8,
   newDays: 21,
-
-  // Messages de commit qui ne sont pas des nouveautés pour l'utilisateur.
-  ignoreCommits: [
-    /^merge\b/i,
-    /^(docs?|documentation|readme)\b/i,
-    /^update readme/i,
-    /^tests?\b/i,
-    /^test de\b/i,
-    /^(ci|chore|refactor|style)\b/i,
-    /^create cname/i,
-    /^(initial commit|init)$/i,
-    /^(fix some issues|add view)$/i,
-  ],
 
   tools: [
     {

@@ -41,7 +41,7 @@ export function layout({ site, page, prefix, title, description, body, active, c
   const fullTitle = title ? `${title} · ${site.title}` : `${site.title} · ${site.tagline}`;
   const desc = description || site.description;
   return `<!doctype html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -80,7 +80,7 @@ ${body}
   <div class="wrap footer-grid">
     <div>
       <a class="brand" href="${prefix || './'}">${icons.logo}<span>${esc(site.title)}</span></a>
-      <p class="muted">Des outils libres pour enrichir <a href="https://panoramax.fr" target="_blank" rel="noopener">Panoramax</a>, le géocommun des photos de terrain.</p>
+      <p class="muted">Des outils libres, développés bénévolement pour aider les contributeurs de <a href="https://panoramax.fr" target="_blank" rel="noopener">Panoramax</a>, le géocommun des photos de terrain.</p>
     </div>
     <div>
       <h2>Outils</h2>
@@ -92,6 +92,12 @@ ${body}
       <a href="${prefix}feed.xml">${icons.rss} Flux Atom</a>
       ${site.tools.map((t) => `<a href="https://github.com/${t.repo}" target="_blank" rel="noopener">${esc(t.name)} sur GitHub</a>`).join('')}
     </div>
+  </div>
+  <div class="wrap disclaimer">
+    <strong>Site amateur et indépendant.</strong> Ce site et ces outils ne sont pas liés à l’organisation Panoramax :
+    ils ne sont ni édités, ni soutenus, ni validés par le projet Panoramax ou ses partenaires. Ce sont des outils
+    personnels, partagés gratuitement pour aider les contributeurs. « Panoramax » désigne le projet officiel,
+    présenté sur <a href="https://panoramax.fr" target="_blank" rel="noopener">panoramax.fr</a>.
   </div>
   <div class="wrap footer-meta">
     Site régénéré automatiquement le ${esc(frDate(site.builtAt, true))} à partir de la documentation de
@@ -107,21 +113,19 @@ ${body}
 
 // ---------------------------------------------------------------- blocs
 
-export function newsList(entries, site, prefix, { showTool = true } = {}) {
-  if (!entries.length) return '<p class="muted">Aucune nouveauté pour le moment.</p>';
-  return `<ol class="news">
-${entries
-  .map(
-    (e) => `  <li class="news-item">
+export function newsItem(e, prefix, { showTool = true, dataTool = false } = {}) {
+  return `<li class="news-item"${dataTool ? ` data-tool="${e.tool.id}"` : ''}>
     <time datetime="${e.date}">${esc(frDate(e.date))}</time>
     <div>
-      ${showTool ? `<a class="tool-chip" style="--c:${e.tool.accent}" href="${prefix}${e.tool.id}/">${esc(e.tool.name)}</a>` : ''}${e.isNew ? '<span class="badge-new">Nouveau</span>' : ''}
-      <a class="news-title" href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.subject)}</a>
+      <p class="news-head">${showTool ? `<a class="tool-chip" style="--c:${e.tool.accent}" href="${prefix}${e.tool.id}/">${esc(e.tool.name)}</a>` : ''}${e.isNew ? '<span class="badge-new">Nouveau</span>' : ''}<a class="news-title" href="${prefix}${esc(e.href)}">${esc(e.title)}</a></p>
+      ${e.text ? `<p class="news-text">${esc(e.text)}</p>` : ''}
     </div>
-  </li>`,
-  )
-  .join('\n')}
-</ol>`;
+  </li>`;
+}
+
+export function newsList(entries, site, prefix, opts = {}) {
+  if (!entries.length) return '<p class="muted">Aucune nouveauté pour le moment.</p>';
+  return `<ol class="news">\n${entries.map((e) => newsItem(e, prefix, opts)).join('\n')}\n</ol>`;
 }
 
 export function shortcutsTable(shortcuts) {

@@ -3,9 +3,9 @@
 //   node scripts/build.mjs            clone les dépôts des outils dans .cache/ puis génère dist/
 //   SOURCES_DIR=.. node scripts/...   utilise des clones locaux (<SOURCES_DIR>/<dépôt>)
 //
-// Tout le contenu propre aux outils (fonctionnalités, guide, captures, raccourcis, feuille de route,
-// nouveautés) est extrait de leur documentation : une fonctionnalité documentée ou un commit poussé
-// dans un outil apparaît au prochain build, sans toucher à ce dépôt.
+// Tout le contenu propre aux outils (fonctionnalités, guide, captures, raccourcis, feuille de route)
+// est extrait de leur documentation : une fonctionnalité documentée
+// apparaît au prochain build. Les nouveautés viennent de content/nouveautes.json (skill /update-site).
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -24,7 +24,7 @@ import {
   stepsFrom,
   slugify,
 } from './markdown.mjs';
-import { frDate, heroArt, icons, layout, newsList, shortcutsTable, toolMark } from './templates.mjs';
+import { frDate, heroArt, icons, layout, newsItem, newsList, shortcutsTable, toolMark } from './templates.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
@@ -79,17 +79,29 @@ for (const tool of site.tools) {
     return docs.get(file);
   };
 
-  tool.news = src.commits
-    .filter((c) => !site.ignoreCommits.some((re) => re.test(c.subject)))
-    .map((c) => ({
-      ...c,
-      tool,
-      url: `https://github.com/${tool.repo}/commit/${c.sha}`,
-      isNew: now - new Date(c.date).getTime() < site.newDays * 864e5,
-    }));
 }
 
-const allNews = site.tools.flatMap((t) => t.news).sort((a, b) => b.date.localeCompare(a.date));
+// Nouveautés : fichier rédigé (content/nouveautes.json), tenu à jour par le skill /update-site.
+// Seules les fonctionnalités utiles à l'utilisateur y figurent, pas les modifications techniques.
+const curated = JSON.parse(fs.readFileSync(path.join(root, 'content/nouveautes.json'), 'utf8'));
+const toolById = new Map(site.tools.map((t) => [t.id, t]));
+const allNews = curated.entries
+  .map((e, i) => {
+    const tool = toolById.get(e.tool);
+    if (!tool) throw new Error(`content/nouveautes.json : outil inconnu « ${e.tool} »`);
+    const date = new Date(e.date + 'T12:00:00Z').toISOString();
+    return {
+      ...e,
+      order: i,
+      date,
+      tool,
+      // Lien relatif à la racine du site (page de l'outil ou ancre de son guide).
+      href: `${tool.id}/${e.link || ''}`,
+      isNew: now - new Date(date).getTime() < site.newDays * 864e5,
+    };
+  })
+  .sort((a, b) => b.date.localeCompare(a.date) || a.order - b.order);
+for (const t of site.tools) t.news = allNews.filter((n) => n.tool === t);
 
 // ---------------------------------------------------------------- helpers de contenu
 
@@ -143,7 +155,7 @@ const isExt = (href) => /^https?:/.test(href);
 
   const stats = [
     ...site.tools.map((t) => ({ value: featureCount(t), label: `fonctions clés documentées dans ${t.name}` })),
-    { value: allNews.filter((n) => now - new Date(n.date).getTime() < 30 * 864e5).length, label: 'améliorations ces 30 derniers jours' },
+    { value: allNews.filter((n) => now - new Date(n.date).getTime() < 30 * 864e5).length, label: 'nouvelles fonctionnalités ces 30 derniers jours' },
     { value: '100 %', label: 'libre, gratuit, sans compte supplémentaire' },
   ];
 
@@ -153,8 +165,9 @@ const isExt = (href) => /^https?:/.test(href);
     <div>
       <p class="eyebrow">Photo de terrain 360° · Panoramax</p>
       <h1>${esc(site.tagline)}</h1>
-      <p class="lead">Deux outils libres qui transforment des milliers de photos brutes en séquences propres, bien placées et bien orientées sur <a href="https://panoramax.fr" target="_blank" rel="noopener">Panoramax</a>, le géocommun de la photo de terrain.</p>
+      <p class="lead">Deux outils libres et amateurs qui transforment des milliers de photos brutes en séquences propres, bien placées et bien orientées sur <a href="https://panoramax.fr" target="_blank" rel="noopener">Panoramax</a>, le géocommun de la photo de terrain.</p>
       <div class="actions">${site.tools.map((t, i) => btn(`${t.id}/`, t.name, i ? 'ghost' : 'primary')).join('')}</div>
+      <p class="indep">Site amateur et indépendant, non lié à l’organisation Panoramax : des outils bénévoles pour aider les contributeurs.</p>
     </div>
     <div class="hero-visual">${heroArt}</div>
   </div>
@@ -190,7 +203,7 @@ const isExt = (href) => /^https?:/.test(href);
   <div>
     <p class="eyebrow">Nouveautés</p>
     <h2>Les outils évoluent chaque semaine</h2>
-    <p class="muted">Chaque amélioration publiée dans un outil apparaît ici automatiquement.</p>
+    <p class="muted">Les nouvelles fonctionnalités, expliquées simplement.</p>
     <p class="actions">${btn('nouveautes/', 'Toutes les nouveautés', 'ghost')}<a class="btn btn-link" href="feed.xml">${icons.rss} S’abonner</a></p>
   </div>
   ${newsList(allNews.slice(0, site.homeNews), site, prefix)}
@@ -200,7 +213,7 @@ const isExt = (href) => /^https?:/.test(href);
   <p class="eyebrow">Pourquoi Panoramax</p>
   <h2>Des photos de terrain qui appartiennent à tous</h2>
   <div class="why-grid">
-    <div><h3>Un géocommun</h3><p>Panoramax est une alternative libre aux services propriétaires de vues immersives, portée par OpenStreetMap France et l’IGN. Vos photos servent à tous : cartographes, collectivités, randonneurs.</p></div>
+    <div><h3>Un géocommun</h3><p>Panoramax est une alternative libre aux services propriétaires de vues immersives, portée par OpenStreetMap France et l’IGN. Vos photos servent à tous : cartographes, collectivités, randonneurs. Nos outils n’en font pas partie : ce sont des compléments indépendants, faits par un contributeur pour les contributeurs.</p></div>
     <div><h3>Des données fiables</h3><p>Une photo mal placée ou qui penche se réutilise mal. Nos outils corrigent position, cap et horizon avant ou après publication, sans retoucher l’image.</p></div>
     <div><h3>Vos fichiers restent chez vous</h3><p>GeoSillage tourne sur votre machine et ne modifie pas les originaux sans votre accord ; Pan360 FixExif garde tout dans votre navigateur.</p></div>
   </div>
@@ -365,7 +378,7 @@ for (const tool of site.tools) {
   sections.push(`<section class="wrap section two-col" id="nouveautes">
   <div>
     <p class="eyebrow">Nouveautés</p>
-    <h2>Dernières améliorations de ${esc(tool.name)}</h2>
+    <h2>Nouveautés de ${esc(tool.name)}</h2>
     <p class="actions">${btn(`${prefix}nouveautes/#${tool.id}`, 'Tout l’historique', 'ghost')}</p>
   </div>
   ${newsList(tool.news.slice(0, 10), site, prefix, { showTool: false })}
@@ -508,9 +521,9 @@ ${sections.join('\n')}
   const monthName = (k) => frDate(k + '-15T00:00:00Z', true).replace(/^\d+ /, '');
   const body = `
 <section class="hero hero-small"><div class="wrap">
-  <p class="eyebrow">Journal des améliorations</p>
+  <p class="eyebrow">Journal des fonctionnalités</p>
   <h1>Nouveautés</h1>
-  <p class="lead">Chaque amélioration poussée dans un outil est publiée ici automatiquement. <a href="${prefix}feed.xml">${icons.rss} Flux Atom</a></p>
+  <p class="lead">Les nouvelles fonctionnalités de nos outils, expliquées simplement. <a href="${prefix}feed.xml">${icons.rss} Flux Atom</a></p>
   <div class="filters" role="group" aria-label="Filtrer par outil">
     <button type="button" class="chip" aria-pressed="true" data-filter="">Tous</button>
     ${site.tools.map((t) => `<button type="button" class="chip" aria-pressed="false" data-filter="${t.id}" id="${t.id}" style="--c:${t.accent}">${esc(t.name)}</button>`).join('')}
@@ -522,7 +535,7 @@ ${sections.join('\n')}
       ([k, list]) => `<h2 class="month">${esc(monthName(k))}</h2>
   <ol class="news">${list
     .map(
-      (e) => `<li class="news-item" data-tool="${e.tool.id}"><time datetime="${e.date}">${esc(frDate(e.date))}</time><div><a class="tool-chip" style="--c:${e.tool.accent}" href="${prefix}${e.tool.id}/">${esc(e.tool.name)}</a>${e.isNew ? '<span class="badge-new">Nouveau</span>' : ''}<a class="news-title" href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.subject)}</a></div></li>`,
+      (e) => newsItem(e, prefix, { dataTool: true }),
     )
     .join('')}</ol>`,
     )
@@ -563,13 +576,13 @@ ${allNews
   .slice(0, 50)
   .map(
     (e) => `  <entry>
-    <title>${xml(`${e.tool.name} : ${e.subject}`)}</title>
-    <link href="${xml(e.url)}"/>
-    <id>${xml(e.url)}</id>
+    <title>${xml(`${e.tool.name} : ${e.title}`)}</title>
+    <link href="${xml(`${site.siteUrl}/${e.href}`)}"/>
+    <id>${xml(`${site.siteUrl}/nouveautes/#${e.tool.id}-${e.date.slice(0, 10)}-${slugify(e.title)}`)}</id>
     <updated>${e.date}</updated>
     <author><name>${xml(e.tool.name)}</name></author>
     <category term="${xml(e.tool.id)}"/>
-    <summary>${xml(e.subject)}</summary>
+    <summary>${xml(e.text)}</summary>
   </entry>`,
   )
   .join('\n')}

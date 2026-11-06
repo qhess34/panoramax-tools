@@ -18,7 +18,9 @@ d'extraction.
 4. **Aucune dépendance d'exécution côté navigateur** : HTML/CSS/JS statiques, pas de CDN. Côté build, seulement
    `marked` (version exacte dans `package.json`).
 5. Le site doit rester lisible sans défilement horizontal de 360 px à 1440 px, en thème clair et sombre.
-6. Les textes marketing (accroche, promesses) doivent rester vrais : les vérifier dans le guide de l'outil.
+6. Le site est **amateur et indépendant** de l'organisation Panoramax : ne jamais laisser croire le contraire
+   (pas de logo Panoramax, pas de « officiel », garder la mention dans le pied de page et l'accueil).
+7. Les textes marketing (accroche, promesses) doivent rester vrais : les vérifier dans le guide de l'outil.
 
 ## Vérifier une modification
 
@@ -29,5 +31,6 @@ npm run serve   # puis contrôler l'accueil, une page outil, un guide et les nou
 
 ## Quand un outil reçoit une nouvelle fonctionnalité
 
-Rien à faire en général : le workflow `Site` régénère le site (push de l'outil, ou vérification toutes les 3 h).
-Si la nouveauté mérite d'être mise en avant dans l'accroche (`promise`, `pitch` de `site.config.mjs`), l'y ajouter.
+Le workflow `Site` régénère les pages tirées de la doc (push de l'outil, ou vérification toutes les 3 h).
+Les nouveautés, elles, sont rédigées : suivre le skill [`/update-site`](.claude/skills/update-site/SKILL.md)
+(uniquement les fonctionnalités importantes, jamais les modifications techniques).

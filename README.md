@@ -1,11 +1,22 @@
 # Outils Panoramax — site vitrine
 
+> Site **amateur et indépendant** : il n'est pas lié à l'organisation Panoramax. Il présente des outils
+> personnels, partagés pour aider les contributeurs.
+
 Site statique, en ligne sur **https://panoramax-tools.my-heb.eu/**, qui présente **[GeoSillage](https://github.com/qhess34/geosillage)** et
 **[Pan360 FixExif](https://github.com/qhess34/pan360-fixexif)**, deux outils libres pour préparer, corriger et
 publier des photos 360° sur [Panoramax](https://panoramax.fr).
 
 Le site **ne recopie pas** la documentation des outils : il la lit à chaque construction. Une fonctionnalité
-documentée ou un commit poussé dans un outil apparaît en ligne sans toucher à ce dépôt.
+documentée dans un outil apparaît en ligne sans toucher à ce dépôt. Les **nouveautés**, elles, sont rédigées :
+seules les fonctionnalités importantes y figurent, jamais les modifications techniques.
+
+## Mettre à jour les nouveautés : `/update-site`
+
+Dans Claude Code, la commande **`/update-site`** ([`.claude/skills/update-site`](.claude/skills/update-site/SKILL.md))
+va chercher les commits des outils depuis la dernière revue (`node scripts/pending.mjs`), retient les
+fonctionnalités importantes, les rédige en français dans `content/nouveautes.json`, ajuste l'accroche si besoin,
+reconstruit, vérifie les liens puis publie. `/update-site --dry-run` propose les entrées sans rien publier.
 
 ## Ce qui est généré, et d'où
 
@@ -19,7 +30,7 @@ documentée ou un commit poussé dans un outil apparaît en ligne sans toucher �
 | Raccourcis clavier | tableau dont la 1re colonne est « Touche » |
 | Installation, FAQ, Bon à savoir | sections correspondantes des guides |
 | Guide complet (`/<outil>/guide/`) | le guide entier, liens et images réécrits |
-| Nouveautés, flux Atom, chiffres clés | messages de commit (`git log --no-merges`), hors docs/tests/merges |
+| Nouveautés, flux Atom | **rédigées** dans [`content/nouveautes.json`](content/nouveautes.json) : seulement les fonctionnalités importantes, par le skill `/update-site` |
 
 Seuls l'accroche, les promesses et les textes de l'accueil sont écrits à la main, dans
 [`site.config.mjs`](site.config.mjs) et [`scripts/build.mjs`](scripts/build.mjs).
@@ -65,6 +76,9 @@ scripts/markdown.mjs   lecture des guides : sections, rendu, extraction
 scripts/sources.mjs    clone des dépôts et historique
 scripts/templates.mjs  gabarit commun, illustration, blocs réutilisables
 scripts/check.mjs      vérification des liens du site généré
+scripts/pending.mjs    commits des outils pas encore passés en revue (pour /update-site)
+content/nouveautes.json nouveautés rédigées et derniers commits revus
+.claude/skills/        skill /update-site
 src/assets/            style, script, favicon
 ```
 

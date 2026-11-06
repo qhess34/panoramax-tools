@@ -1,0 +1,95 @@
+# Construit le site à partir de la documentation de GeoSillage et Pan360 FixExif, puis le publie sur GitHub Pages.
+#
+# Déclencheurs :
+#  - push sur main (modification du site lui-même) ;
+#  - repository_dispatch « tool-updated » : envoyé par un dépôt d'outil à chaque push (voir docs/notify-site.yml) ;
+#  - toutes les 3 heures : filet de sécurité, ne republie que si un outil a changé depuis la dernière publication ;
+#  - à la demande (Actions → Site → Run workflow) ;
+#  - pull request : construction et vérification des liens, sans publication.
+name: Site
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  repository_dispatch:
+    types: [tool-updated]
+  schedule:
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Construction
+    runs-on: ubuntu-24.04
+    outputs:
+      changed: ${{ steps.detect.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Configuration de GitHub Pages
+        id: pages
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+
+      - name: Un outil a-t-il changé ?
+        id: detect
+        env:
+          BASE_URL: ${{ steps.pages.outputs.base_url }}
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          live=$(curl -fsSL "$BASE_URL/versions.json" || echo '{}')
+          changed=false
+          for repo in $(node --input-type=module -e "import c from './site.config.mjs'; console.log(c.tools.map((t) => t.repo).join(' '))"); do
+            head=$(git ls-remote "https://github.com/$repo.git" HEAD | cut -f1)
+            published=$(echo "$live" | jq -r --arg r "$repo" '.tools[$r] // ""')
+            echo "$repo : en ligne ${published:0:7}, dépôt ${head:0:7}"
+            [ "$head" != "$published" ] && changed=true
+          done
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
+
+      - run: npm ci
+        if: steps.detect.outputs.changed == 'true'
+
+      - name: Génération du site
+        if: steps.detect.outputs.changed == 'true'
+        env:
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+        run: npm run build
+
+      - name: Vérification des liens
+        if: steps.detect.outputs.changed == 'true'
+        run: npm run check
+
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.detect.outputs.changed == 'true' && github.event_name != 'pull_request'
+        with:
+          path: dist
+
+  deploy:
+    name: Publication
+    needs: build
+    if: needs.build.outputs.changed == 'true' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

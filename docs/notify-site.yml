@@ -1,0 +1,27 @@
+# À copier dans chaque dépôt d'outil (geosillage, pan360-fixexif) sous .github/workflows/notify-site.yml.
+#
+# À chaque push sur la branche principale, demande au dépôt panoramax-tools de reconstruire le site :
+# une nouvelle fonctionnalité documentée apparaît en ligne quelques minutes plus tard.
+#
+# Prérequis : un secret SITE_DISPATCH_TOKEN dans le dépôt de l'outil, contenant un jeton GitHub
+# « fine-grained » limité au dépôt qhess34/panoramax-tools avec la permission « Contents : Read and write ».
+# Sans ce secret, le site se met quand même à jour, au plus tard 3 heures après (vérification périodique).
+name: Prévenir le site
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  notify:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Demander la reconstruction du site
+        env:
+          GH_TOKEN: ${{ secrets.SITE_DISPATCH_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then echo "SITE_DISPATCH_TOKEN absent : le site se mettra à jour lors de sa prochaine vérification."; exit 0; fi
+          gh api repos/qhess34/panoramax-tools/dispatches \
+            -f event_type=tool-updated \
+            -f "client_payload[repo]=${{ github.repository }}" \
+            -f "client_payload[sha]=${{ github.sha }}"

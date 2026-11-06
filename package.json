@@ -1,0 +1,16 @@
+{
+  "name": "panoramax-tools-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site vitrine de GeoSillage et Pan360 FixExif, généré à partir de la documentation des outils.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "serve": "python3 -m http.server 5600 --directory dist",
+    "check": "node scripts/check.mjs"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "marked": "18.1.3"
+  }
+}

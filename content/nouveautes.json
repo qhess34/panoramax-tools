@@ -8,22 +8,15 @@
     {
       "date": "2026-11-06",
       "tool": "geosillage",
-      "title": "Synchro GPS sur votre trace GPX",
-      "text": "Importez la trace de votre montre, compteur ou téléphone. Chaque photo se place dessus et le décalage horaire est détecté.",
+      "title": "Synchro et recalage sur votre trace GPX",
+      "text": "Importez la trace de votre montre, compteur ou téléphone : le décalage horaire est détecté et les photos se placent dessus. Vous pouvez aussi recaler une plage, une séquence ou toute la sortie sur la ligne, avec un aperçu sur la carte avant validation.",
       "link": "guide/#5-corriger-le-retard-gps-onglet-synchro"
     },
     {
       "date": "2026-11-06",
       "tool": "geosillage",
-      "title": "Recalage des photos sur la ligne GPX",
-      "text": "Placez une plage, une séquence ou toute la sortie sur la ligne GPX. Un aperçu sur la carte montre les déplacements avant validation.",
-      "link": "guide/#recaler-sur-la-ligne-gpx"
-    },
-    {
-      "date": "2026-11-06",
-      "tool": "geosillage",
-      "title": "Arrêts : comparer dans la visionneuse 360°",
-      "text": "La visionneuse 360° garde la direction de vue d’une photo à l’autre. Vous ajustez le début et la fin de l’arrêt avant de comparer, et vous pouvez tout exclure d’un coup.",
+      "title": "Arrêts : comparer les photos côte à côte",
+      "text": "À un feu rouge ou une pause, les photos prises au même endroit s’affichent côte à côte, ou dans la visionneuse 360° qui garde la direction de vue. Ajustez le début et la fin de l’arrêt, cochez les plus nettes : les autres sont exclues ensemble.",
       "link": "guide/#points-à-vérifier-avant-de-publier"
     },
     {
@@ -43,37 +36,23 @@
     {
       "date": "2026-11-06",
       "tool": "geosillage",
-      "title": "Exporter et publier au même endroit",
-      "text": "L’onglet Export et envoi publie une séquence exportée depuis sa ligne, ou toutes les séquences non publiées, après une seule confirmation.",
+      "title": "Exporter et publier sur Panoramax",
+      "text": "Publiez chaque séquence sur l’instance de votre choix, avec le mode de déplacement et vos attributs. L’onglet Export et envoi publie une séquence exportée, ou toutes les non publiées, après une seule confirmation. Un envoi interrompu reprend où il s’est arrêté.",
       "link": "guide/#9-publier-sur-panoramax"
     },
     {
       "date": "2026-11-06",
       "tool": "geosillage",
-      "title": "Fenêtre « À corriger » et seuils par projet",
-      "text": "Un clic sur une étape orange liste les problèmes, leur cause et la correction. Réglez par projet ce qui compte comme arrêt, grand écart ou cap douteux.",
-      "link": "guide/#points-à-vérifier-avant-de-publier"
-    },
-    {
-      "date": "2026-11-05",
-      "tool": "geosillage",
-      "title": "Cap et montage sur une série de photos",
-      "text": "Le décalage du cap et la correction du montage s’appliquent à toute la sortie ou à une série choisie, quel que soit le découpage en séquences.",
-      "link": "guide/#vérifier-les-caps"
-    },
-    {
-      "date": "2026-11-05",
-      "tool": "geosillage",
-      "title": "Comparer les photos d’un arrêt côte à côte",
-      "text": "À un feu rouge ou une pause, les photos prises au même endroit s’affichent côte à côte. Cochez les plus nettes : les autres sont exclues ensemble.",
-      "link": "guide/#points-à-vérifier-avant-de-publier"
-    },
-    {
-      "date": "2026-11-05",
-      "tool": "geosillage",
       "title": "Points à vérifier avant de publier",
-      "text": "Arrêts, grands écarts, GPS peu précis et caps douteux sont signalés sur la timeline et la barre d’étapes. N et Maj+N passent d’un point à l’autre.",
+      "text": "Arrêts, grands écarts, GPS peu précis et caps douteux sont signalés sur la timeline et la barre d’étapes. Un clic sur une étape orange liste les problèmes, leur cause et la correction ; N et Maj+N passent d’un point à l’autre. Réglez par projet ce qui compte comme arrêt, grand écart ou cap douteux.",
       "link": "guide/#points-à-vérifier-avant-de-publier"
+    },
+    {
+      "date": "2026-11-05",
+      "tool": "geosillage",
+      "title": "Cap et montage de la caméra",
+      "text": "Caméra de travers sur le casque ou montée à l’envers : saisissez un angle pour réorienter les photos sans retoucher l’image. Cette correction et le décalage du cap s’appliquent à toute la sortie ou à une série choisie, quel que soit le découpage en séquences.",
+      "link": "guide/#vérifier-les-caps"
     },
     {
       "date": "2026-11-05",
@@ -95,13 +74,6 @@
       "title": "Timeline zoomable avec légende",
       "text": "Zoomez et faites défiler la timeline. Au survol, une bulle montre la miniature, l’heure et ce qui est à vérifier. Une légende explique couleurs et marques.",
       "link": "guide/#3-lécran"
-    },
-    {
-      "date": "2026-11-05",
-      "tool": "geosillage",
-      "title": "Publication directe sur Panoramax",
-      "text": "Publiez chaque séquence sur l’instance de votre choix, avec le mode de déplacement et vos attributs. Un envoi interrompu reprend où il s’est arrêté.",
-      "link": "guide/#9-publier-sur-panoramax"
     },
     {
       "date": "2026-11-05",
@@ -137,13 +109,6 @@
       "title": "Synchro GPS par tronçons",
       "text": "Si le retard du GPS change en cours de route, resynchronisez à partir d’une photo sans modifier les précédentes.",
       "link": "guide/#5-corriger-le-retard-gps-onglet-synchro"
-    },
-    {
-      "date": "2026-11-03",
-      "tool": "geosillage",
-      "title": "Corriger le montage de la caméra",
-      "text": "Caméra de travers sur le casque ou montée à l’envers : saisissez un angle pour réorienter les photos concernées, sans retoucher l’image.",
-      "link": "guide/#caméra-mal-orientée-sur-le-casque-ou-à-lenvers"
     },
     {
       "date": "2026-11-02",

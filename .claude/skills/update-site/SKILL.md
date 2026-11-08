@@ -48,7 +48,7 @@ En cas de doute sur un commit, lire la doc à jour dans `.cache/<dépôt>/` (gui
 Une entrée existante peut être complétée plutôt que doublée si la nouveauté la prolonge le même jour.
 
 En cas de doute sur ce que fait une fonctionnalité (et que la doc de l'outil ne tranche pas), demander au chef de
-projet GeoSillage avant de rédiger : `send_message` vers `session_01UxooiVqt6APJ3csubqFEbV` (voir AGENTS.md).
+projet GeoSillage (profil `profil:chef-de-projet`) avant de rédiger : voir AGENTS.md « En cas de doute ».
 
 ## 3. Rédiger dans `content/nouveautes.json`
 

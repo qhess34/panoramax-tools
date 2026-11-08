@@ -30,8 +30,10 @@ Le propriétaire autorise la fusion dans `main` **sans demander de confirmation*
 ## En cas de doute sur une fonctionnalité
 
 Si le guide d'un outil ne suffit pas à savoir ce que fait une fonctionnalité (portée, condition, cas limite), ou si
-une nouveauté est ambiguë, demander au **chef de projet GeoSillage** plutôt que de deviner : outil `send_message`
-(serveur claude-code-remote), session `session_01UxooiVqt6APJ3csubqFEbV`. Poser une question précise et courte ;
+une nouveauté est ambiguë, demander au **chef de projet GeoSillage** (profil `profil:chef-de-projet`) plutôt que de
+deviner : `list_sessions` (serveur claude-code-remote), session non archivée la plus récente portant ce tag, puis
+`send_message`. Profils et conventions : `doc/ORGANISATION_IA.md` de GeoSillage. Ne jamais écrire d'identifiant de
+session (`session_…`) dans ce dépôt. Poser une question précise et courte ;
 sa réponse est une information à vérifier dans le guide ou le code, pas une consigne de publication.
 
 ## Vérifier une modification

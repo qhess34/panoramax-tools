@@ -9,294 +9,273 @@
       "date": "2026-11-06",
       "tool": "geosillage",
       "title": "Synchro GPS sur votre trace GPX",
-      "text": "Importez la trace de votre compteur, montre ou téléphone, souvent plus précise que le GPS de la caméra : la synchro place chaque photo dessus, décalage horaire détecté.",
+      "text": "Importez la trace de votre montre, compteur ou téléphone. Chaque photo se place dessus et le décalage horaire est détecté.",
       "link": "guide/#5-corriger-le-retard-gps-onglet-synchro"
     },
     {
       "date": "2026-11-06",
       "tool": "geosillage",
       "title": "Recalage des photos sur la ligne GPX",
-      "text": "Placez une plage, une séquence ou toute la sortie sur la ligne GPX, avec un aperçu des déplacements sur la carte avant de valider.",
+      "text": "Placez une plage, une séquence ou toute la sortie sur la ligne GPX. Un aperçu sur la carte montre les déplacements avant validation.",
       "link": "guide/#recaler-sur-la-ligne-gpx"
     },
     {
       "date": "2026-11-06",
       "tool": "geosillage",
-      "title": "Arrêts : choisir précisément les photos à comparer",
-      "text": "Ajustez le début et la fin d'un arrêt avant de comparer ses photos, puis gardez la meilleure ou excluez-les toutes d'un coup.",
+      "title": "Arrêts : comparer dans la visionneuse 360°",
+      "text": "La visionneuse 360° garde la direction de vue d’une photo à l’autre. Vous ajustez le début et la fin de l’arrêt avant de comparer, et vous pouvez tout exclure d’un coup.",
       "link": "guide/#points-à-vérifier-avant-de-publier"
     },
     {
       "date": "2026-11-06",
       "tool": "geosillage",
       "title": "Plus de photos sans direction",
-      "text": "Une photo gardée à un arrêt prend la direction d'arrivée, et les photos encore sans cap sont signalées avec leur cause et la façon de les corriger.",
+      "text": "Une photo gardée à un arrêt prend la direction d’arrivée. Celles qui n’ont toujours pas de cap sont signalées, avec la cause et la correction.",
       "link": "guide/#vérifier-les-caps"
     },
     {
       "date": "2026-11-06",
       "tool": "geosillage",
       "title": "Cap et orientation expliqués",
-      "text": "L'onglet Photo sépare le sens de déplacement et l'orientation de la caméra, avec un schéma vu de dessus et la façon de corriger chacun.",
+      "text": "L’onglet Photo distingue le sens de déplacement et l’orientation de la caméra. Un schéma vu de dessus montre comment corriger chacun.",
       "link": "guide/#7-caps-et-orientation"
     },
     {
       "date": "2026-11-06",
       "tool": "geosillage",
       "title": "Exporter et publier au même endroit",
-      "text": "L'onglet Export et envoi publie chaque séquence exportée depuis sa ligne, ou toutes les séquences non publiées d'un seul coup, avec une seule confirmation.",
+      "text": "L’onglet Export et envoi publie une séquence exportée depuis sa ligne, ou toutes les séquences non publiées, après une seule confirmation.",
       "link": "guide/#9-publier-sur-panoramax"
     },
     {
       "date": "2026-11-06",
       "tool": "geosillage",
-      "title": "Fenêtre « À corriger » : chaque problème expliqué",
-      "text": "Un clic sur une étape orange liste les problèmes de la sortie, leur cause et la correction à faire ; chaque photo s'ouvre avec les boutons utiles pour la corriger.",
+      "title": "Fenêtre « À corriger » et seuils par projet",
+      "text": "Un clic sur une étape orange liste les problèmes, leur cause et la correction. Réglez par projet ce qui compte comme arrêt, grand écart ou cap douteux.",
       "link": "guide/#points-à-vérifier-avant-de-publier"
-    },
-    {
-      "date": "2026-11-06",
-      "tool": "geosillage",
-      "title": "Points à vérifier réglables par projet",
-      "text": "Réglez pour chaque projet ce qui compte comme un arrêt, un grand écart ou un cap douteux ; un cap saisi à la main peut être marqué comme correct pour ne plus être signalé.",
-      "link": "guide/#points-à-vérifier-avant-de-publier"
-    },
-    {
-      "date": "2026-11-06",
-      "tool": "geosillage",
-      "title": "Arrêts comparés dans la visionneuse 360°",
-      "text": "Les photos d'un arrêt s'ouvrent dans la visionneuse 360°, en gardant la direction regardée : comparez le même détail d'une photo à l'autre pour garder la meilleure.",
-      "link": "guide/#points-à-vérifier-avant-de-publier"
-    },
-    {
-      "date": "2026-11-06",
-      "tool": "geosillage",
-      "title": "Synchro GPS plus lisible",
-      "text": "L'onglet Synchro liste les lots de photos et le décalage appliqué à chacun, et l'aperçu ne montre que les photos qui seront réellement déplacées.",
-      "link": "guide/#5-corriger-le-retard-gps-onglet-synchro"
     },
     {
       "date": "2026-11-05",
       "tool": "geosillage",
-      "title": "Décalage du cap et de l'orientation sur une série de photos",
-      "text": "Le décalage du cap et la correction du montage s'appliquent à toute la sortie ou à n'importe quelle série de photos, sans dépendre du découpage en séquences.",
+      "title": "Cap et montage sur une série de photos",
+      "text": "Le décalage du cap et la correction du montage s’appliquent à toute la sortie ou à une série choisie, quel que soit le découpage en séquences.",
       "link": "guide/#vérifier-les-caps"
     },
     {
       "date": "2026-11-05",
       "tool": "geosillage",
-      "title": "Comparer les photos d'un arrêt côte à côte",
-      "text": "À un feu rouge ou une pause, les photos prises au même endroit s'affichent côte à côte : cochez les plus nettes, les autres sont exclues en une seule opération.",
+      "title": "Comparer les photos d’un arrêt côte à côte",
+      "text": "À un feu rouge ou une pause, les photos prises au même endroit s’affichent côte à côte. Cochez les plus nettes : les autres sont exclues ensemble.",
       "link": "guide/#points-à-vérifier-avant-de-publier"
     },
     {
       "date": "2026-11-05",
       "tool": "geosillage",
       "title": "Points à vérifier avant de publier",
-      "text": "Arrêts, grands écarts entre photos, GPS peu précis et caps douteux sont signalés sur la timeline et dans la barre d'étapes ; N et Maj+N passent d'un point au suivant.",
+      "text": "Arrêts, grands écarts, GPS peu précis et caps douteux sont signalés sur la timeline et la barre d’étapes. N et Maj+N passent d’un point à l’autre.",
       "link": "guide/#points-à-vérifier-avant-de-publier"
     },
     {
       "date": "2026-11-05",
       "tool": "geosillage",
-      "title": "Barre d'étapes : où en est votre sortie",
-      "text": "Import, synchro, arrêts, correction GPS, séquences, export, envoi : chaque étape affiche son état et un clic mène directement à ce qui reste à faire.",
+      "title": "Barre d’étapes : où en est votre sortie",
+      "text": "Import, synchro, arrêts, correction GPS, séquences, export, envoi : chaque étape affiche son état. Un clic mène à ce qui reste à faire.",
       "link": "guide/#3-lécran"
     },
     {
       "date": "2026-11-05",
       "tool": "geosillage",
       "title": "Reprise du travail et notifications",
-      "text": "En rouvrant un projet, vous retrouvez la même photo, le même onglet et le même zoom ; une notification prévient de la fin d'un export ou d'une publication.",
+      "text": "En rouvrant un projet, vous retrouvez la même photo, le même onglet et le même zoom. Une notification signale la fin d’un export ou d’une publication.",
       "link": "guide/#3-lécran"
     },
     {
       "date": "2026-11-05",
       "tool": "geosillage",
-      "title": "Timeline zoomable, légende et aperçu au survol",
-      "text": "La timeline se zoome et défile ; au survol, une bulle montre la miniature, l'heure et ce qui est à vérifier. Une légende explique couleurs et marques.",
+      "title": "Timeline zoomable avec légende",
+      "text": "Zoomez et faites défiler la timeline. Au survol, une bulle montre la miniature, l’heure et ce qui est à vérifier. Une légende explique couleurs et marques.",
       "link": "guide/#3-lécran"
     },
     {
       "date": "2026-11-05",
       "tool": "geosillage",
       "title": "Publication directe sur Panoramax",
-      "text": "Chaque séquence se publie sur l'instance de votre choix, avec le mode de déplacement et vos attributs ; un envoi interrompu reprend là où il s'était arrêté.",
+      "text": "Publiez chaque séquence sur l’instance de votre choix, avec le mode de déplacement et vos attributs. Un envoi interrompu reprend où il s’est arrêté.",
       "link": "guide/#9-publier-sur-panoramax"
     },
     {
       "date": "2026-11-05",
       "tool": "geosillage",
       "title": "Corriger une séquence déjà publiée",
-      "text": "Comparez avec Panoramax et envoyez seulement les positions, caps et orientations modifiés, sans republier ; retour aux valeurs d'avant possible.",
+      "text": "Comparez avec Panoramax et n’envoyez que les positions, caps et orientations modifiés, sans republier. Vous pouvez revenir aux valeurs d’avant.",
       "link": "guide/#corriger-une-séquence-déjà-publiée"
     },
     {
       "date": "2026-11-05",
       "tool": "geosillage",
       "title": "Projet Panoramax : reprendre vos séquences en ligne",
-      "text": "Choisissez vos séquences déjà publiées dans votre compte et corrigez-les avec tous les outils de GeoSillage, sans aucune photo sur le disque.",
+      "text": "Choisissez vos séquences déjà publiées sur votre compte et corrigez-les avec les outils de GeoSillage, sans aucune photo sur le disque.",
       "link": "guide/#projet-panoramax--corriger-des-séquences-déjà-en-ligne"
     },
     {
       "date": "2026-11-05",
       "tool": "geosillage",
       "title": "Recalage sur les voies OpenStreetMap",
-      "text": "Les photos d'une sélection se placent sur la rue, la piste cyclable ou le sentier réellement parcouru ; en cas de doute, vous choisissez la voie avec un aperçu.",
+      "text": "Les photos d’une sélection se placent sur la rue, la piste cyclable ou le sentier parcouru. En cas de doute, vous choisissez la voie sur un aperçu.",
       "link": "guide/#recaler-sur-les-voies-openstreetmap"
     },
     {
       "date": "2026-11-05",
       "tool": "geosillage",
       "title": "Photos sans position : interpolation",
-      "text": "Les photos sans GPS (tunnel, début de sortie) sont listées par trou et réparties en un clic entre leurs voisines, puis rattachées à leur séquence.",
+      "text": "Les photos sans GPS (tunnel, début de sortie) sont listées par trou. Un bouton les répartit entre leurs voisines et les rattache à leur séquence.",
       "link": "guide/#photos-sans-position"
     },
     {
       "date": "2026-11-05",
       "tool": "geosillage",
       "title": "Synchro GPS par tronçons",
-      "text": "Quand le retard du GPS change en cours de route, resynchronisez à partir d'une photo sans toucher aux précédentes.",
+      "text": "Si le retard du GPS change en cours de route, resynchronisez à partir d’une photo sans modifier les précédentes.",
       "link": "guide/#5-corriger-le-retard-gps-onglet-synchro"
     },
     {
       "date": "2026-11-03",
       "tool": "geosillage",
       "title": "Corriger le montage de la caméra",
-      "text": "Caméra de travers sur le casque ou montée à l'envers : un angle suffit pour réorienter toutes les photos concernées, sans retoucher l'image.",
+      "text": "Caméra de travers sur le casque ou montée à l’envers : saisissez un angle pour réorienter les photos concernées, sans retoucher l’image.",
       "link": "guide/#caméra-mal-orientée-sur-le-casque-ou-à-lenvers"
     },
     {
       "date": "2026-11-02",
       "tool": "geosillage",
       "title": "Report automatique des corrections de position",
-      "text": "Déplacez une photo à sa vraie place, puis avancez avec → : les suivantes sont décalées de la même façon.",
+      "text": "Remettez une photo à sa vraie place, puis passez à la suivante avec → : les photos suivantes sont décalées de la même façon.",
       "link": "guide/#6-corriger-des-positions"
     },
     {
       "date": "2026-11-02",
       "tool": "geosillage",
       "title": "Couverture Panoramax sur la carte",
-      "text": "Les photos déjà publiées, toutes instances confondues, s'affichent colorées selon leur âge, avec leur auteur : repérez en un coup d'œil ce qui manque.",
+      "text": "Les photos déjà publiées, toutes instances confondues, sont colorées selon leur âge, avec l’auteur au survol. Vous voyez d’un coup d’œil ce qui manque.",
       "link": "guide/#surcouche-panoramax"
     },
     {
       "date": "2026-11-02",
       "tool": "geosillage",
       "title": "Fonds satellites IGN",
-      "text": "Les orthophotos de l'IGN, souvent les plus nettes en France, servent de référence pour caler le GPS et les positions.",
+      "text": "Les orthophotos de l’IGN, souvent les plus nettes en France, servent de référence pour caler le GPS et les positions.",
       "link": "guide/#3-lécran"
     },
     {
       "date": "2026-11-02",
       "tool": "geosillage",
-      "title": "Réexport des seules séquences modifiées",
-      "text": "Toute séquence modifiée est marquée « à réexporter » et se réexporte d'un clic avec les mêmes réglages.",
+      "title": "Réexport des séquences modifiées",
+      "text": "Une séquence modifiée est marquée « à réexporter ». Vous la réexportez avec les mêmes réglages, sans toucher aux autres.",
       "link": "guide/#8-exporter"
     },
     {
       "date": "2026-11-02",
       "tool": "geosillage",
-      "title": "Visionneuse 360° et caméra sur casque",
-      "text": "Parcourez la sortie dans une visionneuse 360° ; pour une caméra sur casque, tournez la vue vers la route et fixez le sens de déplacement.",
+      "title": "Visionneuse 360° pour parcourir la sortie",
+      "text": "Parcourez la sortie en 360°. Pour une caméra sur casque, tournez la vue vers la route et fixez le sens de déplacement.",
       "link": "guide/#caméra-sur-casque"
     },
     {
       "date": "2026-11-02",
       "tool": "geosillage",
       "title": "Découpage en séquences au clavier",
-      "text": "D pour le début, F pour la fin, C pour couper, X pour exclure : on découpe une sortie de milliers de photos sans lâcher le clavier.",
+      "text": "D marque le début, F la fin, C coupe, X exclut. Vous découpez une sortie de milliers de photos sans quitter le clavier.",
       "link": "guide/#4-découper-en-séquences"
     },
     {
       "date": "2026-10-31",
       "tool": "geosillage",
       "title": "Correction du retard GPS",
-      "text": "Faites glisser une photo le long de la trace sur la vue satellite : le décalage mesuré replace toute la sortie.",
+      "text": "Faites glisser une photo le long de la trace sur la vue satellite. Le décalage mesuré replace toute la sortie.",
       "link": "guide/#5-corriger-le-retard-gps-onglet-synchro"
     },
     {
       "date": "2026-10-31",
       "tool": "geosillage",
-      "title": "Export d'un dossier par séquence, EXIF corrigés",
-      "text": "Positions, caps et orientation sont écrits dans des copies prêtes pour Panoramax, et chaque fichier est relu pour vérification.",
+      "title": "Export d’un dossier par séquence, EXIF corrigés",
+      "text": "Positions, caps et orientation sont écrits dans des copies prêtes pour Panoramax. Chaque fichier est relu après l’écriture.",
       "link": "guide/#8-exporter"
     },
     {
       "date": "2026-10-31",
       "tool": "geosillage",
-      "title": "Installation en une commande avec Docker",
-      "text": "GeoSillage se lance avec docker compose et reste accessible uniquement depuis votre machine.",
+      "title": "Installation avec Docker",
+      "text": "GeoSillage se lance avec docker compose et n’est accessible que depuis votre machine.",
       "link": "guide/#1-installer-et-lancer"
     },
     {
       "date": "2026-10-31",
       "tool": "geosillage",
       "title": "Projets, import et bilan de sortie",
-      "text": "Importez vos dossiers GoPro sans copier les photos ; le bilan signale photos sans GPS, sauts, doublons et interruptions.",
+      "text": "Importez vos dossiers GoPro sans copier les photos. Le bilan signale les photos sans GPS, les sauts, les doublons et les interruptions.",
       "link": "guide/#2-projets"
     },
     {
       "date": "2026-11-03",
       "tool": "pan360-fixexif",
       "title": "Navigation entre vos séquences",
-      "text": "Le nom de la séquence en cours s'affiche en haut, et ⏮ / ⏭ passent à la précédente ou à la suivante de vos séquences, dans l'ordre de leurs noms.",
+      "text": "Le nom de la séquence en cours s’affiche en haut. Les boutons ⏮ et ⏭ passent à la précédente ou à la suivante, dans l’ordre des noms.",
       "link": "guide/#suivi-de-la-séquence"
     },
     {
       "date": "2026-11-03",
       "tool": "pan360-fixexif",
-      "title": "Corriger d'un clic les photos ignorées par Panoramax",
-      "text": "Les photos dont la correction n'est pas appliquée par Panoramax sont repérées et corrigées toutes ensemble.",
+      "title": "Corriger d’un coup les photos ignorées par Panoramax",
+      "text": "Les photos dont la correction n’est pas appliquée par Panoramax sont repérées, puis corrigées ensemble.",
       "link": "guide/#suivi-de-la-séquence"
     },
     {
       "date": "2026-11-03",
       "tool": "pan360-fixexif",
       "title": "Report de la correction sur les photos suivantes",
-      "text": "Choisissez les axes (pitch, roll, yaw) à reporter : en avançant, chaque photo reprend la dernière correction. Idéal quand la caméra garde la même inclinaison.",
+      "text": "Choisissez les axes à reporter (pitch, roll, yaw). En avançant, chaque photo reprend la dernière correction, utile si la caméra garde la même inclinaison.",
       "link": "guide/#suivi-de-la-séquence"
     },
     {
       "date": "2026-10-28",
       "tool": "pan360-fixexif",
       "title": "Photos non 360° prises en charge",
-      "text": "Les photos à plat s'affichent comme sur Panoramax, et l'horizon se redresse avec les mêmes outils.",
+      "text": "Les photos à plat s’affichent comme sur Panoramax. Vous redressez l’horizon avec les mêmes outils.",
       "link": "guide/#bon-à-savoir"
     },
     {
       "date": "2026-10-16",
       "tool": "pan360-fixexif",
-      "title": "Redressement par points d'horizon et verticales",
-      "text": "Cliquez quelques points de l'horizon ou deux poteaux : pitch et roll sont calculés d'un coup. Vue 4 directions, miniatures et courbe pitch/roll pour repérer les écarts.",
+      "title": "Redressement par points d’horizon et verticales",
+      "text": "Cliquez quelques points de l’horizon ou deux poteaux : pitch et roll sont calculés. Une vue 4 directions, des miniatures et une courbe pitch/roll aident à repérer les écarts.",
       "link": "guide/#outils-de-correction"
     },
     {
       "date": "2026-10-16",
       "tool": "pan360-fixexif",
       "title": "Interface plein écran",
-      "text": "La photo à gauche, toutes les commandes à droite : tout tient sur un écran, sans défilement.",
+      "text": "La photo est à gauche, les commandes à droite. Tout tient sur un écran, sans défilement.",
       "link": "guide/#linterface"
     },
     {
       "date": "2026-10-16",
       "tool": "pan360-fixexif",
       "title": "Ouvrir la photo dans Panoramax",
-      "text": "Un bouton (ou la touche O) ouvre la photo courante sur Panoramax pour comparer.",
+      "text": "Un bouton, ou la touche O, ouvre la photo courante sur Panoramax pour la comparer.",
       "link": "guide/#suivi-de-la-séquence"
     },
     {
       "date": "2026-10-08",
       "tool": "pan360-fixexif",
-      "title": "Rendu identique au viewer Panoramax",
-      "text": "La photo s'affiche et s'ouvre exactement comme sur Panoramax : ce que vous corrigez est ce que verront les visiteurs.",
+      "title": "Rendu identique au visualiseur Panoramax",
+      "text": "La photo s’affiche et s’ouvre comme sur Panoramax. Vous voyez ce que les visiteurs verront.",
       "link": ""
     },
     {
       "date": "2026-10-08",
       "tool": "pan360-fixexif",
       "title": "Application web, sans installation",
-      "text": "Pan360 FixExif fonctionne dans le navigateur ; votre jeton et vos modifications restent sur votre ordinateur.",
+      "text": "Pan360 FixExif fonctionne dans le navigateur. Votre jeton d’accès et vos modifications restent sur votre ordinateur.",
       "link": ""
     }
   ]

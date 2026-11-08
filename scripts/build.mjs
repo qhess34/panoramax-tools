@@ -146,16 +146,16 @@ const isExt = (href) => /^https?:/.test(href);
 
   const [gs, fx] = site.tools;
   const chain = [
-    { n: 1, title: 'Capturer', text: 'Une photo 360° toutes les deux secondes avec une GoPro MAX, à vélo, à pied ou en voiture.' },
-    { n: 2, title: 'Préparer', text: `Avec ${gs.name} : séquences, retard GPS, positions, caps et orientation, export EXIF vérifié.`, href: `${gs.id}/` },
-    { n: 3, title: 'Publier', text: 'Envoi direct sur l’instance Panoramax de votre choix, avec les attributs de la séquence.', href: 'https://panoramax.fr', ext: true },
-    { n: 4, title: 'Peaufiner', text: `Avec ${fx.name} : horizon et cap des photos déjà en ligne, au rendu exact de Panoramax.`, href: `${fx.id}/` },
+    { n: 1, title: 'Capturer', text: 'Prenez une photo 360° toutes les deux secondes avec une GoPro MAX.' },
+    { n: 2, title: 'Préparer', text: `Avec ${gs.name}, découpez la sortie en séquences, corrigez le GPS, les caps et l’orientation, puis exportez.`, href: `${gs.id}/` },
+    { n: 3, title: 'Publier', text: 'Envoyez chaque séquence sur l’instance Panoramax de votre choix.', href: 'https://panoramax.fr', ext: true },
+    { n: 4, title: 'Peaufiner', text: `Avec ${fx.name}, redressez l’horizon et le cap des photos déjà en ligne.`, href: `${fx.id}/` },
   ];
 
   const stats = [
-    ...site.tools.map((t) => ({ value: featureCount(t), label: `fonctions clés documentées dans ${t.name}` })),
+    ...site.tools.map((t) => ({ value: featureCount(t), label: `fonctions décrites dans le guide de ${t.name}` })),
     { value: allNews.filter((n) => now - new Date(n.date).getTime() < 30 * 864e5).length, label: 'nouvelles fonctionnalités ces 30 derniers jours' },
-    { value: '100 %', label: 'libre, gratuit, sans compte supplémentaire' },
+    { value: '100 %', label: 'libre et gratuit, sans compte à créer' },
   ];
 
   const body = `
@@ -164,9 +164,9 @@ const isExt = (href) => /^https?:/.test(href);
     <div>
       <p class="eyebrow">Photo de terrain 360° · Panoramax</p>
       <h1>${esc(site.tagline)}</h1>
-      <p class="lead">Deux outils libres et amateurs qui transforment des milliers de photos brutes en séquences propres, bien placées et bien orientées sur <a href="https://panoramax.fr" target="_blank" rel="noopener">Panoramax</a>, le géocommun de la photo de terrain.</p>
+      <p class="lead">Deux outils libres et amateurs pour préparer vos photos brutes, corriger leur position, leur cap et leur horizon, puis les publier sur <a href="https://panoramax.fr" target="_blank" rel="noopener">Panoramax</a>, le géocommun de la photo de terrain.</p>
       <div class="actions">${site.tools.map((t, i) => btn(`${t.id}/`, t.name, i ? 'ghost' : 'primary')).join('')}</div>
-      <p class="indep">Site amateur et indépendant, non lié à l’organisation Panoramax : des outils bénévoles pour aider les contributeurs.</p>
+      <p class="indep">Site amateur et indépendant, non lié à l’organisation Panoramax. Ce sont des outils bénévoles pour aider les contributeurs.</p>
     </div>
     <div class="hero-visual">${heroArt}</div>
   </div>
@@ -175,7 +175,7 @@ const isExt = (href) => /^https?:/.test(href);
 <section class="band">
   <div class="wrap">
     <p class="eyebrow">La chaîne complète</p>
-    <h2>De la caméra au géocommun, sans perdre une photo</h2>
+    <h2>De la caméra à Panoramax, en quatre étapes</h2>
     <ol class="chain">
       ${chain
         .map(
@@ -188,7 +188,7 @@ const isExt = (href) => /^https?:/.test(href);
 
 <section class="wrap section" id="outils">
   <p class="eyebrow">Les outils</p>
-  <h2>Choisissez l’outil adapté à votre étape</h2>
+  <h2>Choisissez l’outil selon votre étape</h2>
   <div class="tool-grid">${toolCards}</div>
 </section>
 
@@ -201,7 +201,7 @@ const isExt = (href) => /^https?:/.test(href);
 <section class="wrap section two-col">
   <div>
     <p class="eyebrow">Nouveautés</p>
-    <h2>Les outils évoluent chaque semaine</h2>
+    <h2>Les outils évoluent régulièrement</h2>
     <p class="muted">Les nouvelles fonctionnalités, expliquées simplement.</p>
     <p class="actions">${btn('nouveautes/', 'Toutes les nouveautés', 'ghost')}<a class="btn btn-link" href="feed.xml">${icons.rss} S’abonner</a></p>
   </div>
@@ -210,17 +210,17 @@ const isExt = (href) => /^https?:/.test(href);
 
 <section class="wrap section why">
   <p class="eyebrow">Pourquoi Panoramax</p>
-  <h2>Des photos de terrain qui appartiennent à tous</h2>
+  <h2>Des photos de terrain ouvertes à tous</h2>
   <div class="why-grid">
-    <div><h3>Un géocommun</h3><p>Panoramax est une alternative libre aux services propriétaires de vues immersives, portée par OpenStreetMap France et l’IGN. Vos photos servent à tous : cartographes, collectivités, randonneurs. Nos outils n’en font pas partie : ce sont des compléments indépendants, faits par un contributeur pour les contributeurs.</p></div>
-    <div><h3>Des données fiables</h3><p>Une photo mal placée ou qui penche se réutilise mal. Nos outils corrigent position, cap et horizon avant ou après publication, sans retoucher l’image.</p></div>
-    <div><h3>Vos fichiers restent chez vous</h3><p>GeoSillage tourne sur votre machine et ne modifie pas les originaux sans votre accord ; Pan360 FixExif garde tout dans votre navigateur.</p></div>
+    <div><h3>Un géocommun</h3><p>Panoramax est une alternative libre aux services propriétaires de vues immersives, portée par OpenStreetMap France et l’IGN. Vos photos servent aux cartographes, aux collectivités et aux randonneurs. Nos outils ne font pas partie du projet. Ils sont indépendants et faits par un contributeur pour les contributeurs.</p></div>
+    <div><h3>Des données utilisables</h3><p>Une photo mal placée ou qui penche est difficile à réutiliser. Les outils corrigent la position, le cap et l’horizon, avant ou après la publication, sans retoucher l’image.</p></div>
+    <div><h3>Vos fichiers restent chez vous</h3><p>GeoSillage tourne sur votre machine et ne modifie vos photos d’origine que si vous le demandez, et peut les restaurer. Pan360 FixExif garde tout dans votre navigateur.</p></div>
   </div>
 </section>
 
 <section class="cta-band">
   <div class="wrap">
-    <h2>Prêt à publier votre prochaine sortie ?</h2>
+    <h2>Publiez votre prochaine sortie</h2>
     <div class="actions">${site.tools.map((t) => btn(isExt(t.cta.href) ? t.cta.href : `${t.id}/${t.cta.href}`, t.cta.label, 'primary', isExt(t.cta.href))).join('')}</div>
   </div>
 </section>`;
@@ -280,7 +280,7 @@ for (const tool of site.tools) {
   if (tool.features.mode === 'sections') {
     sections.push(`<section class="band"><div class="wrap" id="fonctionnalites">
   <p class="eyebrow">Fonctionnalités</p>
-  <h2>Tout ce qu’il faut pour une séquence impeccable</h2>
+  <h2>Les fonctions, étape par étape</h2>
   <div class="feature-grid">
     ${feats
       .map(
@@ -300,7 +300,7 @@ for (const tool of site.tools) {
   } else {
     sections.push(`<section class="band"><div class="wrap" id="fonctionnalites">
   <p class="eyebrow">Fonctionnalités</p>
-  <h2>Des outils précis, pensés pour aller vite</h2>
+  <h2>Les commandes de l’application</h2>
   ${feats
     .map(
       (g) => `<h3 class="group-title"><a href="${prefix}${g.href}">${esc(g.title)}</a></h3>
@@ -329,7 +329,7 @@ for (const tool of site.tools) {
   if (sc.length) {
     sections.push(`<section class="wrap section" id="raccourcis">
   <p class="eyebrow">Au clavier</p>
-  <h2>${sc.length} raccourcis pour enchaîner sans la souris</h2>
+  <h2>${sc.length} raccourcis clavier</h2>
   ${shortcutsTable(sc)}
 </section>`);
   }

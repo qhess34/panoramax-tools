@@ -1,10 +1,21 @@
 {
   "_lisez-moi": "Nouveautés affichées sur le site. Rédigées à la main (ou par le skill /update-site) : uniquement des fonctionnalités utiles à l'utilisateur, jamais de modification technique. « reviewed » = dernier commit de chaque outil déjà passé en revue. « link » est relatif à la page de l'outil (ex. guide/#8-exporter). Chaque entrée porte aussi sa traduction anglaise dans « en » ({ title, text }) : obligatoire (npm run check).",
   "reviewed": {
-    "qhess34/geosillage": "6066fea7487166c938bf60cb493b98d39f3c1f31",
+    "qhess34/geosillage": "8df93da3f8bdec5e7dddd6422157653c3c2f8f66",
     "qhess34/pan360-fixexif": "9010a84671804cce3d152a0d4997812392be76d1"
   },
   "entries": [
+    {
+      "date": "2026-11-08",
+      "tool": "geosillage",
+      "title": "Interface en français et en anglais",
+      "text": "Choisissez la langue dans ⚙ Réglages ; par défaut, celle de votre navigateur. Les écrans, les boutons et les messages du serveur sont traduits.",
+      "link": "guide/#3-lécran",
+      "en": {
+        "title": "Interface in French and English",
+        "text": "Pick the language in ⚙ Settings; by default it follows your browser. Screens, buttons and server messages are translated."
+      }
+    },
     {
       "date": "2026-11-06",
       "tool": "geosillage",

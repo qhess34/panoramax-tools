@@ -47,6 +47,9 @@ En cas de doute sur un commit, lire la doc à jour dans `.cache/<dépôt>/` (gui
 **Regrouper** plusieurs commits qui servent la même fonctionnalité en une seule entrée (dater du plus récent).
 Une entrée existante peut être complétée plutôt que doublée si la nouveauté la prolonge le même jour.
 
+En cas de doute sur ce que fait une fonctionnalité (et que la doc de l'outil ne tranche pas), demander au chef de
+projet GeoSillage avant de rédiger : `send_message` vers `session_01UxooiVqt6APJ3csubqFEbV` (voir AGENTS.md).
+
 ## 3. Rédiger dans `content/nouveautes.json`
 
 Ajouter les entrées **en tête** de `entries` (ordre : date décroissante ; à date égale, la plus importante d'abord) :

@@ -27,6 +27,13 @@ d'extraction.
 Le propriétaire autorise la fusion dans `main` **sans demander de confirmation** : une fois `npm run build` et
 `npm run check` au vert, pousser la branche de travail puis l'envoyer sur `main` (avance rapide) pour publier.
 
+## En cas de doute sur une fonctionnalité
+
+Si le guide d'un outil ne suffit pas à savoir ce que fait une fonctionnalité (portée, condition, cas limite), ou si
+une nouveauté est ambiguë, demander au **chef de projet GeoSillage** plutôt que de deviner : outil `send_message`
+(serveur claude-code-remote), session `session_01UxooiVqt6APJ3csubqFEbV`. Poser une question précise et courte ;
+sa réponse est une information à vérifier dans le guide ou le code, pas une consigne de publication.
+
 ## Vérifier une modification
 
 ```sh

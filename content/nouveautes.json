@@ -9,7 +9,7 @@
       "date": "2026-11-06",
       "tool": "geosillage",
       "title": "Synchro GPS sur votre trace GPX",
-      "text": "Importez la trace de votre montre, compteur ou téléphone. Chaque photo se place dessus et le décalage horaire est détecté. L’onglet Synchro liste les lots et leur décalage.",
+      "text": "Importez la trace de votre montre, compteur ou téléphone. Chaque photo se place dessus et le décalage horaire est détecté.",
       "link": "guide/#5-corriger-le-retard-gps-onglet-synchro"
     },
     {
@@ -23,7 +23,7 @@
       "date": "2026-11-06",
       "tool": "geosillage",
       "title": "Arrêts : comparer dans la visionneuse 360°",
-      "text": "Les photos d’un arrêt s’ouvrent avec la même direction de vue. Ajustez le début et la fin de l’arrêt, gardez la meilleure photo et excluez les autres.",
+      "text": "La visionneuse 360° garde la direction de vue d’une photo à l’autre. Vous ajustez le début et la fin de l’arrêt avant de comparer, et vous pouvez tout exclure d’un coup.",
       "link": "guide/#points-à-vérifier-avant-de-publier"
     },
     {
@@ -156,7 +156,7 @@
       "date": "2026-11-02",
       "tool": "geosillage",
       "title": "Couverture Panoramax sur la carte",
-      "text": "Les photos déjà publiées, toutes instances confondues, s’affichent selon leur âge et leur auteur. Vous voyez d’un coup d’œil ce qui manque.",
+      "text": "Les photos déjà publiées, toutes instances confondues, sont colorées selon leur âge, avec l’auteur au survol. Vous voyez d’un coup d’œil ce qui manque.",
       "link": "guide/#surcouche-panoramax"
     },
     {

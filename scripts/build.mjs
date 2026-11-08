@@ -214,7 +214,7 @@ const isExt = (href) => /^https?:/.test(href);
   <div class="why-grid">
     <div><h3>Un géocommun</h3><p>Panoramax est une alternative libre aux services propriétaires de vues immersives, portée par OpenStreetMap France et l’IGN. Vos photos servent aux cartographes, aux collectivités et aux randonneurs. Nos outils ne font pas partie du projet. Ils sont indépendants et faits par un contributeur pour les contributeurs.</p></div>
     <div><h3>Des données utilisables</h3><p>Une photo mal placée ou qui penche est difficile à réutiliser. Les outils corrigent la position, le cap et l’horizon, avant ou après la publication, sans retoucher l’image.</p></div>
-    <div><h3>Vos fichiers restent chez vous</h3><p>GeoSillage tourne sur votre machine et n’écrit que dans des copies de vos photos. Pan360 FixExif garde tout dans votre navigateur.</p></div>
+    <div><h3>Vos fichiers restent chez vous</h3><p>GeoSillage tourne sur votre machine et ne modifie vos photos d’origine que si vous le demandez, et peut les restaurer. Pan360 FixExif garde tout dans votre navigateur.</p></div>
   </div>
 </section>
 

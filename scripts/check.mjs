@@ -24,6 +24,12 @@ const idsOf = (file) => {
 };
 
 const errors = [];
+
+// Chaque nouveauté doit avoir sa traduction anglaise.
+const news = JSON.parse(fs.readFileSync(path.join(dist, '../content/nouveautes.json'), 'utf8'));
+for (const e of news.entries) {
+  if (!e.en?.title || !e.en?.text) errors.push(`content/nouveautes.json : traduction anglaise (en.title, en.text) manquante pour « ${e.title} »`);
+}
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, 'utf8');
   for (const [, attr, raw] of html.matchAll(/\s(href|src)="([^"]*)"/g)) {

@@ -1,0 +1,243 @@
+// Langues du site et textes de l'interface (menus, titres de sections, pied de page).
+//
+// Le français est la langue par défaut et vit à la racine ; l'anglais vit sous /en/.
+// Les textes propres à chaque outil (accroche, promesses) sont dans site.config.mjs (clé `en`),
+// ceux des nouveautés dans content/nouveautes.json (clé `en` de chaque entrée).
+// La documentation des outils n'est jamais recopiée : tant qu'un outil n'a pas de guide anglais,
+// les pages anglaises renvoient vers son guide français.
+
+export const locales = [
+  { code: 'fr', dir: '', label: 'Français', short: 'FR', htmlLang: 'fr', ogLocale: 'fr_FR' },
+  { code: 'en', dir: 'en/', label: 'English', short: 'EN', htmlLang: 'en', ogLocale: 'en_GB' },
+];
+
+const MONTHS = {
+  fr: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+  en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+};
+const SHORT = {
+  fr: ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
+  en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+};
+
+/** Date lisible : « 6 nov. 2026 » / « 6 Nov 2026 » (ou en toutes lettres si `long`). */
+export function formatDate(iso, code = 'fr', long = false) {
+  const d = new Date(iso);
+  const m = (long ? MONTHS : SHORT)[code][d.getUTCMonth()];
+  return `${d.getUTCDate()} ${m} ${d.getUTCFullYear()}`;
+}
+
+/** Nom du mois seul, pour les titres de la page des nouveautés. */
+export const monthName = (iso, code = 'fr') => `${MONTHS[code][new Date(iso).getUTCMonth()]} ${new Date(iso).getUTCFullYear()}`;
+
+const PANORAMAX = '<a href="https://panoramax.fr" target="_blank" rel="noopener">Panoramax</a>';
+
+export const ui = {
+  fr: {
+    skip: 'Aller au contenu',
+    menu: 'Menu',
+    home: 'Accueil',
+    news: 'Nouveautés',
+    themeToggle: 'Changer de thème',
+    sourceOfSite: 'Code source du site sur GitHub',
+    switchTo: 'Passer le site en anglais',
+    footerAbout: `Des outils libres, développés bénévolement pour aider les contributeurs de ${PANORAMAX}, le géocommun des photos de terrain.`,
+    tools: 'Outils',
+    guideOf: (n) => `Guide ${n}`,
+    follow: 'Suivre',
+    atom: 'Flux Atom',
+    onGithub: (n) => `${n} sur GitHub`,
+    disclaimer: `<strong>Site amateur et indépendant.</strong> Ce site et ces outils ne sont pas liés à l’organisation Panoramax :
+    ils ne sont ni édités, ni soutenus, ni validés par le projet Panoramax ou ses partenaires. Ce sont des outils
+    personnels, partagés gratuitement pour aider les contributeurs. Le projet Panoramax
+    est présenté sur <a href="https://panoramax.fr" target="_blank" rel="noopener">panoramax.fr</a>.`,
+    regenerated: (date, links) => `Site régénéré automatiquement le ${date} à partir de la documentation de ${links.join(' et ')}.`,
+    feedTitle: (s) => `Nouveautés ${s}`,
+    interfaceOf: (n) => `Interface de ${n}`,
+    discover: 'Découvrir',
+    readGuide: 'Lire le guide',
+    sourceCode: 'Code source',
+    // accueil
+    homeEyebrow: 'Photo de terrain 360° · Panoramax',
+    homeLead: `Deux outils libres et amateurs pour préparer vos photos brutes, corriger leur position, leur cap et leur horizon, puis les publier sur ${PANORAMAX}, le géocommun de la photo de terrain.`,
+    indep: 'Site amateur et indépendant, non lié à l’organisation Panoramax. Ce sont des outils bénévoles pour aider les contributeurs.',
+    chainEyebrow: 'La chaîne complète',
+    chainTitle: 'De la caméra à Panoramax, en quatre étapes',
+    chain: (gs, fx) => [
+      { title: 'Capturer', text: 'Prenez une photo 360° toutes les deux secondes avec une GoPro MAX.' },
+      { title: 'Préparer', text: `Avec ${gs}, découpez la sortie en séquences, corrigez le GPS, les caps et l’orientation, puis exportez.` },
+      { title: 'Publier', text: 'Envoyez chaque séquence sur l’instance Panoramax de votre choix.' },
+      { title: 'Peaufiner', text: `Avec ${fx}, redressez l’horizon et le cap des photos déjà en ligne.` },
+    ],
+    toolsEyebrow: 'Les outils',
+    toolsTitle: 'Choisissez l’outil selon votre étape',
+    statFeatures: (n) => `fonctions décrites dans le guide de ${n}`,
+    statNews: 'nouvelles fonctionnalités ces 30 derniers jours',
+    statFree: 'libre et gratuit, sans compte à créer',
+    newsEyebrow: 'Nouveautés',
+    homeNewsTitle: 'Les outils évoluent régulièrement',
+    homeNewsLead: 'Les nouvelles fonctionnalités, expliquées simplement.',
+    allNews: 'Toutes les nouveautés',
+    subscribe: 'S’abonner',
+    whyEyebrow: 'Pourquoi Panoramax',
+    whyTitle: 'Des photos de terrain ouvertes à tous',
+    why: [
+      ['Un géocommun', 'Panoramax est une alternative libre aux services propriétaires de vues immersives, portée par OpenStreetMap France et l’IGN. Vos photos servent aux cartographes, aux collectivités et aux randonneurs. Nos outils ne font pas partie du projet. Ils sont indépendants et faits par un contributeur pour les contributeurs.'],
+      ['Des données utilisables', 'Une photo mal placée ou qui penche est difficile à réutiliser. Les outils corrigent la position, le cap et l’horizon, avant ou après la publication, sans retoucher l’image.'],
+      ['Vos fichiers restent chez vous', 'GeoSillage tourne sur votre machine et ne modifie vos photos d’origine que si vous le demandez, et peut les restaurer. Pan360 FixExif garde tout dans votre navigateur.'],
+    ],
+    homeCta: 'Publiez votre prochaine sortie',
+    heroArtLabel: 'Trace d’une sortie et photos 360° le long du parcours',
+    heroArt: { delay: 'Retard GPS', delayValue: '+1,8 s', heading: 'Cap · horizon', headingValue: '87° · 0,0°' },
+    // pages outil
+    howEyebrow: 'Comment ça marche',
+    howTitle: (n) => `${n} étapes, de bout en bout`,
+    featEyebrow: 'Fonctionnalités',
+    featSectionsTitle: 'Les fonctions, étape par étape',
+    featItemsTitle: 'Les commandes de l’application',
+    more: 'En savoir plus',
+    galleryEyebrow: 'En images',
+    galleryTitle: 'Aperçu de l’interface',
+    keysEyebrow: 'Au clavier',
+    keysTitle: (n) => `${n} raccourcis clavier`,
+    start: 'Démarrer',
+    install: 'Installation',
+    nothingToInstall: 'Rien à installer',
+    runsInBrowser: 'L’application fonctionne directement dans votre navigateur.',
+    open: (n) => `Ouvrir ${n}`,
+    runLocally: 'Lancer en local',
+    install2: 'Installer',
+    faqEyebrow: 'Questions fréquentes',
+    faqTitle: 'Vos questions',
+    notesEyebrow: 'Bon à savoir',
+    toolNewsTitle: (n) => `Nouveautés de ${n}`,
+    fullHistory: 'Tout l’historique',
+    onThisPage: 'Sur cette page',
+    nav: { how: 'Comment ça marche', feat: 'Fonctionnalités', shots: 'Captures', keys: 'Raccourcis', news: 'Nouveautés' },
+    fullGuide: 'Guide complet →',
+    toolDesc: (n, p) => `${n} : ${p}`,
+    guideDesc: (n, p) => `Guide d'utilisation complet de ${n} : ${p}`,
+    // guide (français uniquement)
+    toc: 'Sommaire',
+    docLabel: 'documentation',
+    generatedFrom: 'Généré depuis',
+    updatedOn: 'mis à jour le',
+    // nouveautés
+    newsPageEyebrow: 'Journal des fonctionnalités',
+    newsPageLead: 'Les nouvelles fonctionnalités de nos outils, expliquées simplement.',
+    atomLink: 'Flux Atom',
+    filterBy: 'Filtrer par outil',
+    all: 'Tous',
+    badgeNew: 'Nouveau',
+    noNews: 'Aucune nouveauté pour le moment.',
+    newsPageDesc: (names) => `Les dernières améliorations de ${names.join(' et ')}.`,
+    // 404
+    notFound: 'Page introuvable',
+    notFoundText: 'Cette page n’existe pas ou a été déplacée.',
+    backHome: 'Retour à l’accueil',
+  },
+
+  en: {
+    skip: 'Skip to content',
+    menu: 'Menu',
+    home: 'Home',
+    news: 'What’s new',
+    themeToggle: 'Switch theme',
+    sourceOfSite: 'Site source code on GitHub',
+    switchTo: 'Passer le site en français',
+    footerAbout: `Free tools, built by a volunteer to help ${PANORAMAX} contributors. Panoramax is the geocommons for street-level photos.`,
+    tools: 'Tools',
+    guideOf: (n) => `${n} guide (French)`,
+    follow: 'Follow',
+    atom: 'Atom feed',
+    onGithub: (n) => `${n} on GitHub`,
+    disclaimer: `<strong>Independent, amateur site.</strong> This site and these tools are not affiliated with the Panoramax organisation:
+    they are not published, endorsed or validated by the Panoramax project or its partners. They are personal
+    tools, shared for free to help contributors. The Panoramax project
+    is presented at <a href="https://panoramax.fr" target="_blank" rel="noopener">panoramax.fr</a>.`,
+    regenerated: (date, links) => `Site rebuilt automatically on ${date} from the documentation of ${links.join(' and ')}.`,
+    feedTitle: (s) => `${s} – What’s new`,
+    interfaceOf: (n) => `${n} interface`,
+    discover: 'Discover',
+    readGuide: 'Read the guide (French)',
+    sourceCode: 'Source code',
+    homeEyebrow: '360° street-level photos · Panoramax',
+    homeLead: `Two free, amateur tools to prepare your raw photos, fix their position, heading and horizon, then publish them on ${PANORAMAX}, the geocommons for street-level photos.`,
+    indep: 'Independent, amateur site, not affiliated with the Panoramax organisation. These are volunteer-made tools to help contributors.',
+    chainEyebrow: 'The whole workflow',
+    chainTitle: 'From camera to Panoramax in four steps',
+    chain: (gs, fx) => [
+      { title: 'Capture', text: 'Shoot a 360° photo every two seconds with a GoPro MAX.' },
+      { title: 'Prepare', text: `With ${gs}, split the ride into sequences, fix GPS, headings and orientation, then export.` },
+      { title: 'Publish', text: 'Send each sequence to the Panoramax instance of your choice.' },
+      { title: 'Refine', text: `With ${fx}, straighten the horizon and heading of photos that are already online.` },
+    ],
+    toolsEyebrow: 'The tools',
+    toolsTitle: 'Pick the tool that fits your step',
+    statFeatures: (n) => `features described in the ${n} guide`,
+    statNews: 'new features in the last 30 days',
+    statFree: 'free and open, no account needed',
+    newsEyebrow: 'What’s new',
+    homeNewsTitle: 'The tools keep evolving',
+    homeNewsLead: 'New features, explained simply.',
+    allNews: 'All news',
+    subscribe: 'Subscribe',
+    whyEyebrow: 'Why Panoramax',
+    whyTitle: 'Street-level photos open to everyone',
+    why: [
+      ['A geocommons', 'Panoramax is a free alternative to proprietary street-view services, backed by OpenStreetMap France and the IGN. Your photos help mappers, local authorities and hikers. Our tools are not part of the project: they are independent, made by a contributor for contributors.'],
+      ['Usable data', 'A misplaced or tilted photo is hard to reuse. The tools fix position, heading and horizon, before or after publishing, without editing the image itself.'],
+      ['Your files stay with you', 'GeoSillage runs on your machine and only changes your original photos if you ask, and can restore them. Pan360 FixExif keeps everything in your browser.'],
+    ],
+    homeCta: 'Publish your next ride',
+    heroArtLabel: 'Track of a ride with 360° photos along the route',
+    heroArt: { delay: 'GPS delay', delayValue: '+1.8 s', heading: 'Heading · horizon', headingValue: '87° · 0.0°' },
+    howEyebrow: 'How it works',
+    howTitle: (n) => `${n} steps, end to end`,
+    featEyebrow: 'Features',
+    featSectionsTitle: 'Features, step by step',
+    featItemsTitle: 'The app’s controls',
+    more: 'Learn more',
+    galleryEyebrow: 'Screenshots',
+    galleryTitle: 'A look at the interface',
+    keysEyebrow: 'Keyboard',
+    keysTitle: (n) => `${n} keyboard shortcuts`,
+    start: 'Get started',
+    install: 'Installation',
+    nothingToInstall: 'Nothing to install',
+    runsInBrowser: 'The app runs directly in your browser.',
+    open: (n) => `Open ${n}`,
+    runLocally: 'Run locally',
+    install2: 'Install',
+    faqEyebrow: 'FAQ',
+    faqTitle: 'Your questions',
+    notesEyebrow: 'Good to know',
+    toolNewsTitle: (n) => `What’s new in ${n}`,
+    fullHistory: 'Full history',
+    onThisPage: 'On this page',
+    nav: { how: 'How it works', feat: 'Features', shots: 'Screenshots', keys: 'Shortcuts', news: 'What’s new' },
+    fullGuide: 'Full guide (French) →',
+    toolDesc: (n, p) => `${n}: ${p}`,
+    guideDesc: (n, p) => `Complete user guide for ${n}: ${p}`,
+    toc: 'Contents',
+    docLabel: 'documentation',
+    generatedFrom: 'Generated from',
+    updatedOn: 'updated on',
+    newsPageEyebrow: 'Feature log',
+    newsPageLead: 'New features in our tools, explained simply.',
+    atomLink: 'Atom feed',
+    filterBy: 'Filter by tool',
+    all: 'All',
+    badgeNew: 'New',
+    noNews: 'Nothing new yet.',
+    newsPageDesc: (names) => `Latest improvements to ${names.join(' and ')}.`,
+    notFound: 'Page not found',
+    notFoundText: 'This page does not exist or has moved.',
+    backHome: 'Back to the home page',
+    // pages outil anglaises : la documentation détaillée n'existe qu'en français
+    guideNoticeEyebrow: 'Documentation',
+    guideNoticeTitle: 'The detailed guide is in French',
+    guideNoticeText: 'Step-by-step instructions, installation, keyboard shortcuts and the full feature list are currently available in French only. An English guide will appear here once the tool provides one.',
+    guideNoticeLive: 'The app itself runs in your browser, nothing to install.',
+  },
+};

@@ -60,11 +60,13 @@ Ajouter les entrées **en tête** de `entries` (ordre : date décroissante ; à 
   "tool": "geosillage",
   "title": "Titre court orienté bénéfice (≤ 60 caractères)",
   "text": "Une ou deux phrases : ce que l'utilisateur peut faire maintenant et pourquoi c'est utile (≤ 220 caractères).",
-  "link": "guide/#ancre-de-la-section"
+  "link": "guide/#ancre-de-la-section",
+  "en": { "title": "Short benefit-oriented title", "text": "The same text in English." }
 }
 ```
 
 Règles de rédaction :
+- `en` : traduction anglaise fidèle de `title` et `text` (obligatoire, `npm run check` échoue sinon) ;
 - **français**, même si le commit est en anglais ; vouvoiement ou tournure impersonnelle ; ton clair et concret ;
 - parler de l'usage (« Corrigez… », « Les photos se placent… »), jamais de l'implémentation ;
 - pas d'emoji, pas de superlatifs creux (« révolutionnaire », « incroyable ») ;

@@ -2,14 +2,9 @@
 
 import { esc } from './markdown.mjs';
 
-const MONTHS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
-export const frDate = (iso, long = false) => {
-  const d = new Date(iso);
-  const m = long
-    ? ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'][d.getUTCMonth()]
-    : MONTHS[d.getUTCMonth()];
-  return `${d.getUTCDate()} ${m} ${d.getUTCFullYear()}`;
-};
+import { formatDate, locales, ui } from './i18n.mjs';
+
+export const frDate = (iso, long = false, code = 'fr') => formatDate(iso, code, long);
 
 // ---------------------------------------------------------------- icônes
 
@@ -32,44 +27,59 @@ export function toolMark(tool, prefix) {
 
 // ---------------------------------------------------------------- mise en page
 
-export function layout({ site, page, prefix, title, description, body, active, canonical }) {
+export function layout({ site, page, prefix, title, description, body, active, canonical, L = locales[0], only = null, home = false }) {
+  const U = ui[L.code];
+  // `prefix` mène à la racine de la langue (pages), `rp` à la racine du site (ressources communes).
+  const rp = prefix + (L.dir ? '../' : '');
   const nav = [
-    ['', 'Accueil', 'home'],
+    ['', U.home, 'home'],
     ...site.tools.map((t) => [`${t.id}/`, t.name, t.id]),
-    ['nouveautes/', 'Nouveautés', 'news'],
+    ['nouveautes/', U.news, 'news'],
   ];
   const fullTitle = title ? `${title} · ${site.title}` : `${site.title} · ${site.tagline}`;
   const desc = description || site.description;
+  const url = (loc, path) => site.siteUrl + '/' + loc.dir + path;
+  // Pages disponibles dans plusieurs langues : balises hreflang + bouton de bascule.
+  const langs = locales.filter((l) => !only || only.includes(l.code));
+  const other = locales.find((l) => l.code !== L.code);
+  const hasOther = langs.includes(other);
+  const switchHref = hasOther ? `${rp}${other.dir}${canonical}` : `${rp}${other.dir}`;
+  const alternates = langs.length > 1
+    ? langs.map((l) => `<link rel="alternate" hreflang="${l.htmlLang}" href="${esc(url(l, canonical))}">`).join('\n') +
+      `\n<link rel="alternate" hreflang="x-default" href="${esc(url(locales[0], canonical))}">\n`
+    : '';
   return `<!doctype html>
-<html lang="fr" data-theme="dark">
+<html lang="${L.htmlLang}" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(fullTitle)}</title>
 <meta name="description" content="${esc(desc)}">
-<link rel="canonical" href="${esc(site.siteUrl + '/' + canonical)}">
-<meta property="og:type" content="website">
+<link rel="canonical" href="${esc(url(L, canonical))}">
+${alternates}<meta property="og:type" content="website">
+<meta property="og:locale" content="${L.ogLocale}">
 <meta property="og:title" content="${esc(fullTitle)}">
 <meta property="og:description" content="${esc(desc)}">
-<meta property="og:url" content="${esc(site.siteUrl + '/' + canonical)}">
+<meta property="og:url" content="${esc(url(L, canonical))}">
 ${page.ogImage ? `<meta property="og:image" content="${esc(site.siteUrl + '/' + page.ogImage)}">\n<meta name="twitter:card" content="summary_large_image">` : ''}
 <meta name="theme-color" content="#0b1f33">
-<link rel="icon" href="${prefix}assets/favicon.svg" type="image/svg+xml">
-<link rel="alternate" type="application/atom+xml" title="Nouveautés ${esc(site.title)}" href="${prefix}feed.xml">
-<link rel="stylesheet" href="${prefix}assets/style.css?v=${site.buildId}">
+<link rel="icon" href="${rp}assets/favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/atom+xml" title="${esc(U.feedTitle(site.title))}" href="${prefix}feed.xml">
+<link rel="stylesheet" href="${rp}assets/style.css?v=${site.buildId}">
 <script>try{var t=localStorage.getItem('pt.theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 ${page.jsonLd ? `<script type="application/ld+json">${JSON.stringify(page.jsonLd)}</script>` : ''}
 </head>
 <body class="page-${esc(page.kind)}">
-<a class="skip" href="#contenu">Aller au contenu</a>
+<a class="skip" href="#contenu">${esc(U.skip)}</a>
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="brand" href="${prefix || './'}">${icons.logo}<span>${esc(site.title)}</span></a>
-    <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span><span></span><span></span></button>
+    <a class="lang-switch" href="${esc(switchHref)}" hreflang="${other.htmlLang}" lang="${other.htmlLang}" title="${esc(ui[other.code].switchTo)}" aria-label="${esc(ui[other.code].switchTo)}">${other.short}</a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="${esc(U.menu)}"><span></span><span></span><span></span></button>
     <nav id="nav" class="site-nav">
       ${nav.map(([href, label, key]) => `<a href="${prefix}${href}"${key === active ? ' aria-current="page"' : ''}>${esc(label)}</a>`).join('\n      ')}
-      <a class="nav-gh" href="${esc(site.repo)}" target="_blank" rel="noopener" aria-label="Code source du site sur GitHub">${icons.github}</a>
-      <button class="theme-toggle" type="button" aria-label="Changer de thème">${icons.moon}${icons.sun}</button>
+      <a class="nav-gh" href="${esc(site.repo)}" target="_blank" rel="noopener" aria-label="${esc(U.sourceOfSite)}">${icons.github}</a>
+      <button class="theme-toggle" type="button" aria-label="${esc(U.themeToggle)}">${icons.moon}${icons.sun}</button>
     </nav>
   </div>
 </header>
@@ -80,32 +90,28 @@ ${body}
   <div class="wrap footer-grid">
     <div>
       <a class="brand" href="${prefix || './'}">${icons.logo}<span>${esc(site.title)}</span></a>
-      <p class="muted">Des outils libres, développés bénévolement pour aider les contributeurs de <a href="https://panoramax.fr" target="_blank" rel="noopener">Panoramax</a>, le géocommun des photos de terrain.</p>
+      <p class="muted">${U.footerAbout}</p>
     </div>
     <div>
-      <h2>Outils</h2>
-      ${site.tools.map((t) => `<a href="${prefix}${t.id}/">${esc(t.name)}</a><a href="${prefix}${t.id}/guide/">Guide ${esc(t.name)}</a>`).join('')}
+      <h2>${esc(U.tools)}</h2>
+      ${site.tools.map((t) => `<a href="${prefix}${t.id}/">${esc(t.name)}</a><a href="${rp}${t.id}/guide/"${L.code === 'fr' ? '' : ' hreflang="fr" lang="fr"'}>${esc(U.guideOf(t.name))}</a>`).join('')}
     </div>
     <div>
-      <h2>Suivre</h2>
-      <a href="${prefix}nouveautes/">Nouveautés</a>
-      <a href="${prefix}feed.xml">${icons.rss} Flux Atom</a>
-      ${site.tools.map((t) => `<a href="https://github.com/${t.repo}" target="_blank" rel="noopener">${esc(t.name)} sur GitHub</a>`).join('')}
+      <h2>${esc(U.follow)}</h2>
+      <a href="${prefix}nouveautes/">${esc(U.news)}</a>
+      <a href="${prefix}feed.xml">${icons.rss} ${esc(U.atom)}</a>
+      ${site.tools.map((t) => `<a href="https://github.com/${t.repo}" target="_blank" rel="noopener">${esc(U.onGithub(t.name))}</a>`).join('')}
     </div>
   </div>
   <div class="wrap disclaimer">
-    <strong>Site amateur et indépendant.</strong> Ce site et ces outils ne sont pas liés à l’organisation Panoramax :
-    ils ne sont ni édités, ni soutenus, ni validés par le projet Panoramax ou ses partenaires. Ce sont des outils
-    personnels, partagés gratuitement pour aider les contributeurs. Le projet Panoramax
-    est présenté sur <a href="https://panoramax.fr" target="_blank" rel="noopener">panoramax.fr</a>.
+    ${U.disclaimer}
   </div>
   <div class="wrap footer-meta">
-    Site régénéré automatiquement le ${esc(frDate(site.builtAt, true))} à partir de la documentation de
-    ${site.tools.map((t) => `<a href="https://github.com/${t.repo}/commit/${t.source.sha}" target="_blank" rel="noopener">${esc(t.name)} <code>${t.source.sha.slice(0, 7)}</code></a>`).join(' et ')}.
+    ${U.regenerated(esc(frDate(site.builtAt, true, L.code)), site.tools.map((t) => `<a href="https://github.com/${t.repo}/commit/${t.source.sha}" target="_blank" rel="noopener">${esc(t.name)} <code>${t.source.sha.slice(0, 7)}</code></a>`))}
   </div>
 </footer>
-<div class="lightbox" hidden><button type="button" aria-label="Fermer">×</button><figure><img alt=""><figcaption></figcaption></figure></div>
-<script src="${prefix}assets/site.js?v=${site.buildId}" defer></script>
+<div class="lightbox" hidden><button type="button" aria-label="×">×</button><figure><img alt=""><figcaption></figcaption></figure></div>
+<script src="${rp}assets/site.js?v=${site.buildId}" defer></script>
 </body>
 </html>
 `;
@@ -113,18 +119,23 @@ ${body}
 
 // ---------------------------------------------------------------- blocs
 
-export function newsItem(e, prefix, { showTool = true, dataTool = false } = {}) {
+export function newsItem(e, prefix, { showTool = true, dataTool = false, L = locales[0], rp = prefix } = {}) {
+  const U = ui[L.code];
+  // Les ancres de guide pointent vers le guide français (seule version existante) ; le reste reste dans la langue.
+  const href = /^[^/]+\/guide\//.test(e.href) ? `${rp}${e.href}` : `${prefix}${e.href}`;
+  const fr = L.code !== 'fr' && /^[^/]+\/guide\//.test(e.href);
   return `<li class="news-item"${dataTool ? ` data-tool="${e.tool.id}"` : ''}>
-    <time datetime="${e.date}">${esc(frDate(e.date))}</time>
+    <time datetime="${e.date}">${esc(frDate(e.date, false, L.code))}</time>
     <div>
-      <p class="news-head">${showTool ? `<a class="tool-chip" style="--c:${e.tool.accent}" href="${prefix}${e.tool.id}/">${esc(e.tool.name)}</a>` : ''}${e.isNew ? '<span class="badge-new">Nouveau</span>' : ''}<a class="news-title" href="${prefix}${esc(e.href)}">${esc(e.title)}</a></p>
+      <p class="news-head">${showTool ? `<a class="tool-chip" style="--c:${e.tool.accent}" href="${prefix}${e.tool.id}/">${esc(e.tool.name)}</a>` : ''}${e.isNew ? `<span class="badge-new">${esc(U.badgeNew)}</span>` : ''}<a class="news-title" href="${esc(href)}"${fr ? ' hreflang="fr"' : ''}>${esc(e.title)}</a></p>
       ${e.text ? `<p class="news-text">${esc(e.text)}</p>` : ''}
     </div>
   </li>`;
 }
 
 export function newsList(entries, site, prefix, opts = {}) {
-  if (!entries.length) return '<p class="muted">Aucune nouveauté pour le moment.</p>';
+  const U = ui[(opts.L || locales[0]).code];
+  if (!entries.length) return `<p class="muted">${esc(U.noNews)}</p>`;
   return `<ol class="news">\n${entries.map((e) => newsItem(e, prefix, opts)).join('\n')}\n</ol>`;
 }
 
@@ -139,7 +150,7 @@ ${shortcuts
 }
 
 /** Illustration du héros : une trace sur un fond de carte stylisé, des photos 360° le long du parcours. */
-export const heroArt = `<svg class="hero-art" viewBox="0 0 520 420" role="img" aria-label="Trace d'une sortie et photos 360° le long du parcours">
+export const heroArt = (label, t) => `<svg class="hero-art" viewBox="0 0 520 420" role="img" aria-label="${esc(label)}">
   <defs>
     <linearGradient id="ha-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--map-a)"/><stop offset="1" stop-color="var(--map-b)"/></linearGradient>
     <linearGradient id="ha-ring" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#0ea5e9"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient>
@@ -172,13 +183,13 @@ export const heroArt = `<svg class="hero-art" viewBox="0 0 520 420" role="img" a
   </g>
   <g transform="translate(330 300)">
     <rect width="160" height="78" rx="14" fill="var(--surface)" stroke="var(--line)"/>
-    <text x="16" y="28" class="ha-label">Retard GPS</text>
-    <text x="16" y="56" class="ha-value">+1,8 s</text>
+    <text x="16" y="28" class="ha-label">${esc(t.delay)}</text>
+    <text x="16" y="56" class="ha-value">${esc(t.delayValue)}</text>
     <path d="M110 52 l14 -16 l14 10 l14 -22" fill="none" stroke="#0ea5e9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
   <g transform="translate(36 40)">
     <rect width="150" height="64" rx="14" fill="var(--surface)" stroke="var(--line)"/>
-    <text x="16" y="27" class="ha-label">Cap · horizon</text>
-    <text x="16" y="50" class="ha-value">87° · 0,0°</text>
+    <text x="16" y="27" class="ha-label">${esc(t.heading)}</text>
+    <text x="16" y="50" class="ha-value">${esc(t.headingValue)}</text>
   </g>
 </svg>`;

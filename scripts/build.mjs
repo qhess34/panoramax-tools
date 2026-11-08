@@ -24,6 +24,7 @@ import {
   slugify,
 } from './markdown.mjs';
 import { frDate, heroArt, icons, layout, newsItem, newsList, shortcutsTable, toolMark } from './templates.mjs';
+import { locales, monthName, ui } from './i18n.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
@@ -40,10 +41,6 @@ const write = (rel, content) => {
   fs.writeFileSync(f, content);
 };
 const pages = [];
-const addPage = (rel, html) => {
-  write(rel, html);
-  pages.push(rel.replace(/index\.html$/, ''));
-};
 
 // ---------------------------------------------------------------- sources
 
@@ -82,100 +79,116 @@ for (const tool of site.tools) {
 
 // Nouveautés : fichier rédigé (content/nouveautes.json), tenu à jour par le skill /update-site.
 // Seules les fonctionnalités utiles à l'utilisateur y figurent, pas les modifications techniques.
+// Chaque entrée porte sa traduction anglaise dans `en: { title, text }`.
 const curated = JSON.parse(fs.readFileSync(path.join(root, 'content/nouveautes.json'), 'utf8'));
-const toolById = new Map(site.tools.map((t) => [t.id, t]));
-const allNews = curated.entries
-  .map((e, i) => {
-    const tool = toolById.get(e.tool);
-    if (!tool) throw new Error(`content/nouveautes.json : outil inconnu « ${e.tool} »`);
-    const date = new Date(e.date + 'T12:00:00Z').toISOString();
-    return {
-      ...e,
-      order: i,
-      date,
-      tool,
-      // Lien relatif à la racine du site (page de l'outil ou ancre de son guide).
-      href: `${tool.id}/${e.link || ''}`,
-      isNew: now - new Date(date).getTime() < site.newDays * 864e5,
-    };
-  })
-  .sort((a, b) => b.date.localeCompare(a.date) || a.order - b.order);
-for (const t of site.tools) t.news = allNews.filter((n) => n.tool === t);
-
-// ---------------------------------------------------------------- helpers de contenu
-
-function features(tool, prefix) {
-  const f = tool.features;
-  const doc = tool.doc(f.file);
-  return f.mode === 'sections'
-    ? featuresFromSections(doc, f, tool.guidePage)
-    : featuresFromItems(doc, f, tool.guidePage);
-}
-
-function featureCount(tool) {
-  const f = features(tool);
-  return tool.features.mode === 'sections'
-    ? f.reduce((n, c) => n + Math.max(1, c.points.length), 0)
-    : f.reduce((n, g) => n + g.items.length, 0);
+const toolIds = new Set(site.tools.map((t) => t.id));
+for (const e of curated.entries) {
+  if (!toolIds.has(e.tool)) throw new Error(`content/nouveautes.json : outil inconnu « ${e.tool} »`);
 }
 
 const btn = (href, label, kind = 'primary', ext = false) =>
   `<a class="btn btn-${kind}" href="${esc(href)}"${ext ? ' target="_blank" rel="noopener"' : ''}>${esc(label)}${ext ? icons.external : icons.arrow}</a>`;
-
 const isExt = (href) => /^https?:/.test(href);
 
-// ---------------------------------------------------------------- accueil
+function buildLocale(L, baseSite) {
+  const U = ui[L.code];
+  const fr = L.code === 'fr';
+  const rootOf = (prefix) => prefix + (L.dir ? '../' : ''); // chemin relatif vers la racine du site (ressources, guides)
 
-{
-  const prefix = '';
-  const toolCards = site.tools
-    .map((t) => {
-      const ctaHref = isExt(t.cta.href) ? t.cta.href : `${t.id}/${t.cta.href}`;
-      return `<article class="tool-card" style="--c:${t.accent}">
+  // Textes de l'outil dans la langue de la page.
+  const tools = baseSite.tools.map((t) => ({ ...t, ...(fr ? {} : t[L.code]), cta: { ...t.cta, ...(fr ? {} : t[L.code]?.cta) } }));
+  const site = { ...baseSite, ...(fr ? {} : baseSite[L.code]), tools };
+  const toolById = new Map(tools.map((t) => [t.id, t]));
+
+  const addPage = (rel, html) => {
+    write(L.dir + rel, html);
+    pages.push(L.dir + rel.replace(/index\.html$/, ''));
+  };
+
+  const allNews = curated.entries
+    .map((e, i) => {
+      const tool = toolById.get(e.tool);
+      const loc = fr ? e : e.en;
+      const date = new Date(e.date + 'T12:00:00Z').toISOString();
+      return {
+        ...e,
+        title: loc.title,
+        text: loc.text,
+        order: i,
+        date,
+        tool,
+        // Lien relatif à la racine du site (page de l'outil ou ancre de son guide).
+        href: `${tool.id}/${e.link || ''}`,
+        isNew: now - new Date(date).getTime() < site.newDays * 864e5,
+      };
+    })
+    .sort((a, b) => b.date.localeCompare(a.date) || a.order - b.order);
+  for (const t of tools) t.news = allNews.filter((n) => n.tool === t);
+
+  // ---------------------------------------------------------------- helpers de contenu
+
+  function features(tool) {
+    const f = tool.features;
+    const doc = tool.doc(f.file);
+    return f.mode === 'sections' ? featuresFromSections(doc, f, tool.guidePage) : featuresFromItems(doc, f, tool.guidePage);
+  }
+
+  function featureCount(tool) {
+    const f = features(tool);
+    return tool.features.mode === 'sections' ? f.reduce((n, c) => n + Math.max(1, c.points.length), 0) : f.reduce((n, g) => n + g.items.length, 0);
+  }
+
+  // Lien d'appel à l'action : ancre du guide (français) ou adresse externe.
+  const ctaOf = (t, from) => (isExt(t.cta.href) ? t.cta.href : fr ? `${from}${t.id}/${t.cta.href}` : `${rootOf(from)}${t.id}/${t.cta.href}`);
+
+  // ---------------------------------------------------------------- accueil
+  {
+    const prefix = '';
+    const rp = rootOf(prefix);
+    const toolCards = site.tools
+      .map((t) => {
+        const ctaHref = ctaOf(t, prefix);
+        return `<article class="tool-card" style="--c:${t.accent}">
   <div class="tool-card-head">
-    <span class="tool-mark">${toolMark(t, prefix)}</span>
+    <span class="tool-mark">${toolMark(t, rp)}</span>
     <div><h3><a href="${t.id}/">${esc(t.name)}</a></h3><span class="kind">${esc(t.kind)}</span></div>
   </div>
-  ${t.heroUrl ? `<a class="shot" href="${t.id}/"><img src="${t.heroUrl}" alt="Interface de ${esc(t.name)}" loading="lazy"></a>` : ''}
+  ${t.heroUrl ? `<a class="shot" href="${t.id}/"><img src="${rp}${t.heroUrl}" alt="${esc(U.interfaceOf(t.name))}" loading="lazy"></a>` : ''}
   <p class="lead">${esc(t.pitch)}</p>
   <ul class="checks">${t.promise.map((p) => `<li>${icons.check}${esc(p)}</li>`).join('')}</ul>
-  <div class="actions">${btn(`${t.id}/`, 'Découvrir', 'primary')}${btn(ctaHref, t.cta.label, 'ghost', isExt(ctaHref))}</div>
+  <div class="actions">${btn(`${t.id}/`, U.discover, 'primary')}${btn(ctaHref, t.cta.label, 'ghost', isExt(ctaHref))}</div>
 </article>`;
-    })
-    .join('\n');
+      })
+      .join('\n');
 
-  const [gs, fx] = site.tools;
-  const chain = [
-    { n: 1, title: 'Capturer', text: 'Prenez une photo 360° toutes les deux secondes avec une GoPro MAX.' },
-    { n: 2, title: 'Préparer', text: `Avec ${gs.name}, découpez la sortie en séquences, corrigez le GPS, les caps et l’orientation, puis exportez.`, href: `${gs.id}/` },
-    { n: 3, title: 'Publier', text: 'Envoyez chaque séquence sur l’instance Panoramax de votre choix.', href: 'https://panoramax.fr', ext: true },
-    { n: 4, title: 'Peaufiner', text: `Avec ${fx.name}, redressez l’horizon et le cap des photos déjà en ligne.`, href: `${fx.id}/` },
-  ];
+    const [gs, fx] = site.tools;
+    const hrefs = [null, `${gs.id}/`, 'https://panoramax.fr', `${fx.id}/`];
+    const chain = U.chain(gs.name, fx.name).map((c, i) => ({ ...c, n: i + 1, href: hrefs[i], ext: i === 2 }));
 
-  const stats = [
-    ...site.tools.map((t) => ({ value: featureCount(t), label: `fonctions décrites dans le guide de ${t.name}` })),
-    { value: allNews.filter((n) => now - new Date(n.date).getTime() < 30 * 864e5).length, label: 'nouvelles fonctionnalités ces 30 derniers jours' },
-    { value: '100 %', label: 'libre et gratuit, sans compte à créer' },
-  ];
+    const stats = [
+      ...site.tools.map((t) => ({ value: featureCount(t), label: U.statFeatures(t.name) })),
+      { value: allNews.filter((n) => now - new Date(n.date).getTime() < 30 * 864e5).length, label: U.statNews },
+      { value: '100 %', label: U.statFree },
+    ];
 
-  const body = `
+    const body = `
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <p class="eyebrow">Photo de terrain 360° · Panoramax</p>
+      <p class="eyebrow">${esc(U.homeEyebrow)}</p>
       <h1>${esc(site.tagline)}</h1>
-      <p class="lead">Deux outils libres et amateurs pour préparer vos photos brutes, corriger leur position, leur cap et leur horizon, puis les publier sur <a href="https://panoramax.fr" target="_blank" rel="noopener">Panoramax</a>, le géocommun de la photo de terrain.</p>
+      <p class="lead">${U.homeLead}</p>
       <div class="actions">${site.tools.map((t, i) => btn(`${t.id}/`, t.name, i ? 'ghost' : 'primary')).join('')}</div>
-      <p class="indep">Site amateur et indépendant, non lié à l’organisation Panoramax. Ce sont des outils bénévoles pour aider les contributeurs.</p>
+      <p class="indep">${esc(U.indep)}</p>
     </div>
-    <div class="hero-visual">${heroArt}</div>
+    <div class="hero-visual">${heroArt(U.heroArtLabel, U.heroArt)}</div>
   </div>
 </section>
 
 <section class="band">
   <div class="wrap">
-    <p class="eyebrow">La chaîne complète</p>
-    <h2>De la caméra à Panoramax, en quatre étapes</h2>
+    <p class="eyebrow">${esc(U.chainEyebrow)}</p>
+    <h2>${esc(U.chainTitle)}</h2>
     <ol class="chain">
       ${chain
         .map(
@@ -187,8 +200,8 @@ const isExt = (href) => /^https?:/.test(href);
 </section>
 
 <section class="wrap section" id="outils">
-  <p class="eyebrow">Les outils</p>
-  <h2>Choisissez l’outil selon votre étape</h2>
+  <p class="eyebrow">${esc(U.toolsEyebrow)}</p>
+  <h2>${esc(U.toolsTitle)}</h2>
   <div class="tool-grid">${toolCards}</div>
 </section>
 
@@ -200,107 +213,111 @@ const isExt = (href) => /^https?:/.test(href);
 
 <section class="wrap section two-col">
   <div>
-    <p class="eyebrow">Nouveautés</p>
-    <h2>Les outils évoluent régulièrement</h2>
-    <p class="muted">Les nouvelles fonctionnalités, expliquées simplement.</p>
-    <p class="actions">${btn('nouveautes/', 'Toutes les nouveautés', 'ghost')}<a class="btn btn-link" href="feed.xml">${icons.rss} S’abonner</a></p>
+    <p class="eyebrow">${esc(U.newsEyebrow)}</p>
+    <h2>${esc(U.homeNewsTitle)}</h2>
+    <p class="muted">${esc(U.homeNewsLead)}</p>
+    <p class="actions">${btn('nouveautes/', U.allNews, 'ghost')}<a class="btn btn-link" href="feed.xml">${icons.rss} ${esc(U.subscribe)}</a></p>
   </div>
-  ${newsList(allNews.slice(0, site.homeNews), site, prefix)}
+  ${newsList(allNews.slice(0, site.homeNews), site, prefix, { L, rp })}
 </section>
 
 <section class="wrap section why">
-  <p class="eyebrow">Pourquoi Panoramax</p>
-  <h2>Des photos de terrain ouvertes à tous</h2>
+  <p class="eyebrow">${esc(U.whyEyebrow)}</p>
+  <h2>${esc(U.whyTitle)}</h2>
   <div class="why-grid">
-    <div><h3>Un géocommun</h3><p>Panoramax est une alternative libre aux services propriétaires de vues immersives, portée par OpenStreetMap France et l’IGN. Vos photos servent aux cartographes, aux collectivités et aux randonneurs. Nos outils ne font pas partie du projet. Ils sont indépendants et faits par un contributeur pour les contributeurs.</p></div>
-    <div><h3>Des données utilisables</h3><p>Une photo mal placée ou qui penche est difficile à réutiliser. Les outils corrigent la position, le cap et l’horizon, avant ou après la publication, sans retoucher l’image.</p></div>
-    <div><h3>Vos fichiers restent chez vous</h3><p>GeoSillage tourne sur votre machine et ne modifie vos photos d’origine que si vous le demandez, et peut les restaurer. Pan360 FixExif garde tout dans votre navigateur.</p></div>
+    ${U.why.map(([h, p]) => `<div><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n    ')}
   </div>
 </section>
 
 <section class="cta-band">
   <div class="wrap">
-    <h2>Publiez votre prochaine sortie</h2>
-    <div class="actions">${site.tools.map((t) => btn(isExt(t.cta.href) ? t.cta.href : `${t.id}/${t.cta.href}`, t.cta.label, 'primary', isExt(t.cta.href))).join('')}</div>
+    <h2>${esc(U.homeCta)}</h2>
+    <div class="actions">${site.tools.map((t) => btn(ctaOf(t, prefix), t.cta.label, 'primary', isExt(t.cta.href))).join('')}</div>
   </div>
 </section>`;
 
-  addPage(
-    'index.html',
-    layout({
-      site,
-      prefix,
-      canonical: '',
-      active: 'home',
-      body,
-      page: {
-        kind: 'home',
-        ogImage: site.tools[0].heroUrl,
-        jsonLd: {
-          '@context': 'https://schema.org',
-          '@type': 'ItemList',
-          itemListElement: site.tools.map((t, i) => ({
-            '@type': 'SoftwareApplication',
-            position: i + 1,
-            name: t.name,
-            description: t.pitch,
-            applicationCategory: 'MultimediaApplication',
-            offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
-            url: `${site.siteUrl}/${t.id}/`,
-          })),
+    addPage(
+      'index.html',
+      layout({
+        site,
+        L,
+        prefix,
+        canonical: '',
+        active: 'home',
+        body,
+        page: {
+          kind: 'home',
+          ogImage: site.tools[0].heroUrl,
+          jsonLd: {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            itemListElement: site.tools.map((t, i) => ({
+              '@type': 'SoftwareApplication',
+              position: i + 1,
+              name: t.name,
+              description: t.pitch,
+              inLanguage: L.htmlLang,
+              applicationCategory: 'MultimediaApplication',
+              offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+              url: `${site.siteUrl}/${L.dir}${t.id}/`,
+            })),
+          },
         },
-      },
-    }),
-  );
-}
+      }),
+    );
+  }
 
-// ---------------------------------------------------------------- pages outil
+  // ---------------------------------------------------------------- pages outil
 
-for (const tool of site.tools) {
-  const prefix = '../';
-  const opts = { prefix, anchorPage: tool.guidePage };
-  const guideHref = 'guide/';
-  const ctaHref = isExt(tool.cta.href) ? tool.cta.href : tool.cta.href;
-  const sections = [];
+  for (const tool of site.tools) {
+    const prefix = '../';
+    const rp = rootOf(prefix);
+    const opts = { prefix, anchorPage: tool.guidePage };
+    const guideHref = fr ? 'guide/' : `${rp}${tool.id}/guide/`; // l'anglais renvoie vers le guide français
+    const sections = [];
+    let steps = [];
+    let gallery = [];
+    let sc = [];
 
-  // Parcours
-  const steps = stepsFrom(tool.doc(tool.workflow.file), tool.workflow.section, opts);
-  if (steps.length) {
-    sections.push(`<section class="wrap section" id="parcours">
-  <p class="eyebrow">Comment ça marche</p>
-  <h2>${steps.length} étapes, de bout en bout</h2>
+    if (fr) {
+      // Parcours
+      steps = stepsFrom(tool.doc(tool.workflow.file), tool.workflow.section, opts);
+      if (steps.length) {
+        sections.push(`<section class="wrap section" id="parcours">
+  <p class="eyebrow">${esc(U.howEyebrow)}</p>
+  <h2>${esc(U.howTitle(steps.length))}</h2>
   <ol class="steps">
     ${steps.map((s, i) => `<li><span class="num">${i + 1}</span><div>${s.title ? `<h3>${esc(s.title)}</h3>` : ''}<p>${s.html}</p>${s.sub}</div></li>`).join('\n    ')}
   </ol>
 </section>`);
-  }
+      }
 
-  // Fonctionnalités
-  const feats = features(tool, prefix);
-  if (tool.features.mode === 'sections') {
-    sections.push(`<section class="band"><div class="wrap" id="fonctionnalites">
-  <p class="eyebrow">Fonctionnalités</p>
-  <h2>Les fonctions, étape par étape</h2>
+      // Fonctionnalités
+      const feats = features(tool);
+      if (tool.features.mode === 'sections') {
+        sections.push(`<section class="band"><div class="wrap" id="fonctionnalites">
+  <p class="eyebrow">${esc(U.featEyebrow)}</p>
+  <h2>${esc(U.featSectionsTitle)}</h2>
   <div class="feature-grid">
     ${feats
       .map(
         (f) => `<article class="feature">
-      ${f.image ? `<img src="${prefix}${f.image}" alt="${esc(f.imageAlt)}" loading="lazy" data-zoom>` : ''}
+      ${f.image ? `<img src="${rp}${f.image}" alt="${esc(f.imageAlt)}" loading="lazy" data-zoom>` : ''}
       <div class="feature-body">
         <h3>${esc(f.title)}</h3>
         <p>${esc(f.summary)}</p>
         ${f.points.length ? `<ul class="checks small">${f.points.map((p) => `<li>${icons.check}${esc(p)}</li>`).join('')}</ul>` : ''}
-        <a class="more" href="${prefix}${f.href}">En savoir plus ${icons.arrow}</a>
+        <a class="more" href="${prefix}${f.href}">${esc(U.more)} ${icons.arrow}</a>
       </div>
     </article>`,
       )
       .join('\n    ')}
   </div>
 </div></section>`);
-  } else {
-    sections.push(`<section class="band"><div class="wrap" id="fonctionnalites">
-  <p class="eyebrow">Fonctionnalités</p>
-  <h2>Les commandes de l’application</h2>
+      } else {
+        sections.push(`<section class="band"><div class="wrap" id="fonctionnalites">
+  <p class="eyebrow">${esc(U.featEyebrow)}</p>
+  <h2>${esc(U.featItemsTitle)}</h2>
   ${feats
     .map(
       (g) => `<h3 class="group-title"><a href="${prefix}${g.href}">${esc(g.title)}</a></h3>
@@ -310,255 +327,271 @@ for (const tool of site.tools) {
     )
     .join('\n  ')}
 </div></section>`);
-  }
+      }
 
-  // Galerie
-  const gallery = tool.doc(tool.gallery.file).images();
-  if (gallery.length > 1) {
-    sections.push(`<section class="wrap section" id="captures">
-  <p class="eyebrow">En images</p>
-  <h2>Aperçu de l’interface</h2>
+      // Galerie
+      gallery = tool.doc(tool.gallery.file).images();
+      if (gallery.length > 1) {
+        sections.push(`<section class="wrap section" id="captures">
+  <p class="eyebrow">${esc(U.galleryEyebrow)}</p>
+  <h2>${esc(U.galleryTitle)}</h2>
   <div class="gallery">
     ${gallery.map((g) => `<figure><img src="${prefix}${g.src}" alt="${esc(g.alt)}" loading="lazy" data-zoom><figcaption>${esc(g.caption)}</figcaption></figure>`).join('\n    ')}
   </div>
 </section>`);
-  }
+      }
 
-  // Raccourcis
-  const sc = shortcutsFrom(tool.doc(tool.shortcuts.file), tool.shortcuts.section);
-  if (sc.length) {
-    sections.push(`<section class="wrap section" id="raccourcis">
-  <p class="eyebrow">Au clavier</p>
-  <h2>${sc.length} raccourcis clavier</h2>
+      // Raccourcis
+      sc = shortcutsFrom(tool.doc(tool.shortcuts.file), tool.shortcuts.section);
+      if (sc.length) {
+        sections.push(`<section class="wrap section" id="raccourcis">
+  <p class="eyebrow">${esc(U.keysEyebrow)}</p>
+  <h2>${esc(U.keysTitle(sc.length))}</h2>
   ${shortcutsTable(sc)}
 </section>`);
-  }
+      }
 
-  // Installation, bon à savoir, FAQ
-  const install = sectionHtml(tool.doc(tool.install.file), tool.install.section, opts);
-  const notes = tool.notes && sectionHtml(tool.doc(tool.notes.file), tool.notes.section, opts);
-  const faq = tool.faq ? faqFrom(tool.doc(tool.faq.file), tool.faq.section, opts) : [];
-  sections.push(`<section class="band"><div class="wrap two-col" id="demarrer">
+      // Installation, bon à savoir, FAQ
+      const install = sectionHtml(tool.doc(tool.install.file), tool.install.section, opts);
+      const notes = tool.notes && sectionHtml(tool.doc(tool.notes.file), tool.notes.section, opts);
+      const faq = tool.faq ? faqFrom(tool.doc(tool.faq.file), tool.faq.section, opts) : [];
+      sections.push(`<section class="band"><div class="wrap two-col" id="demarrer">
   <div class="prose">
-    <p class="eyebrow">${tool.live ? 'Démarrer' : 'Installation'}</p>
-    ${tool.live ? `<h2>Rien à installer</h2><p>L’application fonctionne directement dans votre navigateur.</p><p>${btn(tool.live, 'Ouvrir ' + tool.name, 'primary', true)}</p><h3>${esc(install?.title || 'Lancer en local')}</h3>` : `<h2>${esc(install?.title.replace(/^\d+\.\s*/, '') || 'Installer')}</h2>`}
+    <p class="eyebrow">${esc(tool.live ? U.start : U.install)}</p>
+    ${tool.live ? `<h2>${esc(U.nothingToInstall)}</h2><p>${esc(U.runsInBrowser)}</p><p>${btn(tool.live, U.open(tool.name), 'primary', true)}</p><h3>${esc(install?.title || U.runLocally)}</h3>` : `<h2>${esc(install?.title.replace(/^\d+\.\s*/, '') || U.install2)}</h2>`}
     ${install?.html.replace(/<h3 /g, '<h4 ').replace(/<\/h3>/g, '</h4>') || ''}
   </div>
   <div class="prose">
     ${
       faq.length
-        ? `<p class="eyebrow">Questions fréquentes</p><h2>Vos questions</h2>${faq.map((f) => `<details><summary>${esc(f.q)}</summary><div>${f.a}</div></details>`).join('')}`
+        ? `<p class="eyebrow">${esc(U.faqEyebrow)}</p><h2>${esc(U.faqTitle)}</h2>${faq.map((f) => `<details><summary>${esc(f.q)}</summary><div>${f.a}</div></details>`).join('')}`
         : notes
-          ? `<p class="eyebrow">Bon à savoir</p><h2>${esc(notes.title)}</h2>${notes.html}`
+          ? `<p class="eyebrow">${esc(U.notesEyebrow)}</p><h2>${esc(notes.title)}</h2>${notes.html}`
           : ''
     }
   </div>
 </div></section>`);
+    } else {
+      // Pas de guide anglais : on n'en recopie rien, on renvoie vers le guide français.
+      sections.push(`<section class="band"><div class="wrap prose" id="demarrer">
+  <p class="eyebrow">${esc(U.guideNoticeEyebrow)}</p>
+  <h2>${esc(U.guideNoticeTitle)}</h2>
+  <p>${esc(U.guideNoticeText)}</p>
+  ${tool.live ? `<p>${esc(U.guideNoticeLive)}</p>` : ''}
+  <p class="actions">${btn(ctaOf(tool, prefix), tool.cta.label, 'primary', isExt(tool.cta.href))}<a class="btn btn-ghost" href="${esc(guideHref)}" hreflang="fr" lang="fr">${esc(U.readGuide)}${icons.arrow}</a></p>
+</div></section>`);
+    }
 
-  // Nouveautés de l'outil
-  sections.push(`<section class="wrap section two-col" id="nouveautes">
+    // Nouveautés de l'outil
+    sections.push(`<section class="wrap section two-col" id="nouveautes">
   <div>
-    <p class="eyebrow">Nouveautés</p>
-    <h2>Nouveautés de ${esc(tool.name)}</h2>
-    <p class="actions">${btn(`${prefix}nouveautes/#${tool.id}`, 'Tout l’historique', 'ghost')}</p>
+    <p class="eyebrow">${esc(U.newsEyebrow)}</p>
+    <h2>${esc(U.toolNewsTitle(tool.name))}</h2>
+    <p class="actions">${btn(`${prefix}nouveautes/#${tool.id}`, U.fullHistory, 'ghost')}</p>
   </div>
-  ${newsList(tool.news.slice(0, 10), site, prefix, { showTool: false })}
+  ${newsList(tool.news.slice(0, 10), site, prefix, { showTool: false, L, rp })}
 </section>`);
 
-  const body = `
+    const cta = ctaOf(tool, prefix);
+    const readGuide = `<a class="btn btn-ghost" href="${esc(guideHref)}"${fr ? '' : ' hreflang="fr" lang="fr"'}>${esc(U.readGuide)}${icons.arrow}</a>`;
+    const body = `
 <section class="hero hero-tool" style="--c:${tool.accent}">
   <div class="wrap hero-grid">
     <div>
-      <p class="eyebrow"><span class="tool-mark sm">${toolMark(tool, prefix)}</span>${esc(tool.kind)}</p>
+      <p class="eyebrow"><span class="tool-mark sm">${toolMark(tool, rp)}</span>${esc(tool.kind)}</p>
       <h1>${esc(tool.name)}</h1>
       <p class="lead">${esc(tool.pitch)}</p>
       <ul class="checks">${tool.promise.map((p) => `<li>${icons.check}${esc(p)}</li>`).join('')}</ul>
       <p class="muted">${esc(tool.audience)}</p>
       <div class="actions">
-        ${btn(ctaHref, tool.cta.label, 'primary', isExt(ctaHref))}
-        ${btn(guideHref, 'Lire le guide', 'ghost')}
-        <a class="btn btn-link" href="https://github.com/${tool.repo}" target="_blank" rel="noopener">${icons.github} Code source</a>
+        ${btn(cta, tool.cta.label, 'primary', isExt(cta))}
+        ${readGuide}
+        <a class="btn btn-link" href="https://github.com/${tool.repo}" target="_blank" rel="noopener">${icons.github} ${esc(U.sourceCode)}</a>
       </div>
     </div>
-    ${tool.heroUrl ? `<div class="hero-shot"><img src="${prefix}${tool.heroUrl}" alt="Interface de ${esc(tool.name)}" data-zoom></div>` : ''}
+    ${tool.heroUrl ? `<div class="hero-shot"><img src="${rp}${tool.heroUrl}" alt="${esc(U.interfaceOf(tool.name))}" data-zoom></div>` : ''}
   </div>
-  <nav class="wrap subnav" aria-label="Sur cette page">
+  <nav class="wrap subnav" aria-label="${esc(U.onThisPage)}">
     ${[
-      ['parcours', 'Comment ça marche', steps.length],
-      ['fonctionnalites', 'Fonctionnalités', 1],
-      ['captures', 'Captures', gallery.length > 1],
-      ['raccourcis', 'Raccourcis', sc.length],
-      ['demarrer', tool.live ? 'Démarrer' : 'Installation', 1],
-      ['nouveautes', 'Nouveautés', 1],
+      ['parcours', U.nav.how, steps.length],
+      ['fonctionnalites', U.nav.feat, fr],
+      ['captures', U.nav.shots, gallery.length > 1],
+      ['raccourcis', U.nav.keys, sc.length],
+      ['demarrer', fr ? (tool.live ? U.start : U.install) : U.guideNoticeEyebrow, 1],
+      ['nouveautes', U.nav.news, 1],
     ]
       .filter((x) => x[2])
       .map(([id, l]) => `<a href="#${id}">${esc(l)}</a>`)
       .join('')}
-    <a href="guide/">Guide complet →</a>
+    <a href="${esc(guideHref)}"${fr ? '' : ' hreflang="fr" lang="fr"'}>${esc(U.fullGuide)}</a>
   </nav>
 </section>
 ${sections.join('\n')}
 <section class="cta-band" style="--c:${tool.accent}">
   <div class="wrap">
     <h2>${esc(tool.pitch)}</h2>
-    <div class="actions">${btn(ctaHref, tool.cta.label, 'primary', isExt(ctaHref))}${btn(guideHref, 'Lire le guide', 'ghost')}</div>
+    <div class="actions">${btn(cta, tool.cta.label, 'primary', isExt(cta))}${readGuide}</div>
   </div>
 </section>`;
 
-  addPage(
-    `${tool.id}/index.html`,
-    layout({
-      site,
-      prefix,
-      canonical: `${tool.id}/`,
-      active: tool.id,
-      title: tool.name,
-      description: `${tool.name} : ${tool.pitch}`,
-      body,
-      page: {
-        kind: 'tool',
-        ogImage: tool.heroUrl,
-        jsonLd: {
-          '@context': 'https://schema.org',
-          '@type': 'SoftwareApplication',
-          name: tool.name,
-          description: tool.pitch,
-          applicationCategory: 'MultimediaApplication',
-          operatingSystem: tool.live ? 'Navigateur web' : 'Linux, macOS, Windows (Docker)',
-          offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
-          url: `${site.siteUrl}/${tool.id}/`,
-          codeRepository: `https://github.com/${tool.repo}`,
-          dateModified: tool.source.date,
+    addPage(
+      `${tool.id}/index.html`,
+      layout({
+        site,
+        L,
+        prefix,
+        canonical: `${tool.id}/`,
+        active: tool.id,
+        title: tool.name,
+        description: U.toolDesc(tool.name, tool.pitch),
+        body,
+        page: {
+          kind: 'tool',
+          ogImage: tool.heroUrl,
+          jsonLd: {
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            name: tool.name,
+            description: tool.pitch,
+            inLanguage: L.htmlLang,
+            applicationCategory: 'MultimediaApplication',
+            operatingSystem: tool.live ? (fr ? 'Navigateur web' : 'Web browser') : 'Linux, macOS, Windows (Docker)',
+            offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+            url: `${site.siteUrl}/${L.dir}${tool.id}/`,
+            codeRepository: `https://github.com/${tool.repo}`,
+            dateModified: tool.source.date,
+          },
         },
-      },
-    }),
-  );
+      }),
+    );
 
-  // ------------------------------------------------------------ guide complet
-  {
-    const gprefix = '../../';
-    const doc = tool.doc(tool.guide.file);
-    let tokens = doc.tokens;
-    if (tool.guide.dropTitle) tokens = tokens.filter((t) => !(t.type === 'heading' && t.depth === 1));
-    if (tool.guide.exclude) {
-      const out = [];
-      let skip = false;
-      for (const t of tokens) {
-        if (t.type === 'heading' && t.depth <= 2) skip = tool.guide.exclude.some((re) => re.test(t.text));
-        if (!skip) out.push(t);
+    // ------------------------------------------------------------ guide complet (français uniquement)
+    if (fr) {
+      const gprefix = '../../';
+      const doc = tool.doc(tool.guide.file);
+      let tokens = doc.tokens;
+      if (tool.guide.dropTitle) tokens = tokens.filter((t) => !(t.type === 'heading' && t.depth === 1));
+      if (tool.guide.exclude) {
+        const out = [];
+        let skip = false;
+        for (const t of tokens) {
+          if (t.type === 'heading' && t.depth <= 2) skip = tool.guide.exclude.some((re) => re.test(t.text));
+          if (!skip) out.push(t);
+        }
+        tokens = out;
       }
-      tokens = out;
-    }
-    // Le sommaire en tête du guide fait doublon avec la colonne de navigation.
-    tokens = tokens.filter((t) => !(t.type === 'paragraph' && /^Sommaire\s*:/.test(t.text)));
-    const toc = tokens
-      .filter((t) => t.type === 'heading' && (t.depth === 2 || t.depth === 3))
-      .map((t) => ({ depth: t.depth, id: slugify(t.text), text: t.text.replace(/[*`]/g, '') }));
-    const html = doc.render(tokens, { prefix: gprefix });
-    const body = `
+      // Le sommaire en tête du guide fait doublon avec la colonne de navigation.
+      tokens = tokens.filter((t) => !(t.type === 'paragraph' && /^Sommaire\s*:/.test(t.text)));
+      const toc = tokens
+        .filter((t) => t.type === 'heading' && (t.depth === 2 || t.depth === 3))
+        .map((t) => ({ depth: t.depth, id: slugify(t.text), text: t.text.replace(/[*`]/g, '') }));
+      const html = doc.render(tokens, { prefix: gprefix });
+      const body = `
 <div class="wrap guide">
   <aside class="toc">
     <a class="toc-back" href="../">← ${esc(tool.name)}</a>
-    <p class="toc-title">Sommaire</p>
+    <p class="toc-title">${esc(U.toc)}</p>
     <nav>${toc.map((t) => `<a class="d${t.depth}" href="#${esc(t.id)}">${esc(t.text)}</a>`).join('')}</nav>
   </aside>
   <article class="prose guide-body">
-    <p class="eyebrow">${esc(tool.name)} · documentation</p>
+    <p class="eyebrow">${esc(tool.name)} · ${esc(U.docLabel)}</p>
     <h1>${esc(tool.guide.title)}</h1>
-    <p class="doc-meta">Généré depuis <a href="https://github.com/${tool.repo}/blob/${tool.source.branch}/${tool.guide.file}" target="_blank" rel="noopener"><code>${esc(tool.guide.file)}</code></a> · mis à jour le ${esc(frDate(tool.source.date, true))}</p>
+    <p class="doc-meta">${esc(U.generatedFrom)} <a href="https://github.com/${tool.repo}/blob/${tool.source.branch}/${tool.guide.file}" target="_blank" rel="noopener"><code>${esc(tool.guide.file)}</code></a> · ${esc(U.updatedOn)} ${esc(frDate(tool.source.date, true))}</p>
     ${html}
   </article>
 </div>`;
-    addPage(
-      `${tool.guidePage}index.html`,
-      layout({
-        site,
-        prefix: gprefix,
-        canonical: tool.guidePage,
-        active: tool.id,
-        title: `${tool.guide.title} – ${tool.name}`,
-        description: `Guide d'utilisation complet de ${tool.name} : ${tool.pitch}`,
-        body,
-        page: { kind: 'guide', ogImage: tool.heroUrl },
-      }),
-    );
-  }
-}
-
-// ---------------------------------------------------------------- nouveautés
-
-{
-  const prefix = '../';
-  const byMonth = (list) => {
-    const groups = new Map();
-    for (const n of list) {
-      const k = n.date.slice(0, 7);
-      if (!groups.has(k)) groups.set(k, []);
-      groups.get(k).push(n);
+      addPage(
+        `${tool.guidePage}index.html`,
+        layout({
+          site,
+          L,
+          only: ['fr'],
+          prefix: gprefix,
+          canonical: tool.guidePage,
+          active: tool.id,
+          title: `${tool.guide.title} – ${tool.name}`,
+          description: U.guideDesc(tool.name, tool.pitch),
+          body,
+          page: { kind: 'guide', ogImage: tool.heroUrl },
+        }),
+      );
     }
-    return [...groups];
-  };
-  const monthName = (k) => frDate(k + '-15T00:00:00Z', true).replace(/^\d+ /, '');
-  const body = `
+  }
+
+  // ---------------------------------------------------------------- nouveautés
+
+  {
+    const prefix = '../';
+    const rp = rootOf(prefix);
+    const byMonth = (list) => {
+      const groups = new Map();
+      for (const n of list) {
+        const k = n.date.slice(0, 7);
+        if (!groups.has(k)) groups.set(k, []);
+        groups.get(k).push(n);
+      }
+      return [...groups];
+    };
+    const body = `
 <section class="hero hero-small"><div class="wrap">
-  <p class="eyebrow">Journal des fonctionnalités</p>
-  <h1>Nouveautés</h1>
-  <p class="lead">Les nouvelles fonctionnalités de nos outils, expliquées simplement. <a href="${prefix}feed.xml">${icons.rss} Flux Atom</a></p>
-  <div class="filters" role="group" aria-label="Filtrer par outil">
-    <button type="button" class="chip" aria-pressed="true" data-filter="">Tous</button>
+  <p class="eyebrow">${esc(U.newsPageEyebrow)}</p>
+  <h1>${esc(U.news)}</h1>
+  <p class="lead">${esc(U.newsPageLead)} <a href="${prefix}feed.xml">${icons.rss} ${esc(U.atomLink)}</a></p>
+  <div class="filters" role="group" aria-label="${esc(U.filterBy)}">
+    <button type="button" class="chip" aria-pressed="true" data-filter="">${esc(U.all)}</button>
     ${site.tools.map((t) => `<button type="button" class="chip" aria-pressed="false" data-filter="${t.id}" id="${t.id}" style="--c:${t.accent}">${esc(t.name)}</button>`).join('')}
   </div>
 </div></section>
 <section class="wrap section news-page">
   ${byMonth(allNews)
     .map(
-      ([k, list]) => `<h2 class="month">${esc(monthName(k))}</h2>
-  <ol class="news">${list
-    .map(
-      (e) => newsItem(e, prefix, { dataTool: true }),
-    )
-    .join('')}</ol>`,
+      ([k, list]) => `<h2 class="month">${esc(monthName(k + '-15T00:00:00Z', L.code))}</h2>
+  <ol class="news">${list.map((e) => newsItem(e, prefix, { dataTool: true, L, rp })).join('')}</ol>`,
     )
     .join('\n  ')}
 </section>`;
-  addPage(
-    'nouveautes/index.html',
-    layout({ site, prefix, canonical: 'nouveautes/', active: 'news', title: 'Nouveautés', description: `Les dernières améliorations de ${site.tools.map((t) => t.name).join(' et ')}.`, body, page: { kind: 'news' } }),
-  );
-}
+    addPage(
+      'nouveautes/index.html',
+      layout({ site, L, prefix, canonical: 'nouveautes/', active: 'news', title: U.news, description: U.newsPageDesc(site.tools.map((t) => t.name)), body, page: { kind: 'news' } }),
+    );
+  }
 
-// ---------------------------------------------------------------- 404, flux, plan du site, versions
+  // ---------------------------------------------------------------- 404 (une seule, à la racine), flux Atom
 
-write(
-  '404.html',
-  layout({
-    site,
-    prefix: '/' + new URL(site.siteUrl).pathname.replace(/^\/|\/$/g, '') + (new URL(site.siteUrl).pathname.length > 1 ? '/' : ''),
-    canonical: '404.html',
-    title: 'Page introuvable',
-    body: `<section class="hero hero-small"><div class="wrap"><h1>Page introuvable</h1><p class="lead">Cette page n’existe pas ou a été déplacée.</p><p class="actions">${btn(site.siteUrl + '/', 'Retour à l’accueil')}</p></div></section>`,
-    page: { kind: '404' },
-  }),
-);
+  if (fr) {
+    write(
+      '404.html',
+      layout({
+        site,
+        L,
+        only: ['fr'],
+        prefix: '/' + new URL(site.siteUrl).pathname.replace(/^\/|\/$/g, '') + (new URL(site.siteUrl).pathname.length > 1 ? '/' : ''),
+        canonical: '404.html',
+        title: U.notFound,
+        body: `<section class="hero hero-small"><div class="wrap"><h1>${esc(U.notFound)}</h1><p class="lead">${esc(U.notFoundText)}</p><p class="actions">${btn(site.siteUrl + '/', U.backHome)}</p></div></section>`,
+        page: { kind: '404' },
+      }),
+    );
+  }
 
-const xml = (s) => esc(s);
-write(
-  'feed.xml',
-  `<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="fr">
-  <title>${xml(site.title)} – Nouveautés</title>
+  const xml = (s) => esc(s);
+  write(
+    `${L.dir}feed.xml`,
+    `<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="${L.htmlLang}">
+  <title>${xml(`${site.title} – ${U.news}`)}</title>
   <subtitle>${xml(site.description)}</subtitle>
-  <link href="${xml(site.siteUrl)}/feed.xml" rel="self"/>
-  <link href="${xml(site.siteUrl)}/nouveautes/"/>
-  <id>${xml(site.siteUrl)}/</id>
+  <link href="${xml(site.siteUrl)}/${L.dir}feed.xml" rel="self"/>
+  <link href="${xml(site.siteUrl)}/${L.dir}nouveautes/"/>
+  <id>${xml(site.siteUrl)}/${L.dir}</id>
   <updated>${allNews[0]?.date || site.builtAt}</updated>
 ${allNews
   .slice(0, 50)
   .map(
     (e) => `  <entry>
     <title>${xml(`${e.tool.name} : ${e.title}`)}</title>
-    <link href="${xml(`${site.siteUrl}/${e.href}`)}"/>
-    <id>${xml(`${site.siteUrl}/nouveautes/#${e.tool.id}-${e.date.slice(0, 10)}-${slugify(e.title)}`)}</id>
+    <link href="${xml(`${site.siteUrl}/${/^[^/]+\/guide\//.test(e.href) ? '' : L.dir}${e.href}`)}"/>
+    <id>${xml(`${site.siteUrl}/${L.dir}nouveautes/#${e.tool.id}-${e.date.slice(0, 10)}-${slugify(e.title)}`)}</id>
     <updated>${e.date}</updated>
     <author><name>${xml(e.tool.name)}</name></author>
     <category term="${xml(e.tool.id)}"/>
@@ -568,8 +601,17 @@ ${allNews
   .join('\n')}
 </feed>
 `,
-);
+  );
 
+  return { allNews, tools, featureCount };
+}
+
+const results = locales.map((L) => buildLocale(L, site));
+const { allNews, tools: builtTools, featureCount } = results[0];
+
+// ---------------------------------------------------------------- plan du site, versions, fichiers statiques
+
+const xml = (s) => esc(s);
 write(
   'sitemap.xml',
   `<?xml version="1.0" encoding="UTF-8"?>
@@ -591,5 +633,5 @@ for (const f of fs.readdirSync(path.join(root, 'src/assets'))) {
   fs.copyFileSync(path.join(root, 'src/assets', f), path.join(dist, 'assets', f));
 }
 
-console.log(`✓ ${pages.length} pages, ${allNews.length} nouveautés → dist/`);
-for (const t of site.tools) console.log(`  ${t.name} @ ${t.source.sha.slice(0, 7)} (${featureCount(t)} fonctionnalités, ${t.news.length} nouveautés)`);
+console.log(`✓ ${pages.length} pages (${locales.map((l) => l.code).join(' + ')}), ${allNews.length} nouveautés → dist/`);
+for (const t of builtTools) console.log(`  ${t.name} @ ${t.source.sha.slice(0, 7)} (${featureCount(t)} fonctionnalités, ${t.news.length} nouveautés)`);

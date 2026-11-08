@@ -15,7 +15,7 @@ seules les fonctionnalités importantes y figurent, jamais les modifications tec
 
 Dans Claude Code, la commande **`/update-site`** ([`.claude/skills/update-site`](.claude/skills/update-site/SKILL.md))
 va chercher les commits des outils depuis la dernière revue (`node scripts/pending.mjs`), retient les
-fonctionnalités importantes, les rédige en français dans `content/nouveautes.json`, ajuste l'accroche si besoin,
+fonctionnalités importantes, les rédige en français et en anglais (clé `en`) dans `content/nouveautes.json`, ajuste l'accroche si besoin,
 reconstruit, vérifie les liens puis publie. `/update-site --dry-run` propose les entrées sans rien publier.
 
 ## Ce qui est généré, et d'où

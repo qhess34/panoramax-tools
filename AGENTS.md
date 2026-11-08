@@ -14,7 +14,10 @@ d'extraction.
    corriger à la source (guide de l'outil) ou corriger l'extraction (`scripts/markdown.mjs`, `site.config.mjs`).
 2. Quand un outil change la structure de sa doc (titre de section renommé, tableau déplacé), adapter les
    expressions régulières de `site.config.mjs` ; le build doit rester sans erreur et `npm run check` vert.
-3. **Langue** : français pour le site, les messages et les commentaires.
+3. **Langue** : le site est bilingue, **français par défaut** (racine) et anglais sous `/en/` ; messages et commentaires du
+   dépôt en français. Les textes de l'interface sont dans `scripts/i18n.mjs`, ceux des outils dans `site.config.mjs`
+   (clé `en`), ceux des nouveautés dans `content/nouveautes.json` (clé `en` de chaque entrée, exigée par `npm run check`).
+   Les guides détaillés n'existent qu'en français : les pages anglaises y renvoient, sans rien en recopier.
 4. **Aucune dépendance d'exécution côté navigateur** : HTML/CSS/JS statiques, pas de CDN. Côté build, seulement
    `marked` (version exacte dans `package.json`).
 5. Le site doit rester lisible sans défilement horizontal de 360 px à 1440 px, en thème clair et sombre.

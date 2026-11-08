@@ -14,29 +14,17 @@ pour proposer les nouveautés sans committer.
 
 ## 1. Récupérer ce qui a changé
 
-Le dernier commit revu de chaque outil est dans `content/derniere-revue.json` (clé = dépôt, `sha` et `date`).
-On ne relit que les commits postérieurs à ce sha, jamais l'historique entier.
-
 ```sh
-for r in geosillage pan360-fixexif; do
-  [ -d .cache/$r/.git ] || git clone --quiet --filter=blob:none --no-checkout https://github.com/qhess34/$r.git .cache/$r
-  git -C .cache/$r fetch --quiet origin
-done
+npm ci                       # si node_modules est absent
+node scripts/pending.mjs     # clone/actualise les outils dans .cache/ et liste les nouveautés
 ```
 
-Pour chaque outil (dépôt `qhess34/<outil>`, sha lu dans `derniere-revue.json`) :
+Le rapport donne, pour chaque outil, les commits depuis le dernier commit revu (`reviewed` dans
+`content/nouveautes.json`), leur description complète, les fichiers touchés et le diff de la documentation
+utilisateur. S'il indique « Rien de nouveau » pour tous les outils, le dire à l'utilisateur et s'arrêter (aller
+quand même à l'étape 4 si on a demandé de republier).
 
-```sh
-git -C .cache/<outil> log --format='%h %s' <sha>..origin/main
-```
-
-- Si la liste est vide pour tous les outils : dire « Rien de nouveau » et s'arrêter (aller quand même à l'étape 4
-  si on a demandé de republier).
-- Si `<sha>` est introuvable (réécriture d'historique) : prendre les 30 derniers commits et le signaler.
-- Pour un commit douteux, ne lire que la partie utile de la doc à jour (`grep -n '^## ' <fichier>`, puis
-  `sed -n 'a,bp'` sur la section) pour vérifier une promesse précise : ne pas ouvrir les guides en entier.
-
-Le sha de `derniere-revue.json` est mis à jour à l'étape 3 (HEAD de `origin/main` de chaque outil revu).
+En cas de doute sur un commit, lire la doc à jour dans `.cache/<dépôt>/` (guide d'utilisation, README).
 
 ## 2. Trier : uniquement les fonctionnalités importantes
 
@@ -79,9 +67,11 @@ Règles de rédaction :
   `projet-panoramax--corriger…`). Vide (`""`) pour pointer sur la page de l'outil.
   `npm run check` signale toute ancre inexistante.
 
-Puis enregistrer comme revus, dans `content/derniere-revue.json`, le HEAD de `origin/main` de chaque outil
-examiné (`git -C .cache/<outil> rev-parse origin/main`) et sa date de commit (`%cs`), dans le même commit que les
-nouveautés. Un outil sans nouveauté dans la période revue garde aussi son sha mis à jour.
+Puis enregistrer les commits comme revus :
+
+```sh
+node scripts/pending.mjs --mark
+```
 
 ## 4. Mettre à jour l'accroche si une fonctionnalité majeure est arrivée
 
@@ -104,7 +94,7 @@ Contrôler visuellement l'accueil et `/nouveautes/` (par exemple avec Playwright
 
 Avec `--dry-run` : montrer les entrées rédigées et s'arrêter là.
 
-Sinon, committer (`content/nouveautes.json`, `content/derniere-revue.json`, et `site.config.mjs` si modifié) avec un message du type
+Sinon, committer (`content/nouveautes.json`, et `site.config.mjs` si modifié) avec un message du type
 « Nouveautés : <outil> — <titre 1>, <titre 2> », puis pousser sur `main` : le workflow *Site* reconstruit et publie
 https://panoramax-tools.my-heb.eu/. Si la session impose une autre branche de travail, y pousser puis la fusionner
 dans `main` (en avance rapide) : le propriétaire l'autorise sans confirmation (voir AGENTS.md).

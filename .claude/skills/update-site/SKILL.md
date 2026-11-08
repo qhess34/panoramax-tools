@@ -15,14 +15,19 @@ pour proposer les nouveautés sans committer.
 ## 1. Récupérer ce qui a changé
 
 ```sh
-npm ci                       # si node_modules est absent
-node scripts/pending.mjs     # clone/actualise les outils dans .cache/ et liste les nouveautés
+npm ci                               # si node_modules est absent
+node scripts/pending.mjs --court     # clone/actualise les outils dans .cache/ et liste les titres des commits
 ```
 
-Le rapport donne, pour chaque outil, les commits depuis le dernier commit revu (`reviewed` dans
-`content/nouveautes.json`), leur description complète, les fichiers touchés et le diff de la documentation
-utilisateur. S'il indique « Rien de nouveau » pour tous les outils, le dire à l'utilisateur et s'arrêter (aller
-quand même à l'étape 4 si on a demandé de republier).
+Le rapport court donne, pour chaque outil, les titres des commits depuis le dernier commit revu (`reviewed` dans
+`content/nouveautes.json`). S'il indique « Rien de nouveau » pour tous les outils, le dire à l'utilisateur et
+s'arrêter (aller quand même à l'étape 4 si on a demandé de republier).
+
+Ne demander le détail **que pour les commits qui semblent être des fonctionnalités** ou dont le titre est ambigu,
+pour économiser les jetons :
+- `git -C .cache/<dépôt> show --stat <sha>` : description complète et fichiers d'un commit ;
+- `node scripts/pending.mjs --doc <id>` : changements du guide utilisateur d'un outil (ancres renommées…) ;
+- `node scripts/pending.mjs` (sans option) : tout le rapport, seulement si nécessaire.
 
 En cas de doute sur un commit, lire la doc à jour dans `.cache/<dépôt>/` (guide d'utilisation, README).
 

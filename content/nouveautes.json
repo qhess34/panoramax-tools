@@ -1,10 +1,45 @@
 {
   "_lisez-moi": "Nouveautés affichées sur le site. Rédigées à la main (ou par le skill /update-site) : uniquement des fonctionnalités utiles à l'utilisateur, jamais de modification technique. « reviewed » = dernier commit de chaque outil déjà passé en revue. « link » est relatif à la page de l'outil (ex. guide/#8-exporter).",
   "reviewed": {
-    "qhess34/geosillage": "c5dfe70a9ea7a1409631ef78db0ac4a61ae3c754",
+    "qhess34/geosillage": "6066fea7487166c938bf60cb493b98d39f3c1f31",
     "qhess34/pan360-fixexif": "9010a84671804cce3d152a0d4997812392be76d1"
   },
   "entries": [
+    {
+      "date": "2026-11-06",
+      "tool": "geosillage",
+      "title": "Synchro GPS sur votre trace GPX",
+      "text": "Importez la trace de votre compteur, montre ou téléphone, souvent plus précise que le GPS de la caméra : la synchro place chaque photo dessus, décalage horaire détecté.",
+      "link": "guide/#5-corriger-le-retard-gps-onglet-synchro"
+    },
+    {
+      "date": "2026-11-06",
+      "tool": "geosillage",
+      "title": "Recalage des photos sur la ligne GPX",
+      "text": "Placez une plage, une séquence ou toute la sortie sur la ligne GPX, avec un aperçu des déplacements sur la carte avant de valider.",
+      "link": "guide/#recaler-sur-la-ligne-gpx"
+    },
+    {
+      "date": "2026-11-06",
+      "tool": "geosillage",
+      "title": "Arrêts : choisir précisément les photos à comparer",
+      "text": "Ajustez le début et la fin d'un arrêt avant de comparer ses photos, puis gardez la meilleure ou excluez-les toutes d'un coup.",
+      "link": "guide/#points-à-vérifier-avant-de-publier"
+    },
+    {
+      "date": "2026-11-06",
+      "tool": "geosillage",
+      "title": "Plus de photos sans direction",
+      "text": "Une photo gardée à un arrêt prend la direction d'arrivée, et les photos encore sans cap sont signalées avec leur cause et la façon de les corriger.",
+      "link": "guide/#vérifier-les-caps"
+    },
+    {
+      "date": "2026-11-06",
+      "tool": "geosillage",
+      "title": "Cap et orientation expliqués",
+      "text": "L'onglet Photo sépare le sens de déplacement et l'orientation de la caméra, avec un schéma vu de dessus et la façon de corriger chacun.",
+      "link": "guide/#7-caps-et-orientation"
+    },
     {
       "date": "2026-11-06",
       "tool": "geosillage",

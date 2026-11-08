@@ -30,7 +30,7 @@ export default {
       pitch: 'Préparez une sortie de milliers de photos 360° en quelques minutes, du dossier GoPro à la séquence Panoramax.',
       promise: [
         'Découpage en séquences au clavier, arrêts et doublons repérés',
-        'Retard GPS corrigé en glissant une photo sur la vue satellite',
+        'Retard GPS corrigé sur la vue satellite, ou avec votre trace GPX',
         'Recalage sur les voies OpenStreetMap, caps et orientation maîtrisés',
         'Export EXIF vérifié et publication Panoramax en un clic',
       ],

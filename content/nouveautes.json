@@ -78,15 +78,8 @@
     {
       "date": "2026-11-05",
       "tool": "geosillage",
-      "title": "Corriger une séquence déjà publiée",
-      "text": "Comparez avec Panoramax et n’envoyez que les positions, caps et orientations modifiés, sans republier. Vous pouvez revenir aux valeurs d’avant.",
-      "link": "guide/#corriger-une-séquence-déjà-publiée"
-    },
-    {
-      "date": "2026-11-05",
-      "tool": "geosillage",
-      "title": "Projet Panoramax : reprendre vos séquences en ligne",
-      "text": "Choisissez vos séquences déjà publiées sur votre compte et corrigez-les avec les outils de GeoSillage, sans aucune photo sur le disque.",
+      "title": "Corriger vos séquences déjà publiées",
+      "text": "Choisissez vos séquences déjà publiées sur votre compte et corrigez-les avec les outils de GeoSillage, sans aucune photo sur le disque. Comparez avec Panoramax et n’envoyez que les positions, caps et orientations modifiés, sans republier ; vous pouvez revenir aux valeurs d’avant.",
       "link": "guide/#projet-panoramax--corriger-des-séquences-déjà-en-ligne"
     },
     {
@@ -106,8 +99,8 @@
     {
       "date": "2026-11-05",
       "tool": "geosillage",
-      "title": "Synchro GPS par tronçons",
-      "text": "Si le retard du GPS change en cours de route, resynchronisez à partir d’une photo sans modifier les précédentes.",
+      "title": "Correction du retard GPS, par tronçons",
+      "text": "Faites glisser une photo le long de la trace sur la vue satellite : le décalage mesuré replace toute la sortie. Si le retard change en cours de route, resynchronisez à partir d’une photo sans modifier les précédentes.",
       "link": "guide/#5-corriger-le-retard-gps-onglet-synchro"
     },
     {
@@ -151,13 +144,6 @@
       "title": "Découpage en séquences au clavier",
       "text": "D marque le début, F la fin, C coupe, X exclut. Vous découpez une sortie de milliers de photos sans quitter le clavier.",
       "link": "guide/#4-découper-en-séquences"
-    },
-    {
-      "date": "2026-10-31",
-      "tool": "geosillage",
-      "title": "Correction du retard GPS",
-      "text": "Faites glisser une photo le long de la trace sur la vue satellite. Le décalage mesuré replace toute la sortie.",
-      "link": "guide/#5-corriger-le-retard-gps-onglet-synchro"
     },
     {
       "date": "2026-10-31",

@@ -96,8 +96,8 @@ ${body}
   <div class="wrap disclaimer">
     <strong>Site amateur et indépendant.</strong> Ce site et ces outils ne sont pas liés à l’organisation Panoramax :
     ils ne sont ni édités, ni soutenus, ni validés par le projet Panoramax ou ses partenaires. Ce sont des outils
-    personnels, partagés gratuitement pour aider les contributeurs. « Panoramax » désigne le projet officiel,
-    présenté sur <a href="https://panoramax.fr" target="_blank" rel="noopener">panoramax.fr</a>.
+    personnels, partagés gratuitement pour aider les contributeurs. Le projet Panoramax
+    est présenté sur <a href="https://panoramax.fr" target="_blank" rel="noopener">panoramax.fr</a>.
   </div>
   <div class="wrap footer-meta">
     Site régénéré automatiquement le ${esc(frDate(site.builtAt, true))} à partir de la documentation de

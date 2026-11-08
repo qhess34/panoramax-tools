@@ -8,8 +8,8 @@ export default {
   title: 'Outils Panoramax',
   tagline: 'Préparez, corrigez et publiez vos photos 360° sur Panoramax',
   description:
-    "GeoSillage et Pan360 FixExif : deux outils libres et amateurs pour préparer des relevés photo 360° (GoPro MAX), " +
-    'corriger positions, caps et horizon, et publier sur Panoramax. Site indépendant, non lié à l’organisation Panoramax.',
+    "GeoSillage et Pan360 FixExif : deux outils libres et amateurs pour préparer vos photos 360° (GoPro MAX), " +
+    'corriger leurs positions, leurs caps et leur horizon, puis les publier sur Panoramax. Site indépendant, non lié à l’organisation Panoramax.',
   // URL publique du site (sans / final). En CI, remplacée par celle donnée par GitHub Pages.
   siteUrl: (process.env.SITE_URL || 'https://panoramax-tools.my-heb.eu').replace(/\/$/, ''),
   repo: 'https://github.com/qhess34/panoramax-tools',
@@ -27,14 +27,14 @@ export default {
       logo: 'frontend/public/logo.svg',
       accent: '#0ea5e9',
       kind: 'Application locale (Docker)',
-      pitch: 'Préparez une sortie de milliers de photos 360° en quelques minutes, du dossier GoPro à la séquence Panoramax.',
+      pitch: 'Transformez le dossier d’une sortie GoPro en séquences prêtes à publier sur Panoramax : découpage, positions, caps et export.',
       promise: [
-        'Découpage en séquences au clavier, arrêts et doublons repérés',
-        'Retard GPS corrigé sur la vue satellite, ou avec votre trace GPX',
-        'Recalage sur les voies OpenStreetMap, caps et orientation maîtrisés',
-        'Export EXIF vérifié et publication Panoramax en un clic',
+        'Découpage en séquences au clavier, arrêts et doublons signalés',
+        'Retard du GPS corrigé sur la vue satellite ou avec votre trace GPX',
+        'Photos recalées sur les voies OpenStreetMap, caps et orientation réglables',
+        'Export EXIF relu fichier par fichier, publication directe sur Panoramax',
       ],
-      audience: 'Contributeurs Panoramax équipés d’une GoPro MAX : vélo, rando, voiture.',
+      audience: 'Pour les contributeurs Panoramax qui photographient avec une GoPro MAX, à vélo, à pied ou en voiture.',
       hero: 'doc/images/02-ecran.webp',
       cta: { label: 'Installer GeoSillage', href: 'guide/#1-installer-et-lancer' },
       guide: {
@@ -63,14 +63,14 @@ export default {
       accent: '#f97316',
       kind: 'Application web, sans installation',
       live: 'https://panofix.my-heb.eu/',
-      pitch: 'Redressez l’horizon et le cap de vos photos 360° déjà publiées, en voyant exactement ce que Panoramax affichera.',
+      pitch: 'Redressez l’horizon et le cap de vos photos 360° déjà publiées, avec un affichage identique à celui de Panoramax.',
       promise: [
-        'Rendu identique au viewer officiel Panoramax (WYSIWYG)',
-        'Horizon redressé par points, par verticales ou d’un clic',
-        'Report automatique d’une correction sur toute la séquence',
-        'Rien à installer : tout reste dans votre navigateur',
+        'Photo affichée comme sur Panoramax : vous voyez le résultat avant d’enregistrer',
+        'Horizon redressé à partir de points ou de verticales cliqués',
+        'Correction reportée automatiquement sur les photos suivantes',
+        'Rien à installer, tout reste dans votre navigateur',
       ],
-      audience: 'Contributeurs dont les photos publiées penchent ou s’ouvrent dans la mauvaise direction.',
+      audience: 'Pour les contributeurs dont les photos publiées penchent ou s’ouvrent dans la mauvaise direction.',
       hero: 'doc/view.png',
       cta: { label: 'Ouvrir l’application', href: 'https://panofix.my-heb.eu/' },
       guide: { file: 'README.md', title: "Guide d'utilisation", dropTitle: true, exclude: [/contribuer/i, /mise en ligne/i] },

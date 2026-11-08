@@ -1,0 +1,11 @@
+{
+  "_lisez-moi": "Dernier commit de chaque outil déjà passé en revue pour les nouveautés du site. Lu et mis à jour par le skill /update-site : la recherche part de « sha » (git log sha..origin/main). Ne sert pas à la construction du site. « date » = date du commit.",
+  "qhess34/geosillage": {
+    "sha": "c5dfe70a9ea7a1409631ef78db0ac4a61ae3c754",
+    "date": "2026-11-06"
+  },
+  "qhess34/pan360-fixexif": {
+    "sha": "9010a84671804cce3d152a0d4997812392be76d1",
+    "date": "2026-11-03"
+  }
+}

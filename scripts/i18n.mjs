@@ -66,7 +66,7 @@ export const ui = {
     chainEyebrow: 'La chaîne complète',
     chainTitle: 'De la caméra à Panoramax, en quatre étapes',
     chain: (gs, fx) => [
-      { title: 'Capturer', text: 'Prenez une photo 360° toutes les deux secondes avec une GoPro MAX.' },
+      { title: 'Capturer', text: 'Prenez une photo toutes les deux secondes avec une caméra 360° ou un smartphone.' },
       { title: 'Préparer', text: `Avec ${gs}, découpez la sortie en séquences, corrigez le GPS, les caps et l’orientation, puis exportez.` },
       { title: 'Publier', text: 'Envoyez chaque séquence sur l’instance Panoramax de votre choix.' },
       { title: 'Peaufiner', text: `Avec ${fx}, redressez l’horizon et le cap des photos déjà en ligne.` },
@@ -172,7 +172,7 @@ export const ui = {
     chainEyebrow: 'The whole workflow',
     chainTitle: 'From camera to Panoramax in four steps',
     chain: (gs, fx) => [
-      { title: 'Capture', text: 'Shoot a 360° photo every two seconds with a GoPro MAX.' },
+      { title: 'Capture', text: 'Shoot a photo every two seconds with a 360° camera or a smartphone.' },
       { title: 'Prepare', text: `With ${gs}, split the ride into sequences, fix GPS, headings and orientation, then export.` },
       { title: 'Publish', text: 'Send each sequence to the Panoramax instance of your choice.' },
       { title: 'Refine', text: `With ${fx}, straighten the horizon and heading of photos that are already online.` },

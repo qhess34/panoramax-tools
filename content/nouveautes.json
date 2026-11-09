@@ -1,10 +1,22 @@
 {
   "_lisez-moi": "Nouveautés affichées sur le site. Rédigées à la main (ou par le skill /update-site) : uniquement des fonctionnalités utiles à l'utilisateur, jamais de modification technique. « reviewed » = dernier commit de chaque outil déjà passé en revue. « link » est relatif à la page de l'outil (ex. guide/#8-exporter). Chaque entrée porte aussi sa traduction anglaise dans « en » ({ title, text }) : obligatoire (npm run check).",
   "reviewed": {
-    "qhess34/geosillage": "8df93da3f8bdec5e7dddd6422157653c3c2f8f66",
+    "qhess34/geosillage": "8d8487e8d0ef2a6c5f2d0c29e6b8c54a8cc707b8",
     "qhess34/pan360-fixexif": "9010a84671804cce3d152a0d4997812392be76d1"
   },
   "entries": [
+    {
+      "date": "2026-11-09",
+      "tool": "geosillage",
+      "title": "Aussi pour les photos de smartphone",
+      "text": "Importez des photos plates (Open Camera…) : le type 360° ou plat est détecté, le cap vient de l’appareil ou se calcule, et l’export reste valable pour Panoramax.",
+      "link": "guide/#2-projets",
+      "en": {
+        "title": "Smartphone photos too",
+        "text": "Import flat photos (Open Camera…): the 360° or flat type is detected, the heading comes from the device or is computed, and the export stays valid for Panoramax.",
+        "link": "guide/#2-projects"
+      }
+    },
     {
       "date": "2026-11-08",
       "tool": "geosillage",

@@ -6,16 +6,16 @@
 
 export default {
   title: 'Outils Panoramax',
-  tagline: 'Préparez, corrigez et publiez vos photos 360° sur Panoramax',
+  tagline: 'Préparez, corrigez et publiez vos photos de terrain sur Panoramax',
   description:
-    "GeoSillage et Pan360 FixExif : deux outils libres et amateurs pour préparer vos photos 360° (GoPro MAX), " +
+    "GeoSillage et Pan360 FixExif : deux outils libres et amateurs pour préparer vos photos 360° ou de smartphone, " +
     'corriger leurs positions, leurs caps et leur horizon, puis les publier sur Panoramax. Site indépendant, non lié à l’organisation Panoramax.',
   // Version anglaise (les textes ci-dessus sont le français, langue par défaut).
   en: {
     title: 'Panoramax Tools',
-    tagline: 'Prepare, fix and publish your 360° photos on Panoramax',
+    tagline: 'Prepare, fix and publish your street-level photos on Panoramax',
     description:
-      'GeoSillage and Pan360 FixExif: two free, amateur tools to prepare your 360° photos (GoPro MAX), ' +
+      'GeoSillage and Pan360 FixExif: two free, amateur tools to prepare your 360° or smartphone photos, ' +
       'fix their positions, headings and horizon, then publish them on Panoramax. Independent site, not affiliated with the Panoramax organisation.',
   },
   // URL publique du site (sans / final). En CI, remplacée par celle donnée par GitHub Pages.
@@ -35,14 +35,14 @@ export default {
       logo: 'frontend/public/logo.svg',
       accent: '#0ea5e9',
       kind: 'Application locale (Docker)',
-      pitch: 'Transformez le dossier d’une sortie GoPro en séquences prêtes à publier sur Panoramax : découpage, positions, caps et export.',
+      pitch: 'Transformez le dossier d’une sortie (photos 360° ou de smartphone) en séquences prêtes à publier sur Panoramax : découpage, positions, caps et export.',
       promise: [
         'Découpage en séquences au clavier, arrêts et doublons signalés',
         'Retard du GPS corrigé sur la vue satellite ou avec votre trace GPX',
         'Photos recalées sur les voies OpenStreetMap, caps et orientation réglables',
         'Export EXIF relu fichier par fichier, publication directe sur Panoramax',
       ],
-      audience: 'Pour les contributeurs Panoramax qui photographient avec une GoPro MAX, à vélo, à pied ou en voiture.',
+      audience: 'Pour les contributeurs Panoramax qui photographient en 360° ou avec un smartphone, à vélo, à pied ou en voiture.',
       hero: 'doc/images/02-ecran.webp',
       // Licence de l'outil : le fichier doit exister dans son dépôt (sinon le build échoue).
       license: { id: 'EUPL-1.2', file: 'LICENSE' },
@@ -50,14 +50,14 @@ export default {
       // Textes anglais ; la documentation détaillée reste en français tant que l'outil n'a pas de guide anglais.
       en: {
         kind: 'Local app (Docker)',
-        pitch: 'Turn a GoPro ride folder into sequences ready to publish on Panoramax: splitting, positions, headings and export.',
+        pitch: 'Turn a ride folder (360° or smartphone photos) into sequences ready to publish on Panoramax: splitting, positions, headings and export.',
         promise: [
           'Keyboard-driven splitting into sequences, with stops and duplicates flagged',
           'GPS delay fixed on the satellite view or with your GPX track',
           'Photos snapped to OpenStreetMap ways, adjustable heading and orientation',
           'EXIF export checked file by file, direct publishing to Panoramax',
         ],
-        audience: 'For Panoramax contributors who shoot with a GoPro MAX, by bike, on foot or by car.',
+        audience: 'For Panoramax contributors who shoot in 360° or with a smartphone, by bike, on foot or by car.',
         cta: { label: 'Install GeoSillage' },
         // Guide anglais de l'outil (mêmes sections que le guide français) : les pages anglaises l'utilisent à la place du français.
         hero: 'doc/images/en/02-ecran.webp',

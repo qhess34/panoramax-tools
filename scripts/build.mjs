@@ -65,8 +65,10 @@ for (const tool of site.tools) {
   tool.assetUrl = assetUrl;
   tool.logoUrl = tool.logo ? assetUrl(tool.logo) : null;
   tool.heroUrl = tool.hero ? assetUrl(tool.hero) : null;
+  tool.heroUrlEn = tool.en?.hero ? assetUrl(tool.en.hero) : null;
 
   const docPages = new Map([[tool.guide.file, tool.guidePage]]);
+  if (tool.en?.guide) docPages.set(tool.en.guide.file, tool.guidePage);
   const docs = new Map();
   tool.doc = (file) => {
     if (!docs.has(file)) {
@@ -96,7 +98,14 @@ function buildLocale(L, baseSite) {
   const rootOf = (prefix) => prefix + (L.dir ? '../' : ''); // chemin relatif vers la racine du site (ressources, guides)
 
   // Textes de l'outil dans la langue de la page.
-  const tools = baseSite.tools.map((t) => ({ ...t, ...(fr ? {} : t[L.code]), cta: { ...t.cta, ...(fr ? {} : t[L.code]?.cta) } }));
+  // `guideHere` : le guide existe dans la langue de la page (sinon on renvoie vers le guide français).
+  const tools = baseSite.tools.map((t) => ({
+    ...t,
+    ...(fr ? {} : t[L.code]),
+    cta: { ...t.cta, ...(fr ? {} : t[L.code]?.cta) },
+    heroUrl: (!fr && t.heroUrlEn) || t.heroUrl,
+    guideHere: fr || !!t[L.code]?.guide,
+  }));
   const site = { ...baseSite, ...(fr ? {} : baseSite[L.code]), tools };
   const toolById = new Map(tools.map((t) => [t.id, t]));
 
@@ -117,8 +126,8 @@ function buildLocale(L, baseSite) {
         order: i,
         date,
         tool,
-        // Lien relatif à la racine du site (page de l'outil ou ancre de son guide).
-        href: `${tool.id}/${e.link || ''}`,
+        // Lien relatif à la racine de la langue (page de l'outil ou ancre de son guide ; l'ancre anglaise est dans `en.link`).
+        href: `${tool.id}/${(!fr && e.en.link) || e.link || ''}`,
         isNew: now - new Date(date).getTime() < site.newDays * 864e5,
       };
     })
@@ -272,16 +281,17 @@ function buildLocale(L, baseSite) {
   for (const tool of site.tools) {
     const prefix = '../';
     const rp = rootOf(prefix);
-    const opts = { prefix, anchorPage: tool.guidePage };
-    const guideHref = fr ? 'guide/' : `${rp}${tool.id}/guide/`; // l'anglais renvoie vers le guide français
+    const opts = { prefix, assetPrefix: rp, anchorPage: tool.guidePage };
+    const hasDocs = tool.guideHere;
+    const guideHref = hasDocs ? 'guide/' : `${rp}${tool.id}/guide/`; // sans guide dans la langue, on renvoie vers le guide français
     const sections = [];
     let steps = [];
     let gallery = [];
     let sc = [];
 
-    if (fr) {
+    if (hasDocs) {
       // Parcours
-      steps = stepsFrom(tool.doc(tool.workflow.file), tool.workflow.section, opts);
+      steps = tool.workflow ? stepsFrom(tool.doc(tool.workflow.file), tool.workflow.section, opts) : [];
       if (steps.length) {
         sections.push(`<section class="wrap section" id="parcours">
   <p class="eyebrow">${esc(U.howEyebrow)}</p>
@@ -336,7 +346,7 @@ function buildLocale(L, baseSite) {
   <p class="eyebrow">${esc(U.galleryEyebrow)}</p>
   <h2>${esc(U.galleryTitle)}</h2>
   <div class="gallery">
-    ${gallery.map((g) => `<figure><img src="${prefix}${g.src}" alt="${esc(g.alt)}" loading="lazy" data-zoom><figcaption>${esc(g.caption)}</figcaption></figure>`).join('\n    ')}
+    ${gallery.map((g) => `<figure><img src="${rp}${g.src}" alt="${esc(g.alt)}" loading="lazy" data-zoom><figcaption>${esc(g.caption)}</figcaption></figure>`).join('\n    ')}
   </div>
 </section>`);
       }
@@ -393,7 +403,7 @@ function buildLocale(L, baseSite) {
 </section>`);
 
     const cta = ctaOf(tool, prefix);
-    const readGuide = `<a class="btn btn-ghost" href="${esc(guideHref)}"${fr ? '' : ' hreflang="fr" lang="fr"'}>${esc(U.readGuide)}${icons.arrow}</a>`;
+    const readGuide = `<a class="btn btn-ghost" href="${esc(guideHref)}"${hasDocs ? '' : ' hreflang="fr" lang="fr"'}>${esc(hasDocs ? U.readGuideHere : U.readGuide)}${icons.arrow}</a>`;
     const body = `
 <section class="hero hero-tool" style="--c:${tool.accent}">
   <div class="wrap hero-grid">
@@ -414,16 +424,16 @@ function buildLocale(L, baseSite) {
   <nav class="wrap subnav" aria-label="${esc(U.onThisPage)}">
     ${[
       ['parcours', U.nav.how, steps.length],
-      ['fonctionnalites', U.nav.feat, fr],
+      ['fonctionnalites', U.nav.feat, hasDocs],
       ['captures', U.nav.shots, gallery.length > 1],
       ['raccourcis', U.nav.keys, sc.length],
-      ['demarrer', fr ? (tool.live ? U.start : U.install) : U.guideNoticeEyebrow, 1],
+      ['demarrer', hasDocs ? (tool.live ? U.start : U.install) : U.guideNoticeEyebrow, 1],
       ['nouveautes', U.nav.news, 1],
     ]
       .filter((x) => x[2])
       .map(([id, l]) => `<a href="#${id}">${esc(l)}</a>`)
       .join('')}
-    <a href="${esc(guideHref)}"${fr ? '' : ' hreflang="fr" lang="fr"'}>${esc(U.fullGuide)}</a>
+    <a href="${esc(guideHref)}"${hasDocs ? '' : ' hreflang="fr" lang="fr"'}>${esc(hasDocs ? U.fullGuideHere : U.fullGuide)}</a>
   </nav>
 </section>
 ${sections.join('\n')}
@@ -465,9 +475,10 @@ ${sections.join('\n')}
       }),
     );
 
-    // ------------------------------------------------------------ guide complet (français uniquement)
-    if (fr) {
+    // ------------------------------------------------------------ guide complet (dans les langues où l'outil en a un)
+    if (hasDocs) {
       const gprefix = '../../';
+      const grp = rootOf(gprefix);
       const doc = tool.doc(tool.guide.file);
       let tokens = doc.tokens;
       if (tool.guide.dropTitle) tokens = tokens.filter((t) => !(t.type === 'heading' && t.depth === 1));
@@ -480,12 +491,13 @@ ${sections.join('\n')}
         }
         tokens = out;
       }
-      // Le sommaire en tête du guide fait doublon avec la colonne de navigation.
-      tokens = tokens.filter((t) => !(t.type === 'paragraph' && /^Sommaire\s*:/.test(t.text)));
+      // Le sommaire en tête du guide (et le lien vers l'autre langue) font doublon avec la navigation du site.
+      const intro = tool.guide.dropIntro || [];
+      tokens = tokens.filter((t) => !(t.type === 'paragraph' && intro.some((re) => re.test(t.text))));
       const toc = tokens
         .filter((t) => t.type === 'heading' && (t.depth === 2 || t.depth === 3))
         .map((t) => ({ depth: t.depth, id: slugify(t.text), text: t.text.replace(/[*`]/g, '') }));
-      const html = doc.render(tokens, { prefix: gprefix });
+      const html = doc.render(tokens, { prefix: gprefix, assetPrefix: grp });
       const body = `
 <div class="wrap guide">
   <aside class="toc">
@@ -496,7 +508,7 @@ ${sections.join('\n')}
   <article class="prose guide-body">
     <p class="eyebrow">${esc(tool.name)} · ${esc(U.docLabel)}</p>
     <h1>${esc(tool.guide.title)}</h1>
-    <p class="doc-meta">${esc(U.generatedFrom)} <a href="https://github.com/${tool.repo}/blob/${tool.source.branch}/${tool.guide.file}" target="_blank" rel="noopener"><code>${esc(tool.guide.file)}</code></a> · ${esc(U.updatedOn)} ${esc(frDate(tool.source.date, true))}</p>
+    <p class="doc-meta">${esc(U.generatedFrom)} <a href="https://github.com/${tool.repo}/blob/${tool.source.branch}/${tool.guide.file}" target="_blank" rel="noopener"><code>${esc(tool.guide.file)}</code></a> · ${esc(U.updatedOn)} ${esc(frDate(tool.source.date, true, L.code))}</p>
     ${html}
   </article>
 </div>`;
@@ -505,7 +517,7 @@ ${sections.join('\n')}
         layout({
           site,
           L,
-          only: ['fr'],
+          only: tool.en?.guide ? null : ['fr'],
           prefix: gprefix,
           canonical: tool.guidePage,
           active: tool.id,
@@ -590,7 +602,7 @@ ${allNews
   .map(
     (e) => `  <entry>
     <title>${xml(`${e.tool.name} : ${e.title}`)}</title>
-    <link href="${xml(`${site.siteUrl}/${/^[^/]+\/guide\//.test(e.href) ? '' : L.dir}${e.href}`)}"/>
+    <link href="${xml(`${site.siteUrl}/${/^[^/]+\/guide\//.test(e.href) && !e.tool.guideHere ? '' : L.dir}${e.href}`)}"/>
     <id>${xml(`${site.siteUrl}/${L.dir}nouveautes/#${e.tool.id}-${e.date.slice(0, 10)}-${slugify(e.title)}`)}</id>
     <updated>${e.date}</updated>
     <author><name>${xml(e.tool.name)}</name></author>

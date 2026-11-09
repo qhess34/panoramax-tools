@@ -108,7 +108,7 @@ export class Doc {
   }
 
   /** Rendu HTML d'une liste de jetons, pour une page située à `prefix` de la racine du site. */
-  render(tokens, { prefix = '', anchorPage = null } = {}) {
+  render(tokens, { prefix = '', assetPrefix = prefix, anchorPage = null } = {}) {
     const doc = this;
     const ctx = this.ctx;
     const repoUrl = `https://github.com/${ctx.tool.repo}`;
@@ -120,7 +120,7 @@ export class Doc {
       const repoPath = doc.resolve(p);
       const page = ctx.docPages.get(repoPath);
       if (page) return { href: prefix + page + (hash ? '#' + hash : '') };
-      if (IMAGE_EXT.test(repoPath)) return { href: prefix + ctx.assetUrl(repoPath) };
+      if (IMAGE_EXT.test(repoPath)) return { href: assetPrefix + ctx.assetUrl(repoPath) };
       return { href: `${repoUrl}/blob/${ctx.branch}/${repoPath}${hash ? '#' + hash : ''}`, external: true };
     };
     const marked = new Marked({

@@ -13,7 +13,8 @@
       "link": "guide/#3-lécran",
       "en": {
         "title": "Interface in French and English",
-        "text": "Pick the language in ⚙ Settings; by default it follows your browser. Screens, buttons and server messages are translated."
+        "text": "Pick the language in ⚙ Settings; by default it follows your browser. Screens, buttons and server messages are translated.",
+        "link": "guide/#3-the-screen"
       }
     },
     {
@@ -24,7 +25,8 @@
       "link": "guide/#5-corriger-le-retard-gps-onglet-synchro",
       "en": {
         "title": "Sync and snap photos to your GPX track",
-        "text": "Import the track from your watch, bike computer or phone: the time offset is detected and photos are placed on it. You can also snap a range, a sequence or the whole ride onto the line, with a map preview before you confirm."
+        "text": "Import the track from your watch, bike computer or phone: the time offset is detected and photos are placed on it. You can also snap a range, a sequence or the whole ride onto the line, with a map preview before you confirm.",
+        "link": "guide/#5-fixing-the-gps-delay-sync-tab"
       }
     },
     {
@@ -35,7 +37,8 @@
       "link": "guide/#points-à-vérifier-avant-de-publier",
       "en": {
         "title": "Stops: compare photos side by side",
-        "text": "At a red light or a break, photos taken at the same spot are shown side by side, or in the 360° viewer, which keeps the viewing direction. Adjust the start and end of the stop, tick the sharpest ones: the others are excluded together."
+        "text": "At a red light or a break, photos taken at the same spot are shown side by side, or in the 360° viewer, which keeps the viewing direction. Adjust the start and end of the stop, tick the sharpest ones: the others are excluded together.",
+        "link": "guide/#points-to-check-before-publishing"
       }
     },
     {
@@ -46,7 +49,8 @@
       "link": "guide/#vérifier-les-caps",
       "en": {
         "title": "No more photos without a heading",
-        "text": "A photo kept at a stop takes the arrival heading. Photos that still have no heading are flagged, with the cause and the fix."
+        "text": "A photo kept at a stop takes the arrival heading. Photos that still have no heading are flagged, with the cause and the fix.",
+        "link": "guide/#checking-headings"
       }
     },
     {
@@ -57,7 +61,8 @@
       "link": "guide/#7-caps-et-orientation",
       "en": {
         "title": "Heading and orientation explained",
-        "text": "The Photo tab separates the direction of travel from the camera orientation. A top-down diagram shows how to correct each one."
+        "text": "The Photo tab separates the direction of travel from the camera orientation. A top-down diagram shows how to correct each one.",
+        "link": "guide/#7-headings-and-orientation"
       }
     },
     {
@@ -68,7 +73,8 @@
       "link": "guide/#9-publier-sur-panoramax",
       "en": {
         "title": "Export and publish to Panoramax",
-        "text": "Publish each sequence to the instance of your choice, with the travel mode and your attributes. The Export and upload tab publishes one exported sequence, or all unpublished ones, after a single confirmation. An interrupted upload resumes where it stopped."
+        "text": "Publish each sequence to the instance of your choice, with the travel mode and your attributes. The Export and upload tab publishes one exported sequence, or all unpublished ones, after a single confirmation. An interrupted upload resumes where it stopped.",
+        "link": "guide/#9-publishing-on-panoramax"
       }
     },
     {
@@ -79,7 +85,8 @@
       "link": "guide/#points-à-vérifier-avant-de-publier",
       "en": {
         "title": "Points to check before publishing",
-        "text": "Stops, large gaps, imprecise GPS and doubtful headings are flagged on the timeline and the step bar. Click an orange step to list the problems, their cause and the fix; N and Shift+N jump from one point to the next. Set per project what counts as a stop, a large gap or a doubtful heading."
+        "text": "Stops, large gaps, imprecise GPS and doubtful headings are flagged on the timeline and the step bar. Click an orange step to list the problems, their cause and the fix; N and Shift+N jump from one point to the next. Set per project what counts as a stop, a large gap or a doubtful heading.",
+        "link": "guide/#points-to-check-before-publishing"
       }
     },
     {
@@ -90,7 +97,8 @@
       "link": "guide/#vérifier-les-caps",
       "en": {
         "title": "Heading and camera mounting",
-        "text": "Camera crooked on the helmet or mounted upside down: enter an angle to reorient the photos without editing the image. This correction and the heading offset apply to the whole ride or to a chosen series, whatever the split into sequences."
+        "text": "Camera crooked on the helmet or mounted upside down: enter an angle to reorient the photos without editing the image. This correction and the heading offset apply to the whole ride or to a chosen series, whatever the split into sequences.",
+        "link": "guide/#checking-headings"
       }
     },
     {
@@ -101,7 +109,8 @@
       "link": "guide/#3-lécran",
       "en": {
         "title": "Step bar: where your ride stands",
-        "text": "Import, sync, stops, GPS fix, sequences, export, upload: each step shows its status. A click takes you to what is left to do."
+        "text": "Import, sync, stops, GPS fix, sequences, export, upload: each step shows its status. A click takes you to what is left to do.",
+        "link": "guide/#3-the-screen"
       }
     },
     {
@@ -112,7 +121,8 @@
       "link": "guide/#3-lécran",
       "en": {
         "title": "Resume your work, with notifications",
-        "text": "When you reopen a project, you get the same photo, tab and zoom back. A notification tells you when an export or upload is done."
+        "text": "When you reopen a project, you get the same photo, tab and zoom back. A notification tells you when an export or upload is done.",
+        "link": "guide/#3-the-screen"
       }
     },
     {
@@ -123,7 +133,8 @@
       "link": "guide/#3-lécran",
       "en": {
         "title": "Zoomable timeline with legend",
-        "text": "Zoom and scroll the timeline. On hover, a bubble shows the thumbnail, the time and what needs checking. A legend explains the colours and marks."
+        "text": "Zoom and scroll the timeline. On hover, a bubble shows the thumbnail, the time and what needs checking. A legend explains the colours and marks.",
+        "link": "guide/#3-the-screen"
       }
     },
     {
@@ -134,7 +145,8 @@
       "link": "guide/#projet-panoramax--corriger-des-séquences-déjà-en-ligne",
       "en": {
         "title": "Fix sequences you already published",
-        "text": "Pick the sequences already published on your account and fix them with GeoSillage’s tools, with no photos on disk. Compare with Panoramax and send only the changed positions, headings and orientations, without republishing; you can go back to the previous values."
+        "text": "Pick the sequences already published on your account and fix them with GeoSillage’s tools, with no photos on disk. Compare with Panoramax and send only the changed positions, headings and orientations, without republishing; you can go back to the previous values.",
+        "link": "guide/#panoramax-project-correcting-sequences-already-online"
       }
     },
     {
@@ -145,7 +157,8 @@
       "link": "guide/#recaler-sur-les-voies-openstreetmap",
       "en": {
         "title": "Snap to OpenStreetMap ways",
-        "text": "Photos in a selection are placed on the street, cycle path or trail you travelled. When in doubt, you pick the way on a preview."
+        "text": "Photos in a selection are placed on the street, cycle path or trail you travelled. When in doubt, you pick the way on a preview.",
+        "link": "guide/#snapping-onto-openstreetmap-ways"
       }
     },
     {
@@ -156,7 +169,8 @@
       "link": "guide/#photos-sans-position",
       "en": {
         "title": "Photos without a position: interpolation",
-        "text": "Photos without GPS (tunnel, start of the ride) are listed by gap. One button spreads them between their neighbours and attaches them to their sequence."
+        "text": "Photos without GPS (tunnel, start of the ride) are listed by gap. One button spreads them between their neighbours and attaches them to their sequence.",
+        "link": "guide/#photos-without-position"
       }
     },
     {
@@ -167,7 +181,8 @@
       "link": "guide/#5-corriger-le-retard-gps-onglet-synchro",
       "en": {
         "title": "GPS delay fix, section by section",
-        "text": "Drag a photo along the track on the satellite view: the measured offset moves the whole ride. If the delay changes along the way, resync from a photo without touching the previous ones."
+        "text": "Drag a photo along the track on the satellite view: the measured offset moves the whole ride. If the delay changes along the way, resync from a photo without touching the previous ones.",
+        "link": "guide/#5-fixing-the-gps-delay-sync-tab"
       }
     },
     {
@@ -178,7 +193,8 @@
       "link": "guide/#6-corriger-des-positions",
       "en": {
         "title": "Position fixes carried over automatically",
-        "text": "Put a photo back where it belongs, then move to the next one with →: the following photos are shifted the same way."
+        "text": "Put a photo back where it belongs, then move to the next one with →: the following photos are shifted the same way.",
+        "link": "guide/#6-fixing-positions"
       }
     },
     {
@@ -189,7 +205,8 @@
       "link": "guide/#surcouche-panoramax",
       "en": {
         "title": "Panoramax coverage on the map",
-        "text": "Photos already published, on all instances, are coloured by age, with the author on hover. You see at a glance what is missing."
+        "text": "Photos already published, on all instances, are coloured by age, with the author on hover. You see at a glance what is missing.",
+        "link": "guide/#panoramax-overlay"
       }
     },
     {
@@ -200,7 +217,8 @@
       "link": "guide/#3-lécran",
       "en": {
         "title": "IGN satellite imagery",
-        "text": "IGN orthophotos, often the sharpest in France, serve as a reference to adjust the GPS and positions."
+        "text": "IGN orthophotos, often the sharpest in France, serve as a reference to adjust the GPS and positions.",
+        "link": "guide/#3-the-screen"
       }
     },
     {
@@ -211,7 +229,8 @@
       "link": "guide/#8-exporter",
       "en": {
         "title": "Re-export modified sequences",
-        "text": "A modified sequence is marked “to re-export”. You re-export it with the same settings, without touching the others."
+        "text": "A modified sequence is marked “to re-export”. You re-export it with the same settings, without touching the others.",
+        "link": "guide/#8-exporting"
       }
     },
     {
@@ -222,7 +241,8 @@
       "link": "guide/#caméra-sur-casque",
       "en": {
         "title": "360° viewer to browse the ride",
-        "text": "Browse the ride in 360°. For a helmet camera, turn the view towards the road and set the direction of travel."
+        "text": "Browse the ride in 360°. For a helmet camera, turn the view towards the road and set the direction of travel.",
+        "link": "guide/#camera-on-a-helmet"
       }
     },
     {
@@ -233,7 +253,8 @@
       "link": "guide/#4-découper-en-séquences",
       "en": {
         "title": "Split into sequences from the keyboard",
-        "text": "D marks the start, F the end, C cuts, X excludes. You split a ride of thousands of photos without leaving the keyboard."
+        "text": "D marks the start, F the end, C cuts, X excludes. You split a ride of thousands of photos without leaving the keyboard.",
+        "link": "guide/#4-splitting-into-sequences"
       }
     },
     {
@@ -244,7 +265,8 @@
       "link": "guide/#8-exporter",
       "en": {
         "title": "One folder per sequence, with corrected EXIF",
-        "text": "Positions, headings and orientation are written into copies ready for Panoramax. Each file is read back after writing."
+        "text": "Positions, headings and orientation are written into copies ready for Panoramax. Each file is read back after writing.",
+        "link": "guide/#8-exporting"
       }
     },
     {
@@ -255,7 +277,8 @@
       "link": "guide/#1-installer-et-lancer",
       "en": {
         "title": "Install with Docker",
-        "text": "GeoSillage starts with docker compose and is only reachable from your machine."
+        "text": "GeoSillage starts with docker compose and is only reachable from your machine.",
+        "link": "guide/#1-install-and-run"
       }
     },
     {
@@ -266,7 +289,8 @@
       "link": "guide/#2-projets",
       "en": {
         "title": "Projects, import and ride summary",
-        "text": "Import your GoPro folders without copying the photos. The summary flags photos without GPS, jumps, duplicates and interruptions."
+        "text": "Import your GoPro folders without copying the photos. The summary flags photos without GPS, jumps, duplicates and interruptions.",
+        "link": "guide/#2-projects"
       }
     },
     {

@@ -94,7 +94,7 @@ ${body}
     </div>
     <div>
       <h2>${esc(U.tools)}</h2>
-      ${site.tools.map((t) => `<a href="${prefix}${t.id}/">${esc(t.name)}</a><a href="${rp}${t.id}/guide/"${L.code === 'fr' ? '' : ' hreflang="fr" lang="fr"'}>${esc(U.guideOf(t.name))}</a>`).join('')}
+      ${site.tools.map((t) => `<a href="${prefix}${t.id}/">${esc(t.name)}</a><a href="${t.guideHere ? prefix : rp}${t.id}/guide/"${t.guideHere ? '' : ' hreflang="fr" lang="fr"'}>${esc(U.guideOf(t.name, t.guideHere))}</a>`).join('')}
     </div>
     <div>
       <h2>${esc(U.follow)}</h2>
@@ -122,8 +122,9 @@ ${body}
 export function newsItem(e, prefix, { showTool = true, dataTool = false, L = locales[0], rp = prefix } = {}) {
   const U = ui[L.code];
   // Les ancres de guide pointent vers le guide français (seule version existante) ; le reste reste dans la langue.
-  const href = /^[^/]+\/guide\//.test(e.href) ? `${rp}${e.href}` : `${prefix}${e.href}`;
-  const fr = L.code !== 'fr' && /^[^/]+\/guide\//.test(e.href);
+  const toFrenchGuide = /^[^/]+\/guide\//.test(e.href) && !e.tool.guideHere;
+  const href = toFrenchGuide ? `${rp}${e.href}` : `${prefix}${e.href}`;
+  const fr = toFrenchGuide;
   return `<li class="news-item"${dataTool ? ` data-tool="${e.tool.id}"` : ''}>
     <time datetime="${e.date}">${esc(frDate(e.date, false, L.code))}</time>
     <div>

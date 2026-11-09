@@ -57,12 +57,22 @@ export default {
         ],
         audience: 'For Panoramax contributors who shoot with a GoPro MAX, by bike, on foot or by car.',
         cta: { label: 'Install GeoSillage' },
+        // Guide anglais de l'outil (mêmes sections que le guide français) : les pages anglaises l'utilisent à la place du français.
+        hero: 'doc/images/en/02-ecran.webp',
+        guide: { file: 'doc/USER_GUIDE.md', title: 'User guide', dropTitle: true, dropIntro: [/^Contents\s*:/, /^🇫🇷/] },
+        features: { mode: 'sections', file: 'doc/USER_GUIDE.md', exclude: [/install/i, /shortcuts/i, /faq/i] },
+        workflow: null, // le parcours « en bref » vient du README, qui n'existe qu'en français
+        install: { file: 'doc/USER_GUIDE.md', section: /install/i },
+        shortcuts: { file: 'doc/USER_GUIDE.md', section: /shortcuts/i },
+        faq: { file: 'doc/USER_GUIDE.md', section: /faq/i },
+        gallery: { file: 'doc/USER_GUIDE.md' },
       },
       guide: {
         file: 'doc/GUIDE_UTILISATEUR.md',
         title: "Guide d'utilisation",
         // Le titre H1 du fichier est remplacé par celui de la page.
         dropTitle: true,
+        dropIntro: [/^Sommaire\s*:/],
       },
       features: {
         // Une carte par grande section du guide ; les sous-sections deviennent des points clés.

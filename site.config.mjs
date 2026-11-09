@@ -44,6 +44,8 @@ export default {
       ],
       audience: 'Pour les contributeurs Panoramax qui photographient avec une GoPro MAX, à vélo, à pied ou en voiture.',
       hero: 'doc/images/02-ecran.webp',
+      // Licence de l'outil : le fichier doit exister dans son dépôt (sinon le build échoue).
+      license: { id: 'EUPL-1.2', file: 'LICENSE' },
       cta: { label: 'Installer GeoSillage', href: 'guide/#1-installer-et-lancer' },
       // Textes anglais ; la documentation détaillée reste en français tant que l'outil n'a pas de guide anglais.
       en: {

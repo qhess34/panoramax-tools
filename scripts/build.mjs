@@ -92,6 +92,14 @@ const btn = (href, label, kind = 'primary', ext = false) =>
   `<a class="btn btn-${kind}" href="${esc(href)}"${ext ? ' target="_blank" rel="noopener"' : ''}>${esc(label)}${ext ? icons.external : icons.arrow}</a>`;
 const isExt = (href) => /^https?:/.test(href);
 
+// Ligne de licence de l'outil (discrète) ; le fichier de licence doit exister dans son dépôt.
+function licenseLine(tool, U) {
+  if (!tool.license) return '';
+  if (!tool.source.exists(tool.license.file)) throw new Error(`${tool.name} : fichier de licence ${tool.license.file} introuvable`);
+  const href = `https://github.com/${tool.repo}/blob/${tool.source.branch}/${tool.license.file}`;
+  return `<p class="muted license">${U.license} <a href="${href}" target="_blank" rel="noopener">${tool.license.id}</a></p>`;
+}
+
 function buildLocale(L, baseSite) {
   const U = ui[L.code];
   const fr = L.code === 'fr';
@@ -413,6 +421,7 @@ function buildLocale(L, baseSite) {
       <p class="lead">${esc(tool.pitch)}</p>
       <ul class="checks">${tool.promise.map((p) => `<li>${icons.check}${esc(p)}</li>`).join('')}</ul>
       <p class="muted">${esc(tool.audience)}</p>
+      ${licenseLine(tool, U)}
       <div class="actions">
         ${btn(cta, tool.cta.label, 'primary', isExt(cta))}
         ${readGuide}

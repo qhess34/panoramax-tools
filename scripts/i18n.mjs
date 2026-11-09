@@ -58,6 +58,7 @@ export const ui = {
     readGuide: 'Lire le guide',
     readGuideHere: 'Lire le guide',
     sourceCode: 'Code source',
+    license: 'Licence\u00a0:',
     // accueil
     homeEyebrow: 'Photo de terrain 360° · Panoramax',
     homeLead: `Deux outils libres et amateurs pour préparer vos photos brutes, corriger leur position, leur cap et leur horizon, puis les publier sur ${PANORAMAX}, le géocommun de la photo de terrain.`,
@@ -164,6 +165,7 @@ export const ui = {
     readGuide: 'Read the guide (French)',
     readGuideHere: 'Read the guide',
     sourceCode: 'Source code',
+    license: 'License:',
     homeEyebrow: '360° street-level photos · Panoramax',
     homeLead: `Two free, amateur tools to prepare your raw photos, fix their position, heading and horizon, then publish them on ${PANORAMAX}, the geocommons for street-level photos.`,
     indep: 'Independent, amateur site, not affiliated with the Panoramax organisation. These are volunteer-made tools to help contributors.',

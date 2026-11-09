@@ -63,7 +63,7 @@ export default {
         hero: 'doc/images/en/02-ecran.webp',
         guide: { file: 'doc/USER_GUIDE.md', title: 'User guide', dropTitle: true, dropIntro: [/^Contents\s*:/, /^🇫🇷/] },
         features: { mode: 'sections', file: 'doc/USER_GUIDE.md', exclude: [/install/i, /shortcuts/i, /faq/i] },
-        workflow: null, // le parcours « en bref » vient du README, qui n'existe qu'en français
+        workflow: { file: 'README.en.md', section: /in brief/i },
         install: { file: 'doc/USER_GUIDE.md', section: /install/i },
         shortcuts: { file: 'doc/USER_GUIDE.md', section: /shortcuts/i },
         faq: { file: 'doc/USER_GUIDE.md', section: /faq/i },

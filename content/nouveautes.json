@@ -1,10 +1,22 @@
 {
   "_lisez-moi": "Nouveautés affichées sur le site. Rédigées à la main (ou par le skill /update-site) : uniquement des fonctionnalités utiles à l'utilisateur, jamais de modification technique. « reviewed » = dernier commit de chaque outil déjà passé en revue. « link » est relatif à la page de l'outil (ex. guide/#8-exporter). Chaque entrée porte aussi sa traduction anglaise dans « en » ({ title, text }) : obligatoire (npm run check).",
   "reviewed": {
-    "qhess34/geosillage": "8d8487e8d0ef2a6c5f2d0c29e6b8c54a8cc707b8",
+    "qhess34/geosillage": "29930e17f89d520e2d370ac8b3d9a88f3f21b73b",
     "qhess34/pan360-fixexif": "9010a84671804cce3d152a0d4997812392be76d1"
   },
   "entries": [
+    {
+      "date": "2026-11-10",
+      "tool": "geosillage",
+      "title": "Horloge de l’appareil décalée : détectée et corrigée",
+      "text": "Le Bilan repère un écart constant entre l’heure de prise de vue et l’heure GPS. À l’export, vous pouvez corriger l’heure des photos ; l’original est sauvegardé et restaurable.",
+      "link": "guide/#8-exporter",
+      "en": {
+        "title": "Wrong camera clock: detected and fixed",
+        "text": "The summary spots a constant gap between the capture time and the GPS time. On export, you can correct the photos' time; the original is saved and can be restored.",
+        "link": "guide/#8-exporting"
+      }
+    },
     {
       "date": "2026-11-09",
       "tool": "geosillage",

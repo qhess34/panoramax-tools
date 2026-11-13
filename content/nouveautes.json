@@ -1,7 +1,7 @@
 {
   "_lisez-moi": "Nouveautés affichées sur le site. Rédigées à la main (ou par le skill /update-site) : uniquement des fonctionnalités utiles à l'utilisateur, jamais de modification technique. « reviewed » = dernier commit de chaque outil déjà passé en revue. « link » est relatif à la page de l'outil (ex. guide/#8-exporter). Chaque entrée porte aussi sa traduction anglaise dans « en » ({ title, text }) : obligatoire (npm run check).",
   "reviewed": {
-    "qhess34/geosillage": "7763a25065faa1d429538465a7a063895fefc978",
+    "qhess34/geosillage": "b8e6c67e055d0c82e1242f7c6d84fb35f7c15ca4",
     "qhess34/pan360-fixexif": "9010a84671804cce3d152a0d4997812392be76d1"
   },
   "entries": [

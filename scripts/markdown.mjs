@@ -265,7 +265,7 @@ export function stepsFrom(doc, re, opts) {
 /** Première table de raccourcis (en-tête « Touche ») d'une section. */
 export function shortcutsFrom(doc, re) {
   const sec = doc.section(re);
-  const table = sec?.tokens.find((t) => t.type === 'table' && /touche/i.test(t.header[0]?.text));
+  const table = sec?.tokens.find((t) => t.type === 'table' && /touche|key/i.test(t.header[0]?.text));
   if (!table) return [];
   return table.rows.map((r) => ({
     keys: r[0].text

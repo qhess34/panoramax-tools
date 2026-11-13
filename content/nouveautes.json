@@ -1,10 +1,22 @@
 {
   "_lisez-moi": "Nouveautés affichées sur le site. Rédigées à la main (ou par le skill /update-site) : uniquement des fonctionnalités utiles à l'utilisateur, jamais de modification technique. « reviewed » = dernier commit de chaque outil déjà passé en revue. « link » est relatif à la page de l'outil (ex. guide/#8-exporter). Chaque entrée porte aussi sa traduction anglaise dans « en » ({ title, text }) : obligatoire (npm run check).",
   "reviewed": {
-    "qhess34/geosillage": "29930e17f89d520e2d370ac8b3d9a88f3f21b73b",
+    "qhess34/geosillage": "7763a25065faa1d429538465a7a063895fefc978",
     "qhess34/pan360-fixexif": "9010a84671804cce3d152a0d4997812392be76d1"
   },
   "entries": [
+    {
+      "date": "2026-11-13",
+      "tool": "geosillage",
+      "title": "Une interface organisée par étapes",
+      "text": "Les onglets suivent le déroulé d’une sortie, de l’import à l’envoi. Sens de déplacement et orientation sont réunis au même endroit, et des astuces guident le premier lancement.",
+      "link": "guide/#3-lécran",
+      "en": {
+        "title": "An interface organized by steps",
+        "text": "Tabs now follow the course of a ride, from import to upload. Direction of travel and orientation are in one place, and tips guide your first launch.",
+        "link": "guide/#3-the-screen"
+      }
+    },
     {
       "date": "2026-11-10",
       "tool": "geosillage",
